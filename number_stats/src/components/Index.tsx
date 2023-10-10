@@ -10,13 +10,14 @@ import HomeTabs from '../components/HomeTabs';
 import CategoriesCreate from '../screens/CategoriesCreate';
 import CategoriesUpdate from '../screens/CategoriesUpdate';
 import Category from '../core/db/models/Category';
+import ValuesCategory from '../core/db/models/ValuesCategory';
 
 const Stack = createStackNavigator();
 
 const Index = () => {
   return (
     <PaperProvider>
-      <RealmProvider schema={[Category]}>
+      <RealmProvider schema={[Category, ValuesCategory]}>
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen

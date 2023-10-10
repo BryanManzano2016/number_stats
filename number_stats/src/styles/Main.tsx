@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   cardText: {
     color: 'black',
     textAlign: 'center',
+    marginBottom: 5,
   },
   cardTitle: {
     marginVertical: 10,
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   input: {
-    marginVertical: 10,
+    marginVertical: 12,
     width: dimensionsValue.width * 0.9,
   },
   button: {
@@ -77,6 +78,10 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 20,
     margin: 10,
+  },
+  picker: {
+    marginVertical: 10,
+    borderRadius: 20,
   },
 });
 

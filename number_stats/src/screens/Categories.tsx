@@ -6,9 +6,11 @@ import isEmpty from 'lodash/isEmpty';
 import styles from '../styles/Main';
 import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
+import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 
 const History = ({navigation}) => {
   const categoryRepository = CategoryRepository();
+  const valuesCategoryRepository = ValuesCategoryRepository();
   const categories = categoryRepository.filter(false);
 
   return (
@@ -24,6 +26,7 @@ const History = ({navigation}) => {
           />
         </>
       }>
+      {isEmpty(categories) && <Text style={styles.text}>Sin elementos</Text>}
       {categories.map(item => (
         <Card key={item._id} style={styles.card}>
           <Card.Content>
@@ -54,6 +57,9 @@ const History = ({navigation}) => {
                         {
                           text: 'Si',
                           onPress: () => {
+                            valuesCategoryRepository.deleteByIdCategory(
+                              item._id,
+                            );
                             categoryRepository.deleteRecord(item);
                           },
                         },
@@ -71,11 +77,6 @@ const History = ({navigation}) => {
           </Card.Content>
         </Card>
       ))}
-      {isEmpty(categories) && (
-        <View style={styles.view}>
-          <Text style={styles.text}>Sin elementos</Text>
-        </View>
-      )}
     </Layout>
   );
 };

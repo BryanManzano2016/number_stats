@@ -1,3 +1,5 @@
 export const ENTITIES_DB = {
   CATEGORIES: 'CATEGORIES',
+  VALUES_CATEGORIES: 'VALUES_CATEGORIES',
 };
+export const PICKER_DEFAULT = 'none';
