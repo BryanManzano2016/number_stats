@@ -13,15 +13,24 @@ const Resume = ({navigation}) => {
   const valuesCategoryRepository = ValuesCategoryRepository();
 
   const categories = categoryRepository.filter(false);
-  const valuesFromCategories = valuesCategoryRepository.filter(true);
+
+  console.log(categories);
 
   const groupValues = () => {
     const xData = new Map();
     const yData = new Map();
     categories.forEach(category => {
+      const valuesDb = valuesCategoryRepository.getAllByIdCategory(
+        category._id,
+      );
+
+      const startRecords = Math.max(valuesDb.length - 12, 0);
+      const itemsOrderFinal = valuesDb.slice(startRecords);
+
       const xValuesData: number[] = [];
       const yValuesData: number[] = [];
-      valuesFromCategories.filter((values, index) => {
+
+      itemsOrderFinal.forEach((values, index) => {
         if (values.idCategory === category._id) {
           xValuesData.push(index);
           yValuesData.push(values.value);

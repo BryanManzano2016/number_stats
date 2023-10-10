@@ -23,7 +23,7 @@ const ValuesCategoryRepository = () => {
   };
 
   const filter = (orderDesc: boolean = true) => {
-    return data.sorted([['value', orderDesc]]);
+    return data.sorted([['createdAt', orderDesc]]);
   };
 
   const filterByValue = (value: string) => {
@@ -47,6 +47,13 @@ const ValuesCategoryRepository = () => {
     });
   };
 
+  const getAllByIdCategory = (idCategory: string) => {
+    const records = data.filtered('idCategory == $0', idCategory);
+    return [...records].sort(
+      (a, b) => a.createdAt.getTime() - b.createdAt.getTime(),
+    );
+  };
+
   return {
     save,
     filter,
@@ -55,6 +62,7 @@ const ValuesCategoryRepository = () => {
     filterByValue,
     update,
     deleteByIdCategory,
+    getAllByIdCategory,
   };
 };
 
