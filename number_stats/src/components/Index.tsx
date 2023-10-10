@@ -1,4 +1,5 @@
 import React from 'react';
+import 'react-native-get-random-values';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {PaperProvider} from 'react-native-paper';
@@ -6,20 +7,32 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {RealmProvider} from '@realm/react';
 
 import HomeTabs from '../components/HomeTabs';
-import Layout from './Layout';
+import CategoriesCreate from '../screens/CategoriesCreate';
+import CategoriesUpdate from '../screens/CategoriesUpdate';
+import Category from '../core/db/models/Category';
 
 const Stack = createStackNavigator();
 
 const Index = () => {
   return (
     <PaperProvider>
-      <RealmProvider schema={[]}>
+      <RealmProvider schema={[Category]}>
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
-              name="Home"
+              name="home"
               options={{title: 'Home', headerShown: false}}
               component={HomeTabs}
+            />
+            <Stack.Screen
+              name="categories/new"
+              options={{headerShown: false}}
+              component={CategoriesCreate}
+            />
+            <Stack.Screen
+              name="categories/update"
+              options={{headerShown: false}}
+              component={CategoriesUpdate}
             />
           </Stack.Navigator>
         </NavigationContainer>

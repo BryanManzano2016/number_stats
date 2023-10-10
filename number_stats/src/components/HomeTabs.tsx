@@ -9,7 +9,7 @@ const HomeStack = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Categorias"
+        name="categories"
         options={{
           headerShown: false,
           title: 'Categorias',

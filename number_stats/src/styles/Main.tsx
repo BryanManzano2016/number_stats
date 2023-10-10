@@ -55,6 +55,10 @@ const styles = StyleSheet.create({
   inputNumber: {
     marginBottom: 16,
   },
+  input: {
+    marginVertical: 10,
+    width: dimensionsValue.width * 0.9,
+  },
   button: {
     marginVertical: 10,
     width: dimensionsValue.width * 0.9,
