@@ -14,8 +14,6 @@ const Resume = ({navigation}) => {
 
   const categories = categoryRepository.filter(false);
 
-  console.log(categories);
-
   const groupValues = () => {
     const xData = new Map();
     const yData = new Map();
