@@ -30,7 +30,7 @@ const LineChartComponent = ({
         backgroundColor: '#FFFFFF',
         backgroundGradientFrom: '#FFFFFF',
         backgroundGradientTo: '#FFFFFF',
-        decimalPlaces: 0,
+        decimalPlaces: 2,
         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
         labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
         style: {
