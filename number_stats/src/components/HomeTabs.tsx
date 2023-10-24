@@ -15,6 +15,7 @@ const HomeStack = () => {
         name="resume"
         options={{
           headerShown: false,
+          title: 'Resumen',
           tabBarIcon: ({color, size}) =>
             Icons({id: 'format-list-numbered', color: color, size: size}),
         }}
@@ -24,6 +25,7 @@ const HomeStack = () => {
         name="numbers"
         options={{
           headerShown: false,
+          title: 'Registro',
           tabBarIcon: ({color, size}) =>
             Icons({id: 'form-select', color: color, size: size}),
         }}

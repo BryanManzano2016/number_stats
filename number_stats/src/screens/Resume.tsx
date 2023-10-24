@@ -4,6 +4,8 @@ import isEmpty from 'lodash/isEmpty';
 
 import LineChart from '../components/LineChart';
 import styles from '../styles/Main';
+import {calculateAverage} from '../utils/Math';
+import {roundDouble} from '../utils/Format';
 import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
@@ -61,7 +63,7 @@ const Resume = ({navigation}) => {
               {!isEmpty(yValues) ? (
                 <>
                   <Text variant="titleLarge" style={styles.cardText}>
-                    {category.value}
+                    {category.value} / ~{roundDouble(calculateAverage(yValues))}
                   </Text>
                   <LineChart dataValues={yValues} dataLabels={xValues} />
                 </>
