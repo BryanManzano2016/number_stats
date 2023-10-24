@@ -28,7 +28,6 @@ const NumberFormUpdate = ({navigation, route}) => {
   const valueToUpdate = valuesCategoryRepository.filterById(params.id);
 
   const onSubmit = ({value}: {value: string}) => {
-    console.log(value);
     if (category) {
       valuesCategoryRepository.update(valueToUpdate, stringToDouble(value));
       control._reset();
