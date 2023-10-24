@@ -4,6 +4,7 @@ import Icons from '../components/Icons';
 import Categories from '../screens/Categories';
 import NumberForm from '../screens/NumberForm';
 import Resume from '../screens/Resume';
+import HistoryNumbers from '../screens/HistoryNumbers';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +25,7 @@ const HomeStack = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({color, size}) =>
-            Icons({id: 'format-list-numbered', color: color, size: size}),
+            Icons({id: 'form-select', color: color, size: size}),
         }}
         component={NumberForm}
       />
@@ -37,6 +38,16 @@ const HomeStack = () => {
             Icons({id: 'sitemap', color: color, size: size}),
         }}
         component={Categories}
+      />
+      <Tab.Screen
+        name="history"
+        options={{
+          headerShown: false,
+          title: 'Historial',
+          tabBarIcon: ({color, size}) =>
+            Icons({id: 'history', color: color, size: size}),
+        }}
+        component={HistoryNumbers}
       />
     </Tab.Navigator>
   );

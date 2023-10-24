@@ -9,6 +9,8 @@ import {RealmProvider} from '@realm/react';
 import HomeTabs from '../components/HomeTabs';
 import CategoriesCreate from '../screens/CategoriesCreate';
 import CategoriesUpdate from '../screens/CategoriesUpdate';
+import NumberFormUpdate from '../screens/NumberFormUpdate';
+
 import Category from '../core/db/models/Category';
 import ValuesCategory from '../core/db/models/ValuesCategory';
 
@@ -34,6 +36,11 @@ const Index = () => {
               name="categories/update"
               options={{headerShown: false}}
               component={CategoriesUpdate}
+            />
+            <Stack.Screen
+              name="numbers/update"
+              options={{headerShown: false}}
+              component={NumberFormUpdate}
             />
           </Stack.Navigator>
         </NavigationContainer>
