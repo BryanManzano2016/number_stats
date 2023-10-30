@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, Text, Appbar} from 'react-native-paper';
+import {View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 
 import Layout from '../components/Layout';
@@ -63,16 +64,23 @@ const NumberForm = ({navigation}) => {
       ) : (
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedCategory}
-            onValueChange={(itemValue, _) => {
-              setSelectedCategory(itemValue);
-            }}>
-            {categories.map(item => (
-              <Picker.Item key={item._id} label={item.value} value={item._id} />
-            ))}
-          </Picker>
+          <View style={styles.view}>
+            <Picker
+              style={styles.picker}
+              selectedValue={selectedCategory}
+              onValueChange={(itemValue, _) => {
+                setSelectedCategory(itemValue);
+              }}>
+              {categories.map(item => (
+                <Picker.Item
+                  key={item._id}
+                  label={item.value}
+                  value={item._id}
+                />
+              ))}
+            </Picker>
+          </View>
+
           <ControllerForm
             name="value"
             control={control}

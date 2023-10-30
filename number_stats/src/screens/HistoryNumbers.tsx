@@ -23,7 +23,9 @@ const History = ({navigation}) => {
 
   const data = useMemo(() => {
     if (selectedCategory) {
-      return valuesCategoryRepository.getAllByIdCategory(selectedCategory);
+      return [
+        ...valuesCategoryRepository.getAllByIdCategory(selectedCategory),
+      ].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     }
     return [];
   }, [selectedCategory, valuesCategoryRepository]);
@@ -36,22 +38,23 @@ const History = ({navigation}) => {
         </>
       }>
       <Text style={styles.textTitle}>Seleccione una categoria</Text>
-      <Picker
-        style={styles.picker}
-        selectedValue={selectedCategory}
-        onValueChange={(itemValue, _) => {
-          setSelectedCategory(itemValue);
-        }}>
-        {categories.map(item => (
-          <Picker.Item key={item._id} label={item.value} value={item._id} />
-        ))}
-      </Picker>
+      <View style={styles.view}>
+        <Picker
+          style={styles.picker}
+          selectedValue={selectedCategory}
+          onValueChange={(itemValue, _) => {
+            setSelectedCategory(itemValue);
+          }}>
+          {categories.map(item => (
+            <Picker.Item key={item._id} label={item.value} value={item._id} />
+          ))}
+        </Picker>
+      </View>
 
       {isEmpty(data) && <Text style={styles.text}>Sin elementos</Text>}
 
       {selectedCategory &&
         data.map(item => {
-          const category = categoryRepository.filterById(selectedCategory);
           return (
             <Card key={item._id} style={styles.card}>
               <Card.Content>

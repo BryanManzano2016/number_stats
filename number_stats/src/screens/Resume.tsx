@@ -1,5 +1,6 @@
 import React, {useState, useMemo} from 'react';
 import {Card, Text, Appbar} from 'react-native-paper';
+import {View} from 'react-native';
 import isEmpty from 'lodash/isEmpty';
 import {Picker} from '@react-native-picker/picker';
 
@@ -82,16 +83,22 @@ const Resume = ({navigation}) => {
       ) : (
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedCategory}
-            onValueChange={(itemValue, _) => {
-              setSelectedCategory(itemValue);
-            }}>
-            {categories.map(item => (
-              <Picker.Item key={item._id} label={item.value} value={item._id} />
-            ))}
-          </Picker>
+          <View style={styles.view}>
+            <Picker
+              style={styles.picker}
+              selectedValue={selectedCategory}
+              onValueChange={(itemValue, _) => {
+                setSelectedCategory(itemValue);
+              }}>
+              {categories.map(item => (
+                <Picker.Item
+                  key={item._id}
+                  label={item.value}
+                  value={item._id}
+                />
+              ))}
+            </Picker>
+          </View>
         </>
       )}
 
@@ -101,8 +108,11 @@ const Resume = ({navigation}) => {
             {!isEmpty(data.yValuesData) ? (
               <>
                 <Text variant="titleLarge" style={styles.cardText}>
-                  {categoryData.value} / ~
-                  {roundDouble(calculateAverage(data.yValuesData))}
+                  {categoryData.value}
+                </Text>
+                <Text variant="titleSmall" style={styles.cardText}>
+                  Promedio {roundDouble(calculateAverage(data.yValuesData))} /{' '}
+                  {data.yValuesData.length} registros
                 </Text>
                 {chart}
               </>

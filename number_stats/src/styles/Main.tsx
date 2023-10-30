@@ -49,14 +49,14 @@ const styles = () => {
     },
     textTitle: {
       textAlign: 'center',
-      marginVertical: 5,
+      marginVertical: 1,
       fontSize: 16,
       fontWeight: '700',
     },
     view: {
       alignContent: 'center',
       alignItems: 'center',
-      marginVertical: 10,
+      marginVertical: 1,
     },
     inputNumber: {
       marginBottom: 16,

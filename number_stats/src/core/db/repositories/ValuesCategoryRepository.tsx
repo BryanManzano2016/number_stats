@@ -49,9 +49,7 @@ const ValuesCategoryRepository = () => {
 
   const getAllByIdCategory = (idCategory: string) => {
     const records = data.filtered('idCategory == $0', idCategory);
-    return [...records].sort(
-      (a, b) => a.createdAt.getTime() - b.createdAt.getTime(),
-    );
+    return records;
   };
 
   return {
