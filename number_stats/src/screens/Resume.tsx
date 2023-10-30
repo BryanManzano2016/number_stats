@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useState, useMemo} from 'react';
 import {Card, Text, Appbar} from 'react-native-paper';
 import isEmpty from 'lodash/isEmpty';
+import {Picker} from '@react-native-picker/picker';
 
 import LineChart from '../components/LineChart';
 import styles from '../styles/Main';
 import {calculateAverage} from '../utils/Math';
-import {roundDouble} from '../utils/Format';
+import {roundDouble, formatDate} from '../utils/Format';
 import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
@@ -15,34 +16,59 @@ const Resume = ({navigation}) => {
   const valuesCategoryRepository = ValuesCategoryRepository();
 
   const categories = categoryRepository.filter(false);
+  const defaultCategory = isEmpty(categories) ? undefined : categories[0];
 
-  const groupValues = () => {
-    const xData = new Map();
-    const yData = new Map();
-    categories.forEach(category => {
-      const valuesDb = valuesCategoryRepository.getAllByIdCategory(
-        category._id,
+  const [selectedCategory, setSelectedCategory] = useState(
+    defaultCategory?._id,
+  );
+
+  const categoryData = categoryRepository.filterById(selectedCategory ?? '');
+
+  const data = useMemo(() => {
+    try {
+      if (categoryData) {
+        const valuesDb = valuesCategoryRepository.getAllByIdCategory(
+          categoryData._id,
+        );
+
+        const startRecords = Math.max(valuesDb.length - 250, 0);
+        const itemsOrderFinal = valuesDb.slice(startRecords);
+
+        const xValuesData: string[] = [];
+        const yValuesData: number[] = [];
+
+        itemsOrderFinal.forEach((values, index) => {
+          if (values.idCategory === categoryData._id) {
+            xValuesData.push(formatDate(values.createdAt, 'DAY'));
+            yValuesData.push(values.value);
+          }
+        });
+
+        return {xValuesData, yValuesData};
+      }
+    } catch (error) {
+      console.log('Error groupValues', error);
+    }
+    return {xValuesData: [], yValuesData: []};
+  }, [categoryData, valuesCategoryRepository]);
+
+  const chart = useMemo(() => {
+    try {
+      return (
+        <LineChart
+          dataValues={data.yValuesData}
+          dataLabels={data.xValuesData}
+          configuration={{
+            heightProportional: 0.55,
+            verticalLabelRotation: 75,
+          }}
+        />
       );
-
-      const startRecords = Math.max(valuesDb.length - 12, 0);
-      const itemsOrderFinal = valuesDb.slice(startRecords);
-
-      const xValuesData: number[] = [];
-      const yValuesData: number[] = [];
-
-      itemsOrderFinal.forEach((values, index) => {
-        if (values.idCategory === category._id) {
-          xValuesData.push(index);
-          yValuesData.push(values.value);
-        }
-      });
-      xData.set(category._id, xValuesData);
-      yData.set(category._id, yValuesData);
-    });
-    return {xData, yData};
-  };
-
-  const data = groupValues();
+    } catch (error) {
+      console.log('Error printChart', error);
+    }
+    return <></>;
+  }, [data]);
 
   return (
     <Layout
@@ -51,31 +77,43 @@ const Resume = ({navigation}) => {
           <Appbar.Content title="Resumen" />
         </>
       }>
-      {isEmpty(categories) && (
+      {isEmpty(categories) ? (
         <Text style={styles.text}>Sin datos para mostrar</Text>
+      ) : (
+        <>
+          <Text style={styles.textTitle}>Seleccione una categoria</Text>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedCategory}
+            onValueChange={(itemValue, _) => {
+              setSelectedCategory(itemValue);
+            }}>
+            {categories.map(item => (
+              <Picker.Item key={item._id} label={item.value} value={item._id} />
+            ))}
+          </Picker>
+        </>
       )}
-      {categories.map(category => {
-        const yValues = data.yData.get(category._id);
-        const xValues = data.xData.get(category._id);
-        return (
-          <Card style={styles.card} key={category._id}>
-            <Card.Content>
-              {!isEmpty(yValues) ? (
-                <>
-                  <Text variant="titleLarge" style={styles.cardText}>
-                    {category.value} / ~{roundDouble(calculateAverage(yValues))}
-                  </Text>
-                  <LineChart dataValues={yValues} dataLabels={xValues} />
-                </>
-              ) : (
-                <Text style={styles.cardText}>
-                  Sin datos para {category.value}
+
+      {categoryData && (
+        <Card style={styles.card} key={categoryData._id}>
+          <Card.Content>
+            {!isEmpty(data.yValuesData) ? (
+              <>
+                <Text variant="titleLarge" style={styles.cardText}>
+                  {categoryData.value} / ~
+                  {roundDouble(calculateAverage(data.yValuesData))}
                 </Text>
-              )}
-            </Card.Content>
-          </Card>
-        );
-      })}
+                {chart}
+              </>
+            ) : (
+              <Text style={styles.cardText}>
+                Sin datos para {categoryData.value}
+              </Text>
+            )}
+          </Card.Content>
+        </Card>
+      )}
     </Layout>
   );
 };

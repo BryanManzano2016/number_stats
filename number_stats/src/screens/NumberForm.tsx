@@ -9,7 +9,6 @@ import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import styles from '../styles/Main';
 import {stringToDouble} from '../utils/Format';
-import {PICKER_DEFAULT} from '../utils/Constants';
 import isEmpty from 'lodash/isEmpty';
 
 const NumberForm = ({navigation}) => {
@@ -28,7 +27,11 @@ const NumberForm = ({navigation}) => {
 
   const categories = categoryRepository.filter(false);
 
-  const [selectedCategory, setSelectedCategory] = useState(PICKER_DEFAULT);
+  const defaultCategory = isEmpty(categories) ? undefined : categories[0];
+
+  const [selectedCategory, setSelectedCategory] = useState(
+    defaultCategory?._id,
+  );
 
   const onSubmit = ({value}: {value: string}) => {
     if (selectedCategory) {
@@ -37,8 +40,14 @@ const NumberForm = ({navigation}) => {
       )[0];
       valuesCategoryRepository.save(recordDb._id, stringToDouble(value));
       control._reset();
-      setSelectedCategory(PICKER_DEFAULT);
+      setSelectedCategory(defaultCategory?._id);
       navigation.navigate('resume');
+    }
+  };
+
+  const generateTest = (id: string) => {
+    for (let index = 0; index < 1000; index++) {
+      valuesCategoryRepository.save(id, stringToDouble(index.toString()));
     }
   };
 
@@ -49,46 +58,42 @@ const NumberForm = ({navigation}) => {
           <Appbar.Content title="Registro" />
         </>
       }>
-      <Text style={styles.textTitle}>Seleccione una categoria</Text>
+      {isEmpty(categories) ? (
+        <Text style={styles.text}>No tiene categorias para registrar</Text>
+      ) : (
+        <>
+          <Text style={styles.textTitle}>Seleccione una categoria</Text>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedCategory}
+            onValueChange={(itemValue, _) => {
+              setSelectedCategory(itemValue);
+            }}>
+            {categories.map(item => (
+              <Picker.Item key={item._id} label={item.value} value={item._id} />
+            ))}
+          </Picker>
+          <ControllerForm
+            name="value"
+            control={control}
+            key={'value'}
+            maxLength={12}
+            placeHolder="0"
+            isRequired
+            keyboardType="numeric"
+            label="Valor"
+          />
 
-      <Picker
-        style={styles.picker}
-        selectedValue={selectedCategory}
-        onValueChange={(itemValue, _) => {
-          setSelectedCategory(itemValue);
-        }}>
-        <Picker.Item
-          key={PICKER_DEFAULT}
-          label="Seleccione una categoria..."
-          value={PICKER_DEFAULT}
-        />
-        {categories.map(item => (
-          <Picker.Item key={item._id} label={item.value} value={item._id} />
-        ))}
-      </Picker>
+          {errors.value && <Text style={styles.text}>Revise los campos</Text>}
 
-      <ControllerForm
-        name="value"
-        control={control}
-        key={'value'}
-        maxLength={12}
-        placeHolder="0"
-        isRequired
-        keyboardType="numeric"
-        label="Valor"
-      />
-
-      {errors.value && <Text style={styles.text}>Revise los campos</Text>}
-
-      <Button
-        disabled={
-          [PICKER_DEFAULT, '', undefined].includes(selectedCategory) ||
-          isEmpty(categories)
-        }
-        mode="contained"
-        onPress={handleSubmit(onSubmit)}>
-        Guardar
-      </Button>
+          <Button
+            disabled={['', undefined].includes(selectedCategory)}
+            mode="contained"
+            onPress={handleSubmit(onSubmit)}>
+            Guardar
+          </Button>
+        </>
+      )}
     </Layout>
   );
 };

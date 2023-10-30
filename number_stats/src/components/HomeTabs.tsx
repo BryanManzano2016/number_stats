@@ -32,16 +32,6 @@ const HomeStack = () => {
         component={NumberForm}
       />
       <Tab.Screen
-        name="categories"
-        options={{
-          headerShown: false,
-          title: 'Categorias',
-          tabBarIcon: ({color, size}) =>
-            Icons({id: 'sitemap', color: color, size: size}),
-        }}
-        component={Categories}
-      />
-      <Tab.Screen
         name="history"
         options={{
           headerShown: false,
@@ -50,6 +40,16 @@ const HomeStack = () => {
             Icons({id: 'history', color: color, size: size}),
         }}
         component={HistoryNumbers}
+      />
+      <Tab.Screen
+        name="categories"
+        options={{
+          headerShown: false,
+          title: 'Categorias',
+          tabBarIcon: ({color, size}) =>
+            Icons({id: 'sitemap', color: color, size: size}),
+        }}
+        component={Categories}
       />
     </Tab.Navigator>
   );

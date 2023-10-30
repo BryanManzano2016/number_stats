@@ -9,6 +9,7 @@ const styles = () => {
       width: dimensionsValue.width * 0.97,
       alignContent: 'center',
       alignItems: 'center',
+      textAlign: 'center',
     },
     header: {
       marginHorizontal: 4,
@@ -20,6 +21,7 @@ const styles = () => {
     scrollView: {
       flex: 1,
       padding: 4,
+      alignContent: 'center',
     },
     card: {
       marginVertical: 5,
@@ -46,6 +48,7 @@ const styles = () => {
       marginVertical: 10,
     },
     textTitle: {
+      textAlign: 'center',
       marginVertical: 5,
       fontSize: 16,
       fontWeight: '700',
@@ -82,6 +85,7 @@ const styles = () => {
       margin: 10,
     },
     picker: {
+      width: dimensionsValue.width * 0.8,
       marginVertical: 10,
       borderRadius: 20,
     },
