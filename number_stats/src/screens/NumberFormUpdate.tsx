@@ -8,6 +8,9 @@ import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import styles from '../styles/Main';
 import {stringToDouble} from '../utils/Format';
+import * as yup from 'yup';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {get as getOrDefault} from 'lodash';
 
 const NumberFormUpdate = ({navigation, route}) => {
   const {params} = route;
@@ -20,6 +23,14 @@ const NumberFormUpdate = ({navigation, route}) => {
     defaultValues: {
       value: '',
     },
+    resolver: yupResolver(
+      yup.object().shape({
+        value: yup
+          .string()
+          .matches(/^\d+(\.\d+)?$/, 'El valor debe ser formato #.#')
+          .required('Requerido'),
+      }),
+    ),
   });
 
   const categoryRepository = CategoryRepository();
@@ -34,6 +45,8 @@ const NumberFormUpdate = ({navigation, route}) => {
       navigation.navigate('resume');
     }
   };
+
+  const messageErrorValue = getOrDefault(errors, 'value.message', '');
 
   return (
     <Layout
@@ -58,7 +71,11 @@ const NumberFormUpdate = ({navigation, route}) => {
         label="Valor"
       />
 
-      {errors.value && <Text style={styles.text}>Revise los campos</Text>}
+      {messageErrorValue ? (
+        <Text style={styles.text}>{messageErrorValue}</Text>
+      ) : (
+        <></>
+      )}
 
       <Button
         disabled={category === undefined}

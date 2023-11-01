@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {Card, Text, Appbar} from 'react-native-paper';
 import {View} from 'react-native';
 import isEmpty from 'lodash/isEmpty';
@@ -19,11 +19,13 @@ const Resume = ({navigation}) => {
   const categories = categoryRepository.filter(false);
   const defaultCategory = isEmpty(categories) ? undefined : categories[0];
 
-  const [selectedCategory, setSelectedCategory] = useState(
-    defaultCategory?._id,
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string>();
 
   const categoryData = categoryRepository.filterById(selectedCategory ?? '');
+
+  useEffect(() => {
+    setSelectedCategory(defaultCategory?._id);
+  }, [defaultCategory]);
 
   const data = useMemo(() => {
     try {
@@ -40,7 +42,7 @@ const Resume = ({navigation}) => {
 
         itemsOrderFinal.forEach((values, index) => {
           if (values.idCategory === categoryData._id) {
-            xValuesData.push(formatDate(values.createdAt, 'DAY'));
+            xValuesData.push(formatDate(values.createdAt, 'DAY_YEAR_SHORT'));
             yValuesData.push(values.value);
           }
         });

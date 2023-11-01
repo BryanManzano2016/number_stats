@@ -20,6 +20,8 @@ export const formatDate = (date: Date, format = 'FULL') => {
       return fullDate;
     case 'DAY':
       return `${day}/${month}/${year}`;
+    case 'DAY_YEAR_SHORT':
+      return `${day}/${month}/${year.toString().slice(2, 4)}`;
     case 'HOUR':
       return `${hours}:${minutes}`;
     default:

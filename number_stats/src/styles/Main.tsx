@@ -89,6 +89,7 @@ const styles = () => {
       marginVertical: 10,
       borderRadius: 20,
     },
+    lineChart: {},
   });
 };
 

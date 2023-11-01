@@ -1,7 +1,10 @@
 import React from 'react';
-import {Dimensions, ScrollView} from 'react-native';
+import {Dimensions, ScrollView, View} from 'react-native';
+import {Circle, Text} from 'react-native-svg';
 
 import {LineChart} from 'react-native-chart-kit';
+import {WIDTH_MAX_RECORDS} from '../utils/Constants';
+import styles from '../styles/Main';
 
 const LineChartComponent = ({
   dataValues,
@@ -14,7 +17,8 @@ const LineChartComponent = ({
 }) => {
   const dimensionsValue = Dimensions.get('window');
   const dataLength = dataValues.length;
-  const widthChart = dataLength < 12 ? dimensionsValue.width : 25 * dataLength;
+  const widthChart =
+    dataLength < WIDTH_MAX_RECORDS ? dimensionsValue.width : 60 * dataLength;
 
   return (
     <ScrollView horizontal>
@@ -38,9 +42,7 @@ const LineChartComponent = ({
           decimalPlaces: 2,
           color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          style: {
-            borderRadius: 2,
-          },
+          style: {},
           propsForDots: {
             r: '6',
             strokeWidth: '1',
@@ -49,7 +51,23 @@ const LineChartComponent = ({
         }}
         bezier
         verticalLabelRotation={configuration.verticalLabelRotation}
-        style={{}}
+        style={styles.lineChart}
+        onDataPointClick={() => {}}
+        renderDotContent={({x, y, index, indexData}) => {
+          return (
+            <View key={'renderDotContent' + index}>
+              <Circle cx={x} cy={y} r={6} fill="red" />
+              <Text
+                x={x + 20}
+                y={y - 5}
+                fontSize={12}
+                fill="black"
+                textAnchor="middle">
+                {indexData}
+              </Text>
+            </View>
+          );
+        }}
       />
     </ScrollView>
   );

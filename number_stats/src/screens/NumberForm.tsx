@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, Text, Appbar} from 'react-native-paper';
 import {View} from 'react-native';
@@ -11,6 +11,9 @@ import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepo
 import styles from '../styles/Main';
 import {stringToDouble} from '../utils/Format';
 import isEmpty from 'lodash/isEmpty';
+import * as yup from 'yup';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {get as getOrDefault} from 'lodash';
 
 const NumberForm = ({navigation}) => {
   const {
@@ -21,6 +24,14 @@ const NumberForm = ({navigation}) => {
     defaultValues: {
       value: '',
     },
+    resolver: yupResolver(
+      yup.object().shape({
+        value: yup
+          .string()
+          .matches(/^\d+(\.\d+)?$/, 'El valor debe ser formato #.#')
+          .required('Requerido'),
+      }),
+    ),
   });
 
   const categoryRepository = CategoryRepository();
@@ -30,9 +41,11 @@ const NumberForm = ({navigation}) => {
 
   const defaultCategory = isEmpty(categories) ? undefined : categories[0];
 
-  const [selectedCategory, setSelectedCategory] = useState(
-    defaultCategory?._id,
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string>();
+
+  useEffect(() => {
+    setSelectedCategory(defaultCategory?._id);
+  }, [defaultCategory]);
 
   const onSubmit = ({value}: {value: string}) => {
     if (selectedCategory) {
@@ -46,11 +59,7 @@ const NumberForm = ({navigation}) => {
     }
   };
 
-  const generateTest = (id: string) => {
-    for (let index = 0; index < 1000; index++) {
-      valuesCategoryRepository.save(id, stringToDouble(index.toString()));
-    }
-  };
+  const messageErrorValue = getOrDefault(errors, 'value.message', '');
 
   return (
     <Layout
@@ -92,7 +101,11 @@ const NumberForm = ({navigation}) => {
             label="Valor"
           />
 
-          {errors.value && <Text style={styles.text}>Revise los campos</Text>}
+          {messageErrorValue ? (
+            <Text style={styles.text}>{messageErrorValue}</Text>
+          ) : (
+            <></>
+          )}
 
           <Button
             disabled={['', undefined].includes(selectedCategory)}

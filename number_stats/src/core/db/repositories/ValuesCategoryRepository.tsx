@@ -1,12 +1,19 @@
 import {useQuery, useRealm} from '@realm/react';
 import ValuesCategory from '../models/ValuesCategory';
-import {ENTITIES_DB} from '../../../utils/Constants';
+import {ENTITIES_DB, MAX_RECORDS} from '../../../utils/Constants';
+import {isEmpty} from 'lodash';
 
 const ValuesCategoryRepository = () => {
   const realm = useRealm();
   const data = useQuery(ValuesCategory);
 
   const save = (idCategory: string, value: number) => {
+    const recordsFilter = filter(false).filter(
+      record => record.idCategory === idCategory,
+    );
+    if (!isEmpty(recordsFilter) && recordsFilter.length > MAX_RECORDS) {
+      deleteRecord(recordsFilter[0]);
+    }
     realm.write(() => {
       return realm.create(
         ENTITIES_DB.VALUES_CATEGORIES,
