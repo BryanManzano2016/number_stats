@@ -1,6 +1,5 @@
 import {useQuery, useRealm} from '@realm/react';
 import Category from '../models/Category';
-import {ENTITIES_DB} from '../../../utils/Constants';
 
 const CategoryRepository = () => {
   const realm = useRealm();
@@ -8,7 +7,7 @@ const CategoryRepository = () => {
 
   const save = (value: string) => {
     realm.write(() => {
-      return realm.create(ENTITIES_DB.CATEGORIES, Category.generate(value));
+      return realm.create('CATEGORIES', Category.generate(value));
     });
   };
 

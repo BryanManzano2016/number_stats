@@ -1,5 +1,4 @@
 import {Realm} from '@realm/react';
-import {ENTITIES_DB} from '../../../utils/Constants';
 
 import {v4 as uuid} from 'uuid';
 
@@ -15,7 +14,7 @@ class Category extends Realm.Object {
   }
 
   static schema = {
-    name: ENTITIES_DB.CATEGORIES,
+    name: 'CATEGORIES',
     primaryKey: '_id',
     properties: {
       _id: 'string',

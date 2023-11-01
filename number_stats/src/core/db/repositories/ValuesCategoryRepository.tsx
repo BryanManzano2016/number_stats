@@ -1,6 +1,6 @@
 import {useQuery, useRealm} from '@realm/react';
 import ValuesCategory from '../models/ValuesCategory';
-import {ENTITIES_DB, MAX_RECORDS} from '../../../utils/Constants';
+import {MAX_RECORDS} from '../../../utils/Constants';
 import {isEmpty} from 'lodash';
 
 const ValuesCategoryRepository = () => {
@@ -16,7 +16,7 @@ const ValuesCategoryRepository = () => {
     }
     realm.write(() => {
       return realm.create(
-        ENTITIES_DB.VALUES_CATEGORIES,
+        'VALUES_CATEGORIES',
         ValuesCategory.generate(idCategory, value),
       );
     });

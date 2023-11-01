@@ -3,7 +3,7 @@ import {Dimensions, ScrollView, View} from 'react-native';
 import {Circle, Text} from 'react-native-svg';
 
 import {LineChart} from 'react-native-chart-kit';
-import {WIDTH_MAX_RECORDS} from '../utils/Constants';
+import {WIDTH_MAX_RECORDS, WIDTH_RECORD} from '../utils/Constants';
 import styles from '../styles/Main';
 
 const LineChartComponent = ({
@@ -18,7 +18,9 @@ const LineChartComponent = ({
   const dimensionsValue = Dimensions.get('window');
   const dataLength = dataValues.length;
   const widthChart =
-    dataLength < WIDTH_MAX_RECORDS ? dimensionsValue.width : 60 * dataLength;
+    dataLength < WIDTH_MAX_RECORDS
+      ? dimensionsValue.width
+      : WIDTH_RECORD * dataLength;
 
   return (
     <ScrollView horizontal>
@@ -56,11 +58,11 @@ const LineChartComponent = ({
         renderDotContent={({x, y, index, indexData}) => {
           return (
             <View key={'renderDotContent' + index}>
-              <Circle cx={x} cy={y} r={6} fill="red" />
+              <Circle cx={x} cy={y} r={5} fill="red" />
               <Text
                 x={x + 20}
                 y={y - 5}
-                fontSize={12}
+                fontSize={11}
                 fill="black"
                 textAnchor="middle">
                 {indexData}
