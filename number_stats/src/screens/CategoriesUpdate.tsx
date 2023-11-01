@@ -7,9 +7,15 @@ import Layout from '../components/Layout';
 import ControllerForm from '../components/ControllerForm';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import styles from '../styles/Main';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import {get as getOrDefault} from 'lodash';
 
 const CategoriesCreate = ({navigation, route}) => {
   const {params} = route;
+
+  const categoryRepository = CategoryRepository();
+  const element = categoryRepository.filterById(params.id);
 
   const {
     control,
@@ -17,12 +23,17 @@ const CategoriesCreate = ({navigation, route}) => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      name: '',
+      name: element?.value,
     },
+    resolver: yupResolver(
+      yup.object().shape({
+        name: yup
+          .string()
+          .max(50, 'Nombre muy extenso')
+          .required('Nombre requerido'),
+      }),
+    ),
   });
-
-  const categoryRepository = CategoryRepository();
-  const element = categoryRepository.filterById(params.id);
 
   const onSubmit = ({name}: {name: string}) => {
     const elementExists = categoryRepository.filterByValue(name);
@@ -42,6 +53,7 @@ const CategoriesCreate = ({navigation, route}) => {
       );
     }
   };
+  const messageErrorName = getOrDefault(errors, 'name.message', '');
 
   return (
     <Layout
@@ -62,7 +74,11 @@ const CategoriesCreate = ({navigation, route}) => {
         label={'Nombre'}
       />
 
-      {errors.name && <Text style={styles.text}>Revise los campos</Text>}
+      {messageErrorName ? (
+        <Text style={styles.text}>{messageErrorName}</Text>
+      ) : (
+        <></>
+      )}
 
       <Button mode="contained" onPress={handleSubmit(onSubmit)}>
         Guardar

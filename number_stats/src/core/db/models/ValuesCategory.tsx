@@ -8,12 +8,12 @@ class ValuesCategory extends Realm.Object {
   value!: number;
   createdAt!: Date;
 
-  static generate(idCategory: string, value: number) {
+  static generate(idCategory: string, value: number, createdAt: Date) {
     return {
       _id: uuid(),
       idCategory,
       value,
-      createdAt: new Date(),
+      createdAt: createdAt,
     };
   }
 

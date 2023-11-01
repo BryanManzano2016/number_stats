@@ -8,18 +8,43 @@ const ValuesCategoryRepository = () => {
   const data = useQuery(ValuesCategory);
 
   const save = (idCategory: string, value: number) => {
-    const recordsFilter = filter(false).filter(
-      record => record.idCategory === idCategory,
-    );
-    if (!isEmpty(recordsFilter) && recordsFilter.length > MAX_RECORDS) {
-      deleteRecord(recordsFilter[0]);
-    }
     realm.write(() => {
       return realm.create(
         'VALUES_CATEGORIES',
-        ValuesCategory.generate(idCategory, value),
+        ValuesCategory.generate(idCategory, value, new Date()),
       );
     });
+  };
+
+  const saveBulk = (idCategory: string, values: number[]) => {
+    realm.write(() => {
+      let index = 0;
+      for (const value of values) {
+        const date = new Date(new Date().getTime() + index * 1000);
+        realm.create(
+          'VALUES_CATEGORIES',
+          ValuesCategory.generate(idCategory, value, date),
+        );
+        index = index + 1;
+      }
+    });
+    depurateValues(idCategory);
+  };
+
+  const depurateValues = (idCategory: string) => {
+    const recordsFilter = filter(false).filter(
+      record => record.idCategory === idCategory,
+    );
+    const itemsToDelete = !isEmpty(recordsFilter)
+      ? recordsFilter.length - MAX_RECORDS
+      : 0;
+    if (itemsToDelete > 0) {
+      realm.write(() => {
+        for (let index = 0; index < itemsToDelete; index++) {
+          realm.delete(recordsFilter[index]);
+        }
+      });
+    }
   };
 
   const update = (values: ValuesCategory, value: number) => {
@@ -68,6 +93,7 @@ const ValuesCategoryRepository = () => {
     update,
     deleteByIdCategory,
     getAllByIdCategory,
+    saveBulk,
   };
 };
 

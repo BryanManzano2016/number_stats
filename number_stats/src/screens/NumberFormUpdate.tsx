@@ -15,32 +15,32 @@ import {get as getOrDefault} from 'lodash';
 const NumberFormUpdate = ({navigation, route}) => {
   const {params} = route;
 
+  const categoryRepository = CategoryRepository();
+  const valuesCategoryRepository = ValuesCategoryRepository();
+  const category = categoryRepository.filterById(params.categoryId);
+  const valueToUpdate = valuesCategoryRepository.filterById(params.id);
+
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm({
     defaultValues: {
-      value: '',
+      value: getOrDefault(valueToUpdate, 'value', '').toString(),
     },
     resolver: yupResolver(
       yup.object().shape({
         value: yup
           .string()
-          .matches(/^\d+(\.\d+)?$/, 'El valor debe ser formato #.#')
-          .required('Requerido'),
+          .matches(/^-?\d+(\.\d+)?$/, 'El valor debe ser formato #.#')
+          .required('Valor requerido'),
       }),
     ),
   });
 
-  const categoryRepository = CategoryRepository();
-  const valuesCategoryRepository = ValuesCategoryRepository();
-  const category = categoryRepository.filterById(params.categoryId);
-  const valueToUpdate = valuesCategoryRepository.filterById(params.id);
-
   const onSubmit = ({value}: {value: string}) => {
     if (category) {
-      valuesCategoryRepository.update(valueToUpdate, stringToDouble(value));
+      valuesCategoryRepository.update(valueToUpdate, stringToDouble(value, 4));
       control._reset();
       navigation.navigate('resume');
     }

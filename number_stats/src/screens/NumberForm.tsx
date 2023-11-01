@@ -28,7 +28,10 @@ const NumberForm = ({navigation}) => {
       yup.object().shape({
         value: yup
           .string()
-          .matches(/^\d+(\.\d+)?$/, 'El valor debe ser formato #.#')
+          .matches(
+            /^(-?\d+(\.\d+)?)(,-?\d+(\.\d+)?)*$/,
+            'El valor debe ser formato #.#',
+          )
           .required('Requerido'),
       }),
     ),
@@ -52,7 +55,8 @@ const NumberForm = ({navigation}) => {
       const recordDb = categories.filter(
         item => item._id === selectedCategory,
       )[0];
-      valuesCategoryRepository.save(recordDb._id, stringToDouble(value));
+      const listDoubles = value.split(',').map(item => stringToDouble(item, 4));
+      valuesCategoryRepository.saveBulk(recordDb._id, listDoubles);
       control._reset();
       setSelectedCategory(defaultCategory?._id);
       navigation.navigate('resume');
