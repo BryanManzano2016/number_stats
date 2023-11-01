@@ -58,7 +58,7 @@ const LineChartComponent = ({
         renderDotContent={({x, y, index, indexData}) => {
           return (
             <View key={'renderDotContent' + index}>
-              <Circle cx={x} cy={y} r={5} fill="red" />
+              <Circle cx={x} cy={y} r={5} fill="gray" />
               <Text
                 x={x + 20}
                 y={y - 5}
