@@ -31,11 +31,10 @@ const History = ({navigation}) => {
         <Card key={item._id} style={styles.card}>
           <Card.Content>
             <View style={styles.viewCol}>
-              <Text style={styles.cardTitleText} variant="bodyLarge">
-                {item.value}
-              </Text>
+              <Text variant="titleMedium">{item.value}</Text>
               <View style={styles.viewCol}>
                 <IconButton
+                  iconColor="gray"
                   icon="pencil"
                   size={25}
                   style={styles.iconButtonCol}
@@ -47,6 +46,7 @@ const History = ({navigation}) => {
                 />
                 <IconButton
                   icon="delete"
+                  iconColor="gray"
                   size={25}
                   style={styles.iconButtonCol}
                   onPress={() => {

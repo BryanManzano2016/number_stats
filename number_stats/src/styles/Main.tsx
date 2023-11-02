@@ -51,7 +51,7 @@ const styles = () => {
       textAlign: 'center',
       marginVertical: 1,
       fontSize: 16,
-      fontWeight: '700',
+      fontWeight: '500',
     },
     view: {
       alignContent: 'center',
@@ -64,6 +64,9 @@ const styles = () => {
     input: {
       marginVertical: 12,
       width: dimensionsValue.width * 0.9,
+      backgroundColor: 'transparent',
+      borderColor: 'black',
+      borderBlockColor: 'black',
     },
     button: {
       marginVertical: 10,

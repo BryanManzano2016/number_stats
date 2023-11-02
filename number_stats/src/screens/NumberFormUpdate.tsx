@@ -67,8 +67,8 @@ const NumberFormUpdate = ({navigation, route}) => {
           <Appbar.Content title="Modificar registro" />
         </>
       }>
-      <Text style={styles.textTitle}>{category.value}</Text>
-      <Text style={styles.text}>
+      <Text style={styles.textTitle}>Categoria {category.value}</Text>
+      <Text style={styles.textTitle}>
         Ultimo valor: {(valueToUpdate?.value ?? '').toString()}
       </Text>
 

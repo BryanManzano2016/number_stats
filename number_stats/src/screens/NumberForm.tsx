@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, Text, Appbar} from 'react-native-paper';
 import {View} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
 
 import Layout from '../components/Layout';
 import ControllerForm from '../components/ControllerForm';
@@ -16,6 +15,7 @@ import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {get as getOrDefault} from 'lodash';
 import DatePicker from '../components/DatePicker';
+import SearchSelector from '../components/SearchSelector';
 
 const NumberForm = ({navigation}) => {
   const {
@@ -94,20 +94,23 @@ const NumberForm = ({navigation}) => {
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>
           <View style={styles.view}>
-            <Picker
-              style={styles.picker}
-              selectedValue={selectedCategory}
-              onValueChange={(itemValue, _) => {
-                setSelectedCategory(itemValue);
-              }}>
-              {categories.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.value}
-                  value={item._id}
-                />
-              ))}
-            </Picker>
+            <SearchSelector
+              options={categories.map(item => ({
+                label: item.value,
+                value: item._id,
+              }))}
+              onChange={selectedItem => {
+                setSelectedCategory(selectedItem.value);
+              }}
+              defaultValue={
+                defaultCategory
+                  ? {
+                      label: defaultCategory.value,
+                      value: defaultCategory._id,
+                    }
+                  : undefined
+              }
+            />
           </View>
 
           <ControllerForm
@@ -121,6 +124,7 @@ const NumberForm = ({navigation}) => {
             label="Valor"
           />
 
+          <Text style={styles.textTitle}>Seleccione una fecha</Text>
           <DatePicker date={date} onDateChange={onChangeDate} />
 
           {messageErrorValue ? (

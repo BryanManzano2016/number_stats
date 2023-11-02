@@ -2,7 +2,6 @@ import React, {useState, useMemo, useEffect} from 'react';
 import {Card, Text, Appbar} from 'react-native-paper';
 import {View} from 'react-native';
 import isEmpty from 'lodash/isEmpty';
-import {Picker} from '@react-native-picker/picker';
 
 import LineChart from '../components/LineChart';
 import styles from '../styles/Main';
@@ -12,6 +11,7 @@ import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import SearchSelector from '../components/SearchSelector';
+import {setItem, getItem} from '../core/SimpleStorage';
 
 const Resume = ({navigation}) => {
   const categoryRepository = CategoryRepository();
@@ -20,12 +20,21 @@ const Resume = ({navigation}) => {
   const categories = categoryRepository.filter(false);
   const defaultCategory = isEmpty(categories) ? undefined : categories[0];
 
-  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    getItem('selectedCategory', ''),
+  );
 
   const categoryData = categoryRepository.filterById(selectedCategory ?? '');
 
+  const setCategory = (value: string) => {
+    setSelectedCategory(value);
+    setItem('selectedCategory', value);
+  };
+
   useEffect(() => {
-    setSelectedCategory(defaultCategory?._id);
+    if (defaultCategory) {
+      setCategory(defaultCategory._id ?? '');
+    }
   }, [defaultCategory]);
 
   const data = useMemo(() => {
@@ -91,7 +100,7 @@ const Resume = ({navigation}) => {
                 value: item._id,
               }))}
               onChange={selectedItem => {
-                setSelectedCategory(selectedItem.value);
+                setCategory(selectedItem.value);
               }}
               defaultValue={
                 defaultCategory
@@ -111,9 +120,6 @@ const Resume = ({navigation}) => {
           <Card.Content>
             {!isEmpty(data.yValuesData) ? (
               <>
-                <Text variant="titleLarge" style={styles.cardText}>
-                  {categoryData.value}
-                </Text>
                 <Text variant="titleSmall" style={styles.cardText}>
                   Promedio {roundDouble(calculateAverage(data.yValuesData))} /{' '}
                   {data.yValuesData.length} registros

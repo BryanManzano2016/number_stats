@@ -10,6 +10,7 @@ import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import {formatDate} from '../utils/Format';
+import SearchSelector from '../components/SearchSelector';
 
 const History = ({navigation}) => {
   const valuesCategoryRepository = ValuesCategoryRepository();
@@ -50,20 +51,23 @@ const History = ({navigation}) => {
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>
           <View style={styles.view}>
-            <Picker
-              style={styles.picker}
-              selectedValue={selectedCategory}
-              onValueChange={(itemValue, _) => {
-                setSelectedCategory(itemValue);
-              }}>
-              {categories.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.value}
-                  value={item._id}
-                />
-              ))}
-            </Picker>
+            <SearchSelector
+              options={categories.map(item => ({
+                label: item.value,
+                value: item._id,
+              }))}
+              onChange={selectedItem => {
+                setSelectedCategory(selectedItem.value);
+              }}
+              defaultValue={
+                defaultCategory
+                  ? {
+                      label: defaultCategory.value,
+                      value: defaultCategory._id,
+                    }
+                  : undefined
+              }
+            />
           </View>
           {selectedCategory &&
             data.map(item => {
@@ -73,11 +77,12 @@ const History = ({navigation}) => {
                 <Card key={item._id} style={styles.card}>
                   <Card.Content>
                     <View style={styles.viewCol}>
-                      <Text style={styles.cardTitleText} variant="bodyLarge">
+                      <Text style={styles.cardText} variant="bodyLarge">
                         {dateValue}
                       </Text>
                       <View style={styles.viewCol}>
                         <IconButton
+                          iconColor="gray"
                           icon="pencil"
                           size={25}
                           style={styles.iconButtonCol}
@@ -89,6 +94,7 @@ const History = ({navigation}) => {
                           }}
                         />
                         <IconButton
+                          iconColor="gray"
                           icon="delete"
                           size={25}
                           style={styles.iconButtonCol}
@@ -114,7 +120,7 @@ const History = ({navigation}) => {
                         />
                       </View>
                     </View>
-                    <Text variant="bodyMedium">{item.value}</Text>
+                    <Text variant="titleMedium">{item.value}</Text>
                   </Card.Content>
                 </Card>
               );
