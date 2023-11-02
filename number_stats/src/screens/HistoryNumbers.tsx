@@ -27,9 +27,10 @@ const History = ({navigation}) => {
 
   const data = useMemo(() => {
     if (selectedCategory) {
-      return [
-        ...valuesCategoryRepository.getAllByIdCategory(selectedCategory),
-      ].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      return valuesCategoryRepository.getAllByIdCategory(
+        selectedCategory,
+        true,
+      );
     }
     return [];
   }, [selectedCategory, valuesCategoryRepository]);

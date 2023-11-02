@@ -16,11 +16,12 @@ const ValuesCategoryRepository = () => {
     });
   };
 
-  const saveBulk = (idCategory: string, values: number[]) => {
+  const saveBulk = (idCategory: string, values: number[], dateValue: Date) => {
+    depurateValues(idCategory);
     realm.write(() => {
       let index = 0;
       for (const value of values) {
-        const date = new Date(new Date().getTime() + index * 1000);
+        const date = new Date(dateValue.getTime() + index * 1000);
         realm.create(
           'VALUES_CATEGORIES',
           ValuesCategory.generate(idCategory, value, date),
@@ -28,7 +29,6 @@ const ValuesCategoryRepository = () => {
         index = index + 1;
       }
     });
-    depurateValues(idCategory);
   };
 
   const depurateValues = (idCategory: string) => {
@@ -47,9 +47,10 @@ const ValuesCategoryRepository = () => {
     }
   };
 
-  const update = (values: ValuesCategory, value: number) => {
+  const update = (values: ValuesCategory, value: number, date: Date) => {
     realm.write(() => {
       values.value = value;
+      values.createdAt = date;
       return values;
     });
   };
@@ -79,9 +80,10 @@ const ValuesCategoryRepository = () => {
     });
   };
 
-  const getAllByIdCategory = (idCategory: string) => {
-    const records = data.filtered('idCategory == $0', idCategory);
-    return records;
+  const getAllByIdCategory = (idCategory: string, ascOrder: boolean = true) => {
+    const dataByCategory = data.filtered('idCategory == $0', idCategory);
+    const dataSorder = dataByCategory.sorted([['createdAt', ascOrder]]);
+    return dataSorder;
   };
 
   return {

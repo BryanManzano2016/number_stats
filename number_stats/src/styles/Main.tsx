@@ -90,6 +90,9 @@ const styles = () => {
       borderRadius: 20,
     },
     lineChart: {},
+    datePicker: {
+      marginVertical: 5,
+    },
   });
 };
 

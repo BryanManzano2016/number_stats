@@ -32,19 +32,15 @@ const Resume = ({navigation}) => {
       if (categoryData) {
         const valuesDb = valuesCategoryRepository.getAllByIdCategory(
           categoryData._id,
+          false,
         );
-
-        const startRecords = Math.max(valuesDb.length - 250, 0);
-        const itemsOrderFinal = valuesDb.slice(startRecords);
 
         const xValuesData: string[] = [];
         const yValuesData: number[] = [];
 
-        itemsOrderFinal.forEach((values, index) => {
-          if (values.idCategory === categoryData._id) {
-            xValuesData.push(formatDate(values.createdAt, 'DAY_YEAR_SHORT'));
-            yValuesData.push(values.value);
-          }
+        valuesDb.forEach((values, index) => {
+          xValuesData.push(formatDate(values.createdAt, 'DAY_YEAR_SHORT'));
+          yValuesData.push(values.value);
         });
 
         return {xValuesData, yValuesData};

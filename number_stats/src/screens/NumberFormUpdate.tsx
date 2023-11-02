@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, Text, Appbar} from 'react-native-paper';
+import {View} from 'react-native';
 
 import Layout from '../components/Layout';
 import ControllerForm from '../components/ControllerForm';
@@ -11,6 +12,7 @@ import {stringToDouble} from '../utils/Format';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {get as getOrDefault} from 'lodash';
+import DatePicker from '../components/DatePicker';
 
 const NumberFormUpdate = ({navigation, route}) => {
   const {params} = route;
@@ -19,6 +21,12 @@ const NumberFormUpdate = ({navigation, route}) => {
   const valuesCategoryRepository = ValuesCategoryRepository();
   const category = categoryRepository.filterById(params.categoryId);
   const valueToUpdate = valuesCategoryRepository.filterById(params.id);
+
+  const [date, setDate] = useState<Date>(valueToUpdate?.createdAt);
+
+  const onChangeDate = (value: Date) => {
+    setDate(value);
+  };
 
   const {
     control,
@@ -40,7 +48,11 @@ const NumberFormUpdate = ({navigation, route}) => {
 
   const onSubmit = ({value}: {value: string}) => {
     if (category) {
-      valuesCategoryRepository.update(valueToUpdate, stringToDouble(value, 4));
+      valuesCategoryRepository.update(
+        valueToUpdate,
+        stringToDouble(value, 4),
+        date,
+      );
       control._reset();
       navigation.navigate('resume');
     }
@@ -57,7 +69,7 @@ const NumberFormUpdate = ({navigation, route}) => {
       }>
       <Text style={styles.textTitle}>{category.value}</Text>
       <Text style={styles.text}>
-        Ultimo valor: {valueToUpdate.value.toString()}
+        Ultimo valor: {(valueToUpdate?.value ?? '').toString()}
       </Text>
 
       <ControllerForm
@@ -70,6 +82,10 @@ const NumberFormUpdate = ({navigation, route}) => {
         keyboardType="numeric"
         label="Valor"
       />
+
+      <Text style={styles.textTitle}>Seleccione la fecha: </Text>
+
+      <DatePicker date={date} onDateChange={onChangeDate} />
 
       {messageErrorValue ? (
         <Text style={styles.text}>{messageErrorValue}</Text>

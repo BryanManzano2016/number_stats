@@ -14,6 +14,7 @@ import isEmpty from 'lodash/isEmpty';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {get as getOrDefault} from 'lodash';
+import DatePicker from '../components/DatePicker';
 
 const NumberForm = ({navigation}) => {
   const {
@@ -45,10 +46,15 @@ const NumberForm = ({navigation}) => {
   const defaultCategory = isEmpty(categories) ? undefined : categories[0];
 
   const [selectedCategory, setSelectedCategory] = useState<string>();
+  const [date, setDate] = useState<Date>(new Date());
 
   useEffect(() => {
     setSelectedCategory(defaultCategory?._id);
   }, [defaultCategory]);
+
+  const onChangeDate = (value: Date) => {
+    setDate(value);
+  };
 
   const onSubmit = ({value}: {value: string}) => {
     if (selectedCategory) {
@@ -56,9 +62,10 @@ const NumberForm = ({navigation}) => {
         item => item._id === selectedCategory,
       )[0];
       const listDoubles = value.split(',').map(item => stringToDouble(item, 4));
-      valuesCategoryRepository.saveBulk(recordDb._id, listDoubles);
+      valuesCategoryRepository.saveBulk(recordDb._id, listDoubles, date);
       control._reset();
       setSelectedCategory(defaultCategory?._id);
+      setDate(new Date());
       navigation.navigate('resume');
     }
   };
@@ -104,6 +111,8 @@ const NumberForm = ({navigation}) => {
             keyboardType="numeric"
             label="Valor"
           />
+
+          <DatePicker date={date} onDateChange={onChangeDate} />
 
           {messageErrorValue ? (
             <Text style={styles.text}>{messageErrorValue}</Text>
