@@ -17,7 +17,6 @@ const ValuesCategoryRepository = () => {
   };
 
   const saveBulk = (idCategory: string, values: number[], dateValue: Date) => {
-    depurateValues(idCategory);
     realm.write(() => {
       let index = 0;
       for (const value of values) {
@@ -29,12 +28,11 @@ const ValuesCategoryRepository = () => {
         index = index + 1;
       }
     });
+    depurateValues(idCategory);
   };
 
   const depurateValues = (idCategory: string) => {
-    const recordsFilter = filter(false).filter(
-      record => record.idCategory === idCategory,
-    );
+    const recordsFilter = getAllByIdCategory(idCategory, true);
     const itemsToDelete = !isEmpty(recordsFilter)
       ? recordsFilter.length - MAX_RECORDS
       : 0;
