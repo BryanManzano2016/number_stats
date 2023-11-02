@@ -32,14 +32,16 @@ const Resume = ({navigation}) => {
       if (categoryData) {
         const valuesDb = valuesCategoryRepository.getAllByIdCategory(
           categoryData._id,
-          false,
+          true,
         );
 
         const xValuesData: string[] = [];
         const yValuesData: number[] = [];
 
         valuesDb.forEach((values, index) => {
-          xValuesData.push(formatDate(values.createdAt, 'DAY_YEAR_SHORT'));
+          xValuesData.push(
+            formatDate(new Date(values.createdAt), 'DAY_YEAR_SHORT'),
+          );
           yValuesData.push(values.value);
         });
 

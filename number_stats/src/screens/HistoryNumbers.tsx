@@ -29,7 +29,7 @@ const History = ({navigation}) => {
     if (selectedCategory) {
       return valuesCategoryRepository.getAllByIdCategory(
         selectedCategory,
-        true,
+        false,
       );
     }
     return [];
@@ -67,8 +67,8 @@ const History = ({navigation}) => {
           </View>
           {selectedCategory &&
             data.map(item => {
-              const createtAt = getOrDefaut(item, 'createdAt', Date());
-              const dateValue = formatDate(createtAt as Date, 'FULL');
+              const createtAt = getOrDefaut(item, 'createdAt', 0);
+              const dateValue = formatDate(new Date(createtAt) as Date, 'FULL');
               return (
                 <Card key={item._id} style={styles.card}>
                   <Card.Content>

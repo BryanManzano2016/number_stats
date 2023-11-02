@@ -7,8 +7,9 @@ class ValuesCategory extends Realm.Object {
   idCategory!: string;
   value!: number;
   createdAt!: Date;
+  createdAtNumber!: number;
 
-  static generate(idCategory: string, value: number, createdAt: Date) {
+  static generate(idCategory: string, value: number, createdAt: number) {
     return {
       _id: uuid(),
       idCategory,
@@ -24,7 +25,7 @@ class ValuesCategory extends Realm.Object {
       _id: 'string',
       idCategory: 'string',
       value: 'double',
-      createdAt: 'date',
+      createdAt: 'int',
     },
   };
 }

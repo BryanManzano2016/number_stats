@@ -19,7 +19,7 @@ const Stack = createStackNavigator();
 const Index = () => {
   return (
     <PaperProvider>
-      <RealmProvider schema={[Category, ValuesCategory]}>
+      <RealmProvider schema={[Category, ValuesCategory]} schemaVersion={2}>
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen

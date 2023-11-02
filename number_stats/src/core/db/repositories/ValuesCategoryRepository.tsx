@@ -11,35 +11,50 @@ const ValuesCategoryRepository = () => {
     realm.write(() => {
       return realm.create(
         'VALUES_CATEGORIES',
-        ValuesCategory.generate(idCategory, value, new Date()),
+        ValuesCategory.generate(idCategory, value, new Date().getTime()),
       );
     });
   };
 
   const saveBulk = (idCategory: string, values: number[], dateValue: Date) => {
+    if (
+      idCategory === undefined ||
+      isEmpty(values) ||
+      dateValue === undefined
+    ) {
+      console.log('Error saveBulk');
+      return;
+    }
+    depurateValues(idCategory, values.length);
     realm.write(() => {
       let index = 0;
       for (const value of values) {
-        const date = new Date(dateValue.getTime() + index * 1000);
+        const date = new Date(dateValue.getTime() + index * 10);
         realm.create(
           'VALUES_CATEGORIES',
-          ValuesCategory.generate(idCategory, value, date),
+          ValuesCategory.generate(idCategory, value, date.getTime()),
         );
         index = index + 1;
       }
     });
-    depurateValues(idCategory);
   };
 
-  const depurateValues = (idCategory: string) => {
+  const depurateValues = (idCategory: string, insertRecords: number) => {
+    if (idCategory === undefined || insertRecords === undefined) {
+      console.log('Error depurateValues');
+      return;
+    }
     const recordsFilter = getAllByIdCategory(idCategory, true);
     const itemsToDelete = !isEmpty(recordsFilter)
-      ? recordsFilter.length - MAX_RECORDS
+      ? recordsFilter.length + insertRecords - MAX_RECORDS
       : 0;
     if (itemsToDelete > 0) {
       realm.write(() => {
         for (let index = 0; index < itemsToDelete; index++) {
-          realm.delete(recordsFilter[index]);
+          const candidate = recordsFilter[index];
+          if (candidate) {
+            realm.delete(candidate);
+          }
         }
       });
     }
@@ -79,9 +94,11 @@ const ValuesCategoryRepository = () => {
   };
 
   const getAllByIdCategory = (idCategory: string, ascOrder: boolean = true) => {
-    const dataByCategory = data.filtered('idCategory == $0', idCategory);
-    const dataSorder = dataByCategory.sorted([['createdAt', ascOrder]]);
-    return dataSorder;
+    const orderString = ascOrder ? 'ASC' : 'DESC';
+    const dataByCategory = data.filtered(
+      `idCategory == '${idCategory}' SORT(createdAt ${orderString})`,
+    );
+    return dataByCategory;
   };
 
   return {
