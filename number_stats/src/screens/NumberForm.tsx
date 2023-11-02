@@ -10,6 +10,7 @@ import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import styles from '../styles/Main';
 import {stringToDouble} from '../utils/Format';
+import {MAX_RECORDS_INSERT} from '../utils/Constants';
 import isEmpty from 'lodash/isEmpty';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -31,7 +32,15 @@ const NumberForm = ({navigation}) => {
           .string()
           .matches(
             /^(-?\d+(\.\d+)?)(,-?\d+(\.\d+)?)*$/,
-            'El valor debe ser formato #.#',
+            'Solo numeros separados por coma (Ejm: 1.1,2,3,...)',
+          )
+          .test(
+            'length-validator',
+            `No mas de ${MAX_RECORDS_INSERT} registros`,
+            function (value) {
+              const currentLength = value ? value.split(',').length : 0;
+              return currentLength > MAX_RECORDS_INSERT ? false : true;
+            },
           )
           .required('Requerido'),
       }),

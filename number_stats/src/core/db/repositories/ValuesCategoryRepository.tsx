@@ -22,14 +22,12 @@ const ValuesCategoryRepository = () => {
       isEmpty(values) ||
       dateValue === undefined
     ) {
-      console.log('Error saveBulk');
       return;
     }
-    depurateValues(idCategory, values.length);
     realm.write(() => {
       let index = 0;
       for (const value of values) {
-        const date = new Date(dateValue.getTime() + index * 10);
+        const date = new Date(dateValue.getTime() + index * 1);
         realm.create(
           'VALUES_CATEGORIES',
           ValuesCategory.generate(idCategory, value, date.getTime()),
@@ -37,23 +35,26 @@ const ValuesCategoryRepository = () => {
         index = index + 1;
       }
     });
+    depurateValues(idCategory, values.length);
   };
 
   const depurateValues = (idCategory: string, insertRecords: number) => {
     if (idCategory === undefined || insertRecords === undefined) {
-      console.log('Error depurateValues');
       return;
     }
     const recordsFilter = getAllByIdCategory(idCategory, true);
-    const itemsToDelete = !isEmpty(recordsFilter)
-      ? recordsFilter.length + insertRecords - MAX_RECORDS
-      : 0;
+    const itemsToDelete =
+      !isEmpty(recordsFilter) && recordsFilter.length - MAX_RECORDS > 0
+        ? recordsFilter.length - MAX_RECORDS
+        : 0;
     if (itemsToDelete > 0) {
       realm.write(() => {
-        for (let index = 0; index < itemsToDelete; index++) {
-          const candidate = recordsFilter[index];
-          if (candidate) {
-            realm.delete(candidate);
+        let index = 0;
+        for (const value of recordsFilter) {
+          realm.delete(value);
+          index++;
+          if (index >= itemsToDelete) {
+            break;
           }
         }
       });
