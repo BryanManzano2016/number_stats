@@ -90,6 +90,7 @@ const styles = () => {
       borderRadius: 20,
     },
     lineChart: {},
+    searchInputStyle: {},
     datePicker: {
       marginVertical: 5,
     },

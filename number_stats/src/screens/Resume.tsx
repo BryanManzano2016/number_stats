@@ -11,6 +11,7 @@ import {roundDouble, formatDate} from '../utils/Format';
 import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
+import SearchSelector from '../components/SearchSelector';
 
 const Resume = ({navigation}) => {
   const categoryRepository = CategoryRepository();
@@ -84,20 +85,23 @@ const Resume = ({navigation}) => {
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>
           <View style={styles.view}>
-            <Picker
-              style={styles.picker}
-              selectedValue={selectedCategory}
-              onValueChange={(itemValue, _) => {
-                setSelectedCategory(itemValue);
-              }}>
-              {categories.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.value}
-                  value={item._id}
-                />
-              ))}
-            </Picker>
+            <SearchSelector
+              options={categories.map(item => ({
+                label: item.value,
+                value: item._id,
+              }))}
+              onChange={selectedItem => {
+                setSelectedCategory(selectedItem.value);
+              }}
+              defaultValue={
+                defaultCategory
+                  ? {
+                      label: defaultCategory.value,
+                      value: defaultCategory._id,
+                    }
+                  : undefined
+              }
+            />
           </View>
         </>
       )}
