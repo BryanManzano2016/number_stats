@@ -61,7 +61,7 @@ const ValuesCategoryRepository = () => {
     }
   };
 
-  const update = (values: ValuesCategory, value: number, date: Date) => {
+  const update = (values: ValuesCategory, value: number, date: number) => {
     realm.write(() => {
       values.value = value;
       values.createdAt = date;

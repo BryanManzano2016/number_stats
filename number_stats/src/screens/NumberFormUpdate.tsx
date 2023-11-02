@@ -22,7 +22,7 @@ const NumberFormUpdate = ({navigation, route}) => {
   const category = categoryRepository.filterById(params.categoryId);
   const valueToUpdate = valuesCategoryRepository.filterById(params.id);
 
-  const [date, setDate] = useState<Date>(valueToUpdate?.createdAt);
+  const [date, setDate] = useState<Date>(new Date(valueToUpdate?.createdAt));
 
   const onChangeDate = (value: Date) => {
     setDate(value);
@@ -51,7 +51,7 @@ const NumberFormUpdate = ({navigation, route}) => {
       valuesCategoryRepository.update(
         valueToUpdate,
         stringToDouble(value, 4),
-        date,
+        date.getTime(),
       );
       control._reset();
       navigation.navigate('resume');
