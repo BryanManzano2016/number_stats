@@ -57,6 +57,7 @@ const CategoriesCreate = ({navigation, route}) => {
 
   return (
     <Layout
+      route={route}
       headers={
         <>
           <Appbar.BackAction onPress={navigation.goBack} />

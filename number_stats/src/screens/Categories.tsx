@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Alert} from 'react-native';
 import {Card, Text, IconButton, Appbar} from 'react-native-paper';
 import isEmpty from 'lodash/isEmpty';
@@ -7,14 +7,18 @@ import styles from '../styles/Main';
 import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
+import Toast from 'react-native-toast-message';
 
-const History = ({navigation}) => {
+const History = ({navigation, route}) => {
+  const {params} = route;
+
   const categoryRepository = CategoryRepository();
   const valuesCategoryRepository = ValuesCategoryRepository();
   const categories = categoryRepository.filter(false);
 
   return (
     <Layout
+      route={route}
       headers={
         <>
           <Appbar.Content title="Lista de categorias" />
@@ -26,7 +30,9 @@ const History = ({navigation}) => {
           />
         </>
       }>
-      {isEmpty(categories) && <Text style={styles.text}>Sin elementos</Text>}
+      {isEmpty(categories) && (
+        <Text style={styles.text}>No tiene categorias registradas</Text>
+      )}
       {categories.map(item => (
         <Card key={item._id} style={styles.card}>
           <Card.Content>

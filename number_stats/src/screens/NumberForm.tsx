@@ -17,7 +17,7 @@ import {get as getOrDefault} from 'lodash';
 import DatePicker from '../components/DatePicker';
 import SearchSelector from '../components/SearchSelector';
 
-const NumberForm = ({navigation}) => {
+const NumberForm = ({navigation, route}) => {
   const {
     control,
     handleSubmit,
@@ -75,7 +75,7 @@ const NumberForm = ({navigation}) => {
       control._reset();
       setSelectedCategory(defaultCategory?._id);
       setDate(new Date());
-      navigation.navigate('resume');
+      // navigation.navigate('resume');
     }
   };
 
@@ -83,13 +83,14 @@ const NumberForm = ({navigation}) => {
 
   return (
     <Layout
+      route={route}
       headers={
         <>
           <Appbar.Content title="Registro" />
         </>
       }>
       {isEmpty(categories) ? (
-        <Text style={styles.text}>No tiene categorias para registrar</Text>
+        <Text style={styles.text}>No tiene categorias registradas</Text>
       ) : (
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>

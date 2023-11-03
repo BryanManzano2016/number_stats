@@ -10,8 +10,10 @@ import styles from '../styles/Main';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {get as getOrDefault} from 'lodash';
+import Toast from 'react-native-toast-message';
+import {setItem} from '../core/SimpleStorage';
 
-const CategoriesCreate = ({navigation}) => {
+const CategoriesCreate = ({navigation, route}) => {
   const categoryRepository = CategoryRepository();
 
   const {
@@ -35,19 +37,14 @@ const CategoriesCreate = ({navigation}) => {
   const onSubmit = ({name}: {name: string}) => {
     const elementExists = categoryRepository.filterByValue(name);
     if (elementExists === undefined) {
+      setItem('toastMessage', 'hi');
       categoryRepository.save(name);
       navigation.navigate('categories');
     } else {
-      Alert.alert(
-        'Registro existente',
-        'Usar otro nombre',
-        [
-          {
-            text: 'Ok',
-          },
-        ],
-        {cancelable: true},
-      );
+      Toast.show({
+        type: 'error',
+        text1: 'Usar otro nombre',
+      });
     }
   };
 
@@ -55,6 +52,7 @@ const CategoriesCreate = ({navigation}) => {
 
   return (
     <Layout
+      route={route}
       headers={
         <>
           <Appbar.BackAction onPress={navigation.goBack} />

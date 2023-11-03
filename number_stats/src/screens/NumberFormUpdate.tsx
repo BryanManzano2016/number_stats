@@ -54,7 +54,7 @@ const NumberFormUpdate = ({navigation, route}) => {
         date.getTime(),
       );
       control._reset();
-      navigation.navigate('resume');
+      navigation.navigate('history');
     }
   };
 
@@ -62,6 +62,7 @@ const NumberFormUpdate = ({navigation, route}) => {
 
   return (
     <Layout
+      route={route}
       headers={
         <>
           <Appbar.Content title="Modificar registro" />

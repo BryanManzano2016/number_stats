@@ -12,7 +12,7 @@ import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepo
 import {formatDate} from '../utils/Format';
 import SearchSelector from '../components/SearchSelector';
 
-const History = ({navigation}) => {
+const History = ({navigation, route}) => {
   const valuesCategoryRepository = ValuesCategoryRepository();
   const categoryRepository = CategoryRepository();
 
@@ -38,6 +38,7 @@ const History = ({navigation}) => {
 
   return (
     <Layout
+      route={route}
       headers={
         <>
           <Appbar.Content title="Historial" />
@@ -69,7 +70,7 @@ const History = ({navigation}) => {
               }
             />
           </View>
-          {selectedCategory &&
+          {selectedCategory && !isEmpty(data) ? (
             data.map(item => {
               const createtAt = getOrDefaut(item, 'createdAt', 0);
               const dateValue = formatDate(new Date(createtAt) as Date, 'FULL');
@@ -124,7 +125,10 @@ const History = ({navigation}) => {
                   </Card.Content>
                 </Card>
               );
-            })}
+            })
+          ) : (
+            <Text style={styles.textTitle}>Sin datos</Text>
+          )}
         </>
       )}
     </Layout>

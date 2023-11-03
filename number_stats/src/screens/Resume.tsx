@@ -11,30 +11,24 @@ import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import SearchSelector from '../components/SearchSelector';
-import {setItem, getItem} from '../core/SimpleStorage';
 
-const Resume = ({navigation}) => {
+const Resume = ({route}) => {
   const categoryRepository = CategoryRepository();
   const valuesCategoryRepository = ValuesCategoryRepository();
 
   const categories = categoryRepository.filter(false);
   const defaultCategory = isEmpty(categories) ? undefined : categories[0];
 
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    getItem('selectedCategory', ''),
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string>();
 
   const categoryData = categoryRepository.filterById(selectedCategory ?? '');
 
   const setCategory = (value: string) => {
     setSelectedCategory(value);
-    setItem('selectedCategory', value);
   };
 
   useEffect(() => {
-    if (defaultCategory) {
-      setCategory(defaultCategory._id ?? '');
-    }
+    setCategory(defaultCategory?._id ?? '');
   }, [defaultCategory]);
 
   const data = useMemo(() => {
@@ -83,6 +77,7 @@ const Resume = ({navigation}) => {
 
   return (
     <Layout
+      route={route}
       headers={
         <>
           <Appbar.Content title="Resumen" />
@@ -127,9 +122,7 @@ const Resume = ({navigation}) => {
                 {chart}
               </>
             ) : (
-              <Text style={styles.cardText}>
-                Sin datos para {categoryData.value}
-              </Text>
+              <Text style={styles.cardText}>Sin datos</Text>
             )}
           </Card.Content>
         </Card>
