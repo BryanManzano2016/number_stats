@@ -20,6 +20,15 @@ export const setItem = (
   storage.set(key, value);
 };
 
+export const setItems = (items: any[]): void => {
+  items.forEach(({key, value}) => {
+    if (key === undefined) {
+      return;
+    }
+    setItem(key, value);
+  });
+};
+
 export const deleteItem = (key: string): void => {
   storage.delete(key);
 };

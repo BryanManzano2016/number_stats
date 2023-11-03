@@ -5,21 +5,13 @@ import Categories from '../screens/Categories';
 import NumberForm from '../screens/NumberForm';
 import Resume from '../screens/Resume';
 import HistoryNumbers from '../screens/HistoryNumbers';
-import {getItem, setItem} from '../core/SimpleStorage';
-import Toast from 'react-native-toast-message';
+import {printToast} from './Actions';
 
 const Tab = createBottomTabNavigator();
 
 const HomeStack = ({route}) => {
   useEffect(() => {
-    const message = getItem('toastMessage');
-    if (!['', undefined].includes(message)) {
-      Toast.show({
-        type: 'error',
-        text1: message,
-      });
-      setItem('toastMessage', '');
-    }
+    printToast();
   }, [route]);
 
   return (

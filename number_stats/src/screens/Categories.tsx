@@ -67,6 +67,10 @@ const History = ({navigation, route}) => {
                               item._id,
                             );
                             categoryRepository.deleteRecord(item);
+                            Toast.show({
+                              type: 'success',
+                              text1: 'Registro eliminado',
+                            });
                           },
                         },
                         {

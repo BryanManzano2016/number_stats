@@ -44,7 +44,7 @@ const Index = () => {
               component={NumberFormUpdate}
             />
           </Stack.Navigator>
-          <Toast position="bottom" bottomOffset={20} />
+          <Toast position="bottom" bottomOffset={20} visibilityTime={3000} />
         </NavigationContainer>
       </RealmProvider>
     </PaperProvider>

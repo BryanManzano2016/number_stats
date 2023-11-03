@@ -11,6 +11,7 @@ import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import {formatDate} from '../utils/Format';
 import SearchSelector from '../components/SearchSelector';
+import Toast from 'react-native-toast-message';
 
 const History = ({navigation, route}) => {
   const valuesCategoryRepository = ValuesCategoryRepository();
@@ -108,6 +109,10 @@ const History = ({navigation, route}) => {
                                   text: 'Si',
                                   onPress: () => {
                                     valuesCategoryRepository.deleteRecord(item);
+                                    Toast.show({
+                                      type: 'success',
+                                      text1: 'Registro eliminado',
+                                    });
                                   },
                                 },
                                 {

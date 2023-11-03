@@ -10,6 +10,7 @@ import styles from '../styles/Main';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {get as getOrDefault} from 'lodash';
+import {setItems} from '../core/SimpleStorage';
 
 const CategoriesCreate = ({navigation, route}) => {
   const {params} = route;
@@ -38,6 +39,10 @@ const CategoriesCreate = ({navigation, route}) => {
   const onSubmit = ({name}: {name: string}) => {
     const elementExists = categoryRepository.filterByValue(name);
     if (elementExists === undefined) {
+      setItems([
+        {key: 'toastMessage', value: 'Registro modificado'},
+        {key: 'toastMessageType', value: 'success'},
+      ]);
       categoryRepository.update(element, name);
       navigation.navigate('categories');
     } else {

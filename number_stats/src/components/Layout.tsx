@@ -3,19 +3,11 @@ import {ScrollView, SafeAreaView} from 'react-native';
 import {Appbar} from 'react-native-paper';
 
 import styles from './../styles/Main';
-import Toast from 'react-native-toast-message';
-import {getItem, setItem} from '../core/SimpleStorage';
+import {printToast} from './Actions';
 
 const Layout = ({headers, children, route}) => {
   useEffect(() => {
-    const message = getItem('toastMessage');
-    if (!['', undefined].includes(message)) {
-      Toast.show({
-        type: 'error',
-        text1: message,
-      });
-      setItem('toastMessage', '');
-    }
+    printToast();
   }, [route]);
 
   return (

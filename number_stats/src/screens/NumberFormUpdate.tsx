@@ -13,6 +13,7 @@ import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {get as getOrDefault} from 'lodash';
 import DatePicker from '../components/DatePicker';
+import {setItems} from '../core/SimpleStorage';
 
 const NumberFormUpdate = ({navigation, route}) => {
   const {params} = route;
@@ -48,6 +49,10 @@ const NumberFormUpdate = ({navigation, route}) => {
 
   const onSubmit = ({value}: {value: string}) => {
     if (category) {
+      setItems([
+        {key: 'toastMessage', value: 'Registro modificado'},
+        {key: 'toastMessageType', value: 'success'},
+      ]);
       valuesCategoryRepository.update(
         valueToUpdate,
         stringToDouble(value, 4),

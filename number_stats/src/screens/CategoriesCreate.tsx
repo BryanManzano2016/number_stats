@@ -11,7 +11,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {get as getOrDefault} from 'lodash';
 import Toast from 'react-native-toast-message';
-import {setItem} from '../core/SimpleStorage';
+import {setItem, setItems} from '../core/SimpleStorage';
 
 const CategoriesCreate = ({navigation, route}) => {
   const categoryRepository = CategoryRepository();
@@ -37,7 +37,10 @@ const CategoriesCreate = ({navigation, route}) => {
   const onSubmit = ({name}: {name: string}) => {
     const elementExists = categoryRepository.filterByValue(name);
     if (elementExists === undefined) {
-      setItem('toastMessage', 'hi');
+      setItems([
+        {key: 'toastMessage', value: 'Registro creado'},
+        {key: 'toastMessageType', value: 'success'},
+      ]);
       categoryRepository.save(name);
       navigation.navigate('categories');
     } else {
