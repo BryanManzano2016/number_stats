@@ -3,8 +3,6 @@ import {View, Alert} from 'react-native';
 import {Card, Text, IconButton, Appbar} from 'react-native-paper';
 import isEmpty from 'lodash/isEmpty';
 import getOrDefaut from 'lodash/get';
-import {Picker} from '@react-native-picker/picker';
-
 import styles from '../styles/Main';
 import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';

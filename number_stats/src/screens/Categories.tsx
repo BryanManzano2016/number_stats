@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, Alert} from 'react-native';
 import {Card, Text, IconButton, Appbar} from 'react-native-paper';
 import isEmpty from 'lodash/isEmpty';
@@ -10,8 +10,6 @@ import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepo
 import Toast from 'react-native-toast-message';
 
 const History = ({navigation, route}) => {
-  const {params} = route;
-
   const categoryRepository = CategoryRepository();
   const valuesCategoryRepository = ValuesCategoryRepository();
   const categories = categoryRepository.filter(false);

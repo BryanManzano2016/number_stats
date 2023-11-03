@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, Text, Appbar} from 'react-native-paper';
-import {View} from 'react-native';
-
 import Layout from '../components/Layout';
 import ControllerForm from '../components/ControllerForm';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';

@@ -16,10 +16,9 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {get as getOrDefault} from 'lodash';
 import DatePicker from '../components/DatePicker';
 import SearchSelector from '../components/SearchSelector';
-import {setItems} from '../core/SimpleStorage';
 import Toast from 'react-native-toast-message';
 
-const NumberForm = ({navigation, route}) => {
+const NumberForm = ({route}) => {
   const {
     control,
     handleSubmit,

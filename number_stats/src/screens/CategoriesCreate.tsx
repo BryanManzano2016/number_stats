@@ -1,7 +1,6 @@
 import React from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, Text, Appbar} from 'react-native-paper';
-import {Alert} from 'react-native';
 
 import Layout from '../components/Layout';
 import ControllerForm from '../components/ControllerForm';
@@ -11,7 +10,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {get as getOrDefault} from 'lodash';
 import Toast from 'react-native-toast-message';
-import {setItem, setItems} from '../core/SimpleStorage';
+import {setItems} from '../core/SimpleStorage';
 
 const CategoriesCreate = ({navigation, route}) => {
   const categoryRepository = CategoryRepository();
