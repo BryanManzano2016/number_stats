@@ -13,7 +13,7 @@ import NumberFormUpdate from '../screens/NumberFormUpdate';
 
 import Category from '../core/db/models/Category';
 import ValuesCategory from '../core/db/models/ValuesCategory';
-import Toast from 'react-native-toast-message';
+import ToastOwn from './ToastOwn';
 
 const Stack = createStackNavigator();
 
@@ -44,7 +44,7 @@ const Index = () => {
               component={NumberFormUpdate}
             />
           </Stack.Navigator>
-          <Toast position="bottom" bottomOffset={20} visibilityTime={3000} />
+          <ToastOwn />
         </NavigationContainer>
       </RealmProvider>
     </PaperProvider>

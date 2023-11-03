@@ -53,14 +53,13 @@ const NumberForm = ({navigation, route}) => {
   const valuesCategoryRepository = ValuesCategoryRepository();
 
   const categories = categoryRepository.filter(false);
-
   const defaultCategory = isEmpty(categories) ? undefined : categories[0];
 
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const [date, setDate] = useState<Date>(new Date());
 
   useEffect(() => {
-    setSelectedCategory(defaultCategory?._id);
+    setSelectedCategory(defaultCategory?._id ?? '');
   }, [defaultCategory]);
 
   const onChangeDate = (value: Date) => {
@@ -75,7 +74,6 @@ const NumberForm = ({navigation, route}) => {
       const listDoubles = value.split(',').map(item => stringToDouble(item, 4));
       valuesCategoryRepository.saveBulk(recordDb._id, listDoubles, date);
       control._reset();
-      setSelectedCategory(defaultCategory?._id);
       setDate(new Date());
       Toast.show({
         type: 'success',

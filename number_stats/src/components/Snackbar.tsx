@@ -11,7 +11,6 @@ const SnackBar = () => {
       duration={5000}
       visible={isVisible}
       onDismiss={() => {
-        console.log('oD');
         setItem('snackBarVisible', false);
         setItem('snackBarText', '');
       }}>
