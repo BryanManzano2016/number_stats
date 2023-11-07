@@ -15,8 +15,6 @@ import SelectDropdown from 'react-native-select-dropdown';
 import {resetDropdown} from './Utils';
 
 const History = ({navigation, route}) => {
-  console.log('History...');
-
   const dropdownRef = useRef<SelectDropdown>(null);
 
   const valuesCategoryRepository = ValuesCategoryRepository();

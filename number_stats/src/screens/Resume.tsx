@@ -31,16 +31,14 @@ const Resume = ({route}) => {
     );
   };
 
-  useEffect(
-    () =>
-      resetDropdown(
-        categories,
-        selectedCategorySelector,
-        setSelectedCategorySelector,
-        dropdownRef,
-      ),
-    [categories, selectedCategorySelector],
-  );
+  useEffect(() => {
+    resetDropdown(
+      categories,
+      selectedCategorySelector,
+      setSelectedCategorySelector,
+      dropdownRef,
+    );
+  }, [categories, selectedCategorySelector]);
 
   const data = useMemo(() => {
     try {
