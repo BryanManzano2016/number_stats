@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect} from 'react';
+import React, {useState, useMemo, useEffect, useRef} from 'react';
 import {Card, Text, Appbar} from 'react-native-paper';
 import {View} from 'react-native';
 import isEmpty from 'lodash/isEmpty';
@@ -11,38 +11,50 @@ import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import SearchSelector from '../components/SearchSelector';
+import {OptionSelector} from '../types/OptionSelector';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const Resume = ({route}) => {
+  const dropdownRef = useRef<SelectDropdown>();
+
   const categoryRepository = CategoryRepository();
   const valuesCategoryRepository = ValuesCategoryRepository();
 
   const categories = categoryRepository.filter(false);
-  const defaultCategory = isEmpty(categories) ? undefined : categories[0];
-
-  const [selectedCategory, setSelectedCategory] = useState<string>();
-
-  const categoryData = categoryRepository.filterById(selectedCategory ?? '');
-
+  const [selectedCategorySelector, setSelectedCategorySelector] = useState<
+    OptionSelector | undefined
+  >();
   const setCategory = (value: string) => {
-    setSelectedCategory(value);
+    setSelectedCategorySelector(
+      categoryRepository.toObject(categoryRepository.filterById(value ?? '')),
+    );
   };
 
   useEffect(() => {
-    setCategory(defaultCategory?._id ?? '');
-  }, [defaultCategory]);
+    const selected = [...categories].filter(
+      item => item._id === selectedCategorySelector?.value,
+    );
+    console.log({selected});
+    if (selectedCategorySelector !== undefined && isEmpty(selected)) {
+      setSelectedCategorySelector(undefined);
+      if (dropdownRef?.current) {
+        dropdownRef.current.reset();
+      }
+    }
+  }, [categories, selectedCategorySelector]);
 
   const data = useMemo(() => {
     try {
-      if (categoryData) {
+      if (selectedCategorySelector) {
         const valuesDb = valuesCategoryRepository.getAllByIdCategory(
-          categoryData._id,
+          selectedCategorySelector.value,
           true,
         );
 
         const xValuesData: string[] = [];
         const yValuesData: number[] = [];
 
-        valuesDb.forEach((values, index) => {
+        valuesDb.forEach(values => {
           xValuesData.push(
             formatDate(new Date(values.createdAt), 'DAY_YEAR_SHORT'),
           );
@@ -55,7 +67,7 @@ const Resume = ({route}) => {
       console.log('Error groupValues', error);
     }
     return {xValuesData: [], yValuesData: []};
-  }, [categoryData, valuesCategoryRepository]);
+  }, [selectedCategorySelector, valuesCategoryRepository]);
 
   const chart = useMemo(() => {
     try {
@@ -75,14 +87,10 @@ const Resume = ({route}) => {
     return <></>;
   }, [data]);
 
+  console.log(selectedCategorySelector);
+
   return (
-    <Layout
-      route={route}
-      headers={
-        <>
-          <Appbar.Content title="Resumen" />
-        </>
-      }>
+    <Layout route={route} headers={<Appbar.Content title="Resumen" />}>
       {isEmpty(categories) ? (
         <Text style={styles.text}>Sin datos para mostrar</Text>
       ) : (
@@ -97,21 +105,15 @@ const Resume = ({route}) => {
               onChange={selectedItem => {
                 setCategory(selectedItem.value);
               }}
-              defaultValue={
-                defaultCategory
-                  ? {
-                      label: defaultCategory.value,
-                      value: defaultCategory._id,
-                    }
-                  : undefined
-              }
+              defaultValue={selectedCategorySelector}
+              dropdownRef={dropdownRef}
             />
           </View>
         </>
       )}
 
-      {categoryData && (
-        <Card style={styles.card} key={categoryData._id}>
+      {selectedCategorySelector && (
+        <Card style={styles.card} key={selectedCategorySelector.value}>
           <Card.Content>
             {!isEmpty(data.yValuesData) ? (
               <>

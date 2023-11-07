@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {LegacyRef} from 'react';
 import {View} from 'react-native';
 import styles from '../styles/Main';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -8,10 +8,12 @@ const SearchSelector = ({
   options,
   onChange,
   defaultValue,
+  dropdownRef,
 }: {
   options: object[];
   onChange: (selectedItem: {label: string; value: string}) => void;
   defaultValue: {label: string; value: string} | undefined;
+  dropdownRef: LegacyRef<SelectDropdown>;
 }) => {
   return (
     <View style={styles.view}>
@@ -38,6 +40,7 @@ const SearchSelector = ({
             />
           );
         }}
+        ref={dropdownRef}
       />
     </View>
   );

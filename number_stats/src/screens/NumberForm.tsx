@@ -105,14 +105,6 @@ const NumberForm = ({route}) => {
               onChange={selectedItem => {
                 setSelectedCategory(selectedItem.value);
               }}
-              defaultValue={
-                defaultCategory
-                  ? {
-                      label: defaultCategory.value,
-                      value: defaultCategory._id,
-                    }
-                  : undefined
-              }
             />
           </View>
 

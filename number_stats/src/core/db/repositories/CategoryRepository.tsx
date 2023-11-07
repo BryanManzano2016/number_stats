@@ -36,7 +36,22 @@ const CategoryRepository = () => {
     });
   };
 
-  return {save, filter, filterById, deleteRecord, filterByValue, update};
+  const toObject = (element: Category) => {
+    if (element === undefined) {
+      return undefined;
+    }
+    return {label: element.value, value: element._id};
+  };
+
+  return {
+    save,
+    filter,
+    filterById,
+    deleteRecord,
+    filterByValue,
+    update,
+    toObject,
+  };
 };
 
 export default CategoryRepository;
