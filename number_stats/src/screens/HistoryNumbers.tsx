@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect} from 'react';
+import React, {useState, useMemo, useEffect, useRef} from 'react';
 import {View, Alert} from 'react-native';
 import {Card, Text, IconButton, Appbar} from 'react-native-paper';
 import isEmpty from 'lodash/isEmpty';
@@ -10,43 +10,55 @@ import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepo
 import {formatDate} from '../utils/Format';
 import SearchSelector from '../components/SearchSelector';
 import Toast from 'react-native-toast-message';
+import {OptionSelector} from '../types/OptionSelector';
+import SelectDropdown from 'react-native-select-dropdown';
+import {resetDropdown} from './Utils';
 
 const History = ({navigation, route}) => {
+  console.log('History...');
+
+  const dropdownRef = useRef<SelectDropdown>(null);
+
   const valuesCategoryRepository = ValuesCategoryRepository();
   const categoryRepository = CategoryRepository();
 
   const categories = categoryRepository.filter(false);
 
-  const defaultCategory = isEmpty(categories) ? undefined : categories[0];
+  const [selectedCategorySelector, setSelectedCategorySelector] = useState<
+    OptionSelector | undefined
+  >();
 
-  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const setCategory = (value: string) => {
+    setSelectedCategorySelector(
+      categoryRepository.toObject(categoryRepository.filterById(value ?? '')),
+    );
+  };
 
-  useEffect(() => {
-    setSelectedCategory(defaultCategory?._id);
-  }, [defaultCategory]);
+  useEffect(
+    () =>
+      resetDropdown(
+        categories,
+        selectedCategorySelector,
+        setSelectedCategorySelector,
+        dropdownRef,
+      ),
+    [categories, selectedCategorySelector, categoryRepository],
+  );
 
   const data = useMemo(() => {
-    if (selectedCategory) {
+    if (selectedCategorySelector) {
       return valuesCategoryRepository.getAllByIdCategory(
-        selectedCategory,
+        selectedCategorySelector.value,
         false,
       );
     }
     return [];
-  }, [selectedCategory, valuesCategoryRepository]);
+  }, [selectedCategorySelector, valuesCategoryRepository]);
 
   return (
-    <Layout
-      route={route}
-      headers={
-        <>
-          <Appbar.Content title="Historial" />
-        </>
-      }>
+    <Layout route={route} headers={<Appbar.Content title="Historial" />}>
       {isEmpty(categories) ? (
-        <>
-          <Text style={styles.text}>No tiene categorias registradas</Text>
-        </>
+        <Text style={styles.text}>No tiene categorias registradas</Text>
       ) : (
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>
@@ -57,22 +69,17 @@ const History = ({navigation, route}) => {
                 value: item._id,
               }))}
               onChange={selectedItem => {
-                setSelectedCategory(selectedItem.value);
+                setCategory(selectedItem.value);
               }}
-              defaultValue={
-                defaultCategory
-                  ? {
-                      label: defaultCategory.value,
-                      value: defaultCategory._id,
-                    }
-                  : undefined
-              }
+              defaultValue={selectedCategorySelector}
+              dropdownRef={dropdownRef}
+              defaultLabel="Ingrese un texto"
             />
           </View>
-          {selectedCategory && !isEmpty(data) ? (
+          {selectedCategorySelector && !isEmpty(data) ? (
             data.map(item => {
               const createtAt = getOrDefaut(item, 'createdAt', 0);
-              const dateValue = formatDate(new Date(createtAt) as Date, 'FULL');
+              const dateValue = formatDate(new Date(createtAt), 'FULL');
               return (
                 <Card key={item._id} style={styles.card}>
                   <Card.Content>
