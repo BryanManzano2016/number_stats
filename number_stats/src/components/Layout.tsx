@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {ScrollView, SafeAreaView} from 'react-native';
 import {Appbar} from 'react-native-paper';
 
 import styles from './../styles/Main';
-import {printToast} from './Actions';
+import {printToast} from './Utils';
 
 const Layout = ({headers, children, route}) => {
   useEffect(() => {

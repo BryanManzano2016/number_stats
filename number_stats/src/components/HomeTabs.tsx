@@ -5,7 +5,7 @@ import Categories from '../screens/Categories';
 import NumberForm from '../screens/NumberForm';
 import Resume from '../screens/Resume';
 import HistoryNumbers from '../screens/HistoryNumbers';
-import {printToast} from './Actions';
+import {printToast} from './Utils';
 
 const Tab = createBottomTabNavigator();
 

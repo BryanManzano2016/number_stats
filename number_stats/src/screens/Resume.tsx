@@ -13,9 +13,10 @@ import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepo
 import SearchSelector from '../components/SearchSelector';
 import {OptionSelector} from '../types/OptionSelector';
 import SelectDropdown from 'react-native-select-dropdown';
+import {resetDropdown} from './Utils';
 
 const Resume = ({route}) => {
-  const dropdownRef = useRef<SelectDropdown>();
+  const dropdownRef = useRef<SelectDropdown>(null);
 
   const categoryRepository = CategoryRepository();
   const valuesCategoryRepository = ValuesCategoryRepository();
@@ -30,18 +31,16 @@ const Resume = ({route}) => {
     );
   };
 
-  useEffect(() => {
-    const selected = [...categories].filter(
-      item => item._id === selectedCategorySelector?.value,
-    );
-    console.log({selected});
-    if (selectedCategorySelector !== undefined && isEmpty(selected)) {
-      setSelectedCategorySelector(undefined);
-      if (dropdownRef?.current) {
-        dropdownRef.current.reset();
-      }
-    }
-  }, [categories, selectedCategorySelector]);
+  useEffect(
+    () =>
+      resetDropdown(
+        categories,
+        selectedCategorySelector,
+        setSelectedCategorySelector,
+        dropdownRef,
+      ),
+    [categories, selectedCategorySelector],
+  );
 
   const data = useMemo(() => {
     try {
@@ -87,8 +86,6 @@ const Resume = ({route}) => {
     return <></>;
   }, [data]);
 
-  console.log(selectedCategorySelector);
-
   return (
     <Layout route={route} headers={<Appbar.Content title="Resumen" />}>
       {isEmpty(categories) ? (
@@ -107,6 +104,7 @@ const Resume = ({route}) => {
               }}
               defaultValue={selectedCategorySelector}
               dropdownRef={dropdownRef}
+              defaultLabel="Ingrese un texto"
             />
           </View>
         </>

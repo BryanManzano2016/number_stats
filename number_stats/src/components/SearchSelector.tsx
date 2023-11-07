@@ -5,11 +5,13 @@ import SelectDropdown from 'react-native-select-dropdown';
 import Icons from '../components/Icons';
 
 const SearchSelector = ({
+  defaultLabel,
   options,
   onChange,
   defaultValue,
   dropdownRef,
 }: {
+  defaultLabel: string;
   options: object[];
   onChange: (selectedItem: {label: string; value: string}) => void;
   defaultValue: {label: string; value: string} | undefined;
@@ -28,9 +30,10 @@ const SearchSelector = ({
           return item.label;
         }}
         search
-        searchPlaceHolder={'Ingrese un texto'}
+        searchPlaceHolder={defaultLabel}
+        defaultButtonText={defaultLabel}
+        buttonTextStyle={styles.buttonTextStyle}
         searchPlaceHolderColor={'darkgrey'}
-        searchInputStyle={styles.searchInputStyle}
         renderDropdownIcon={isOpened => {
           return (
             <Icons

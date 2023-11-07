@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, Text, Appbar} from 'react-native-paper';
 import {View} from 'react-native';
@@ -17,6 +17,9 @@ import {get as getOrDefault} from 'lodash';
 import DatePicker from '../components/DatePicker';
 import SearchSelector from '../components/SearchSelector';
 import Toast from 'react-native-toast-message';
+import SelectDropdown from 'react-native-select-dropdown';
+import {OptionSelector} from '../types/OptionSelector';
+import {resetDropdown} from './Utils';
 
 const NumberForm = ({route}) => {
   const {
@@ -40,35 +43,49 @@ const NumberForm = ({route}) => {
             `No mas de ${MAX_RECORDS_INSERT} registros`,
             function (value) {
               const currentLength = value ? value.split(',').length : 0;
-              return currentLength > MAX_RECORDS_INSERT ? false : true;
+              return currentLength < MAX_RECORDS_INSERT;
             },
           )
           .required('Requerido'),
       }),
     ),
   });
+  const dropdownRef = useRef<SelectDropdown>(null);
 
   const categoryRepository = CategoryRepository();
   const valuesCategoryRepository = ValuesCategoryRepository();
-
   const categories = categoryRepository.filter(false);
-  const defaultCategory = isEmpty(categories) ? undefined : categories[0];
 
-  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const [selectedCategorySelector, setSelectedCategorySelector] = useState<
+    OptionSelector | undefined
+  >();
   const [date, setDate] = useState<Date>(new Date());
 
-  useEffect(() => {
-    setSelectedCategory(defaultCategory?._id ?? '');
-  }, [defaultCategory]);
+  const setCategory = (value: string) => {
+    setSelectedCategorySelector(
+      categoryRepository.toObject(categoryRepository.filterById(value ?? '')),
+    );
+  };
+
+  useEffect(
+    () =>
+      resetDropdown(
+        categories,
+        selectedCategorySelector,
+        setSelectedCategorySelector,
+        dropdownRef,
+      ),
+    [categories, selectedCategorySelector],
+  );
 
   const onChangeDate = (value: Date) => {
     setDate(value);
   };
 
   const onSubmit = ({value}: {value: string}) => {
-    if (selectedCategory) {
+    if (selectedCategorySelector) {
       const recordDb = categories.filter(
-        item => item._id === selectedCategory,
+        item => item._id === selectedCategorySelector.value,
       )[0];
       const listDoubles = value.split(',').map(item => stringToDouble(item, 4));
       valuesCategoryRepository.saveBulk(recordDb._id, listDoubles, date);
@@ -84,13 +101,7 @@ const NumberForm = ({route}) => {
   const messageErrorValue = getOrDefault(errors, 'value.message', '');
 
   return (
-    <Layout
-      route={route}
-      headers={
-        <>
-          <Appbar.Content title="Registro" />
-        </>
-      }>
+    <Layout route={route} headers={<Appbar.Content title="Registro" />}>
       {isEmpty(categories) ? (
         <Text style={styles.text}>No tiene categorias registradas</Text>
       ) : (
@@ -103,8 +114,11 @@ const NumberForm = ({route}) => {
                 value: item._id,
               }))}
               onChange={selectedItem => {
-                setSelectedCategory(selectedItem.value);
+                setCategory(selectedItem.value);
               }}
+              defaultValue={selectedCategorySelector}
+              dropdownRef={dropdownRef}
+              defaultLabel="Ingrese un texto"
             />
           </View>
 
@@ -129,7 +143,7 @@ const NumberForm = ({route}) => {
           )}
 
           <Button
-            disabled={['', undefined].includes(selectedCategory)}
+            disabled={selectedCategorySelector === undefined}
             mode="contained"
             onPress={handleSubmit(onSubmit)}>
             Guardar
