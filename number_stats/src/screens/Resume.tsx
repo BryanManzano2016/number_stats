@@ -13,7 +13,8 @@ import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepo
 import SearchSelector from '../components/SearchSelector';
 import {OptionSelector} from '../types/OptionSelector';
 import SelectDropdown from 'react-native-select-dropdown';
-import {resetDropdown} from './Utils';
+import {evaluateDropdown} from './Utils';
+import {getItem} from '../core/SimpleStorage';
 
 const Resume = ({route}) => {
   const dropdownRef = useRef<SelectDropdown>(null);
@@ -24,7 +25,12 @@ const Resume = ({route}) => {
   const categories = categoryRepository.filter(false);
   const [selectedCategorySelector, setSelectedCategorySelector] = useState<
     OptionSelector | undefined
-  >();
+  >(
+    categoryRepository.toObject(
+      categoryRepository.filterById(getItem('idCategory')),
+    ),
+  );
+
   const setCategory = (value: string) => {
     setSelectedCategorySelector(
       categoryRepository.toObject(categoryRepository.filterById(value ?? '')),
@@ -32,7 +38,7 @@ const Resume = ({route}) => {
   };
 
   useEffect(() => {
-    resetDropdown(
+    evaluateDropdown(
       categories,
       selectedCategorySelector,
       setSelectedCategorySelector,

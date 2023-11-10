@@ -12,7 +12,8 @@ import SearchSelector from '../components/SearchSelector';
 import Toast from 'react-native-toast-message';
 import {OptionSelector} from '../types/OptionSelector';
 import SelectDropdown from 'react-native-select-dropdown';
-import {resetDropdown} from './Utils';
+import {evaluateDropdown} from './Utils';
+import {getItem} from '../core/SimpleStorage';
 
 const History = ({navigation, route}) => {
   const dropdownRef = useRef<SelectDropdown>(null);
@@ -24,7 +25,11 @@ const History = ({navigation, route}) => {
 
   const [selectedCategorySelector, setSelectedCategorySelector] = useState<
     OptionSelector | undefined
-  >();
+  >(
+    categoryRepository.toObject(
+      categoryRepository.filterById(getItem('idCategory')),
+    ),
+  );
 
   const setCategory = (value: string) => {
     setSelectedCategorySelector(
@@ -34,7 +39,7 @@ const History = ({navigation, route}) => {
 
   useEffect(
     () =>
-      resetDropdown(
+      evaluateDropdown(
         categories,
         selectedCategorySelector,
         setSelectedCategorySelector,

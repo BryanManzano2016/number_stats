@@ -19,7 +19,8 @@ import SearchSelector from '../components/SearchSelector';
 import Toast from 'react-native-toast-message';
 import SelectDropdown from 'react-native-select-dropdown';
 import {OptionSelector} from '../types/OptionSelector';
-import {resetDropdown} from './Utils';
+import {evaluateDropdown} from './Utils';
+import {getItem} from '../core/SimpleStorage';
 
 const NumberForm = ({route}) => {
   const {
@@ -58,7 +59,11 @@ const NumberForm = ({route}) => {
 
   const [selectedCategorySelector, setSelectedCategorySelector] = useState<
     OptionSelector | undefined
-  >();
+  >(
+    categoryRepository.toObject(
+      categoryRepository.filterById(getItem('idCategory')),
+    ),
+  );
   const [date, setDate] = useState<Date>(new Date());
 
   const setCategory = (value: string) => {
@@ -69,7 +74,7 @@ const NumberForm = ({route}) => {
 
   useEffect(
     () =>
-      resetDropdown(
+      evaluateDropdown(
         categories,
         selectedCategorySelector,
         setSelectedCategorySelector,
