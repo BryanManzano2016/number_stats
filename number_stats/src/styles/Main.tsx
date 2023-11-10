@@ -99,6 +99,9 @@ const styles = () => {
     datePicker: {
       marginVertical: 5,
     },
+    keyboardAvoidingView: {
+      flex: 1,
+    },
   });
 };
 

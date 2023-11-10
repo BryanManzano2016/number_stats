@@ -16,7 +16,11 @@ const Layout = ({headers, children, route}) => {
         <>{headers}</>
       </Appbar.Header>
       <SafeAreaView style={styles.layout}>
-        <ScrollView style={styles.scrollView}>{children}</ScrollView>
+        <ScrollView
+          style={styles.scrollView}
+          keyboardShouldPersistTaps="handled">
+          {children}
+        </ScrollView>
       </SafeAreaView>
     </>
   );
