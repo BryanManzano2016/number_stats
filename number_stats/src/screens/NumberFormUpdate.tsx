@@ -10,8 +10,10 @@ import {stringToDouble} from '../utils/Format';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {get as getOrDefault} from 'lodash';
-import DatePicker from '../components/DatePicker';
 import {setItems} from '../core/SimpleStorage';
+import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
+import {FORMAT_DATES} from '../utils/Constants';
+import {evaluateError} from './Utils';
 
 const NumberFormUpdate = ({navigation, route}) => {
   const {params} = route;
@@ -23,10 +25,6 @@ const NumberFormUpdate = ({navigation, route}) => {
 
   const [date, setDate] = useState<Date>(new Date(valueToUpdate?.createdAt));
 
-  const onChangeDate = (value: Date) => {
-    setDate(value);
-  };
-
   const {
     control,
     handleSubmit,
@@ -34,9 +32,22 @@ const NumberFormUpdate = ({navigation, route}) => {
   } = useForm({
     defaultValues: {
       value: getOrDefault(valueToUpdate, 'value', '').toString(),
+      date: dateToString(
+        new Date(valueToUpdate?.createdAt),
+        FORMAT_DATES.SIMPLE_DATE,
+      ),
     },
     resolver: yupResolver(
       yup.object().shape({
+        date: yup
+          .string()
+          .test(
+            'is-valid-date',
+            'Fecha debe ser dd/mm/aaaa hh:mm',
+            function (value) {
+              return isValidDateTime(value ?? '', FORMAT_DATES.SIMPLE_DATE);
+            },
+          ),
         value: yup
           .string()
           .matches(/^-?\d+(\.\d+)?$/, 'El valor debe ser formato #.#')
@@ -45,32 +56,27 @@ const NumberFormUpdate = ({navigation, route}) => {
     ),
   });
 
-  const onSubmit = ({value}: {value: string}) => {
+  const onSubmit = ({value, date}: {value: string; date: string}) => {
     if (category) {
       setItems([
         {key: 'toastMessage', value: 'Registro modificado'},
         {key: 'toastMessageType', value: 'success'},
       ]);
+      const dateSend = stringToDate(date);
       valuesCategoryRepository.update(
         valueToUpdate,
         stringToDouble(value, 4),
-        date.getTime(),
+        (dateSend ?? new Date()).getTime(),
       );
       control._reset();
       navigation.navigate('history');
     }
   };
 
-  const messageErrorValue = getOrDefault(errors, 'value.message', '');
-
   return (
     <Layout
       route={route}
-      headers={
-        <>
-          <Appbar.Content title="Modificar registro" />
-        </>
-      }>
+      headers={<Appbar.Content title="Modificar registro" />}>
       <Text style={styles.textTitle}>Categoria {category.value}</Text>
       <Text style={styles.textTitle}>
         Ultimo valor: {(valueToUpdate?.value ?? '').toString()}
@@ -87,15 +93,19 @@ const NumberFormUpdate = ({navigation, route}) => {
         label="Valor"
       />
 
-      <Text style={styles.textTitle}>Seleccione la fecha: </Text>
+      <ControllerForm
+        name="date"
+        control={control}
+        key={'date'}
+        maxLength={16}
+        placeHolder="dd/mm/aaaa hh:mm"
+        isRequired
+        keyboardType="numbers-and-punctuation"
+        label="Fecha"
+      />
 
-      <DatePicker date={date} onDateChange={onChangeDate} />
-
-      {messageErrorValue ? (
-        <Text style={styles.text}>{messageErrorValue}</Text>
-      ) : (
-        <></>
-      )}
+      {evaluateError(errors, 'value.message')}
+      {evaluateError(errors, 'date.message')}
 
       <Button
         disabled={category === undefined}

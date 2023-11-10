@@ -20,11 +20,8 @@ export const stringToDate = (
     format === undefined ||
     !isValidDateTime(value, format)
   ) {
-    console.log('stringToDate u');
     return undefined;
   }
-  console.log('stringToDate ', moment(value, format).toDate());
-
   return moment(value, format).toDate();
 };
 

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useForm} from 'react-hook-form';
-import {Button, Text, Appbar, TextInput} from 'react-native-paper';
+import {Button, Text, Appbar} from 'react-native-paper';
 import {View} from 'react-native';
 
 import Layout from '../components/Layout';
@@ -13,8 +13,6 @@ import {FORMAT_DATES, MAX_RECORDS_INSERT} from '../utils/Constants';
 import isEmpty from 'lodash/isEmpty';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {get as getOrDefault} from 'lodash';
-import DatePicker from '../components/DatePicker';
 import SearchSelector from '../components/SearchSelector';
 import Toast from 'react-native-toast-message';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -39,7 +37,7 @@ const NumberForm = ({route}) => {
           .string()
           .test(
             'is-valid-date',
-            'Formato de fecha inválido. Debe ser dd/mm/aaaa hh:mm',
+            'Fecha debe ser dd/mm/aaaa hh:mm',
             function (value) {
               return isValidDateTime(value ?? '', FORMAT_DATES.SIMPLE_DATE);
             },
