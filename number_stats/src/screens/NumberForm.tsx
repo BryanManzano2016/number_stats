@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useForm} from 'react-hook-form';
-import {Button, Text, Appbar} from 'react-native-paper';
+import {Button, Text, Appbar, TextInput} from 'react-native-paper';
 import {View} from 'react-native';
 
 import Layout from '../components/Layout';
@@ -9,7 +9,7 @@ import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import styles from '../styles/Main';
 import {stringToDouble} from '../utils/Format';
-import {MAX_RECORDS_INSERT} from '../utils/Constants';
+import {FORMAT_DATES, MAX_RECORDS_INSERT} from '../utils/Constants';
 import isEmpty from 'lodash/isEmpty';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -19,8 +19,9 @@ import SearchSelector from '../components/SearchSelector';
 import Toast from 'react-native-toast-message';
 import SelectDropdown from 'react-native-select-dropdown';
 import {OptionSelector} from '../types/OptionSelector';
-import {evaluateDropdown} from './Utils';
+import {evaluateDropdown, evaluateError} from './Utils';
 import {getItem} from '../core/SimpleStorage';
+import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
 
 const NumberForm = ({route}) => {
   const {
@@ -30,9 +31,19 @@ const NumberForm = ({route}) => {
   } = useForm({
     defaultValues: {
       value: '',
+      date: dateToString(new Date(), FORMAT_DATES.SIMPLE_DATE),
     },
     resolver: yupResolver(
       yup.object().shape({
+        date: yup
+          .string()
+          .test(
+            'is-valid-date',
+            'Formato de fecha inválido. Debe ser dd/mm/aaaa hh:mm',
+            function (value) {
+              return isValidDateTime(value ?? '', FORMAT_DATES.SIMPLE_DATE);
+            },
+          ),
         value: yup
           .string()
           .matches(
@@ -64,8 +75,6 @@ const NumberForm = ({route}) => {
       categoryRepository.filterById(getItem('idCategory')),
     ),
   );
-  const [date, setDate] = useState<Date>(new Date());
-
   const setCategory = (value: string) => {
     setSelectedCategorySelector(
       categoryRepository.toObject(categoryRepository.filterById(value ?? '')),
@@ -83,27 +92,21 @@ const NumberForm = ({route}) => {
     [categories, selectedCategorySelector],
   );
 
-  const onChangeDate = (value: Date) => {
-    setDate(value);
-  };
-
-  const onSubmit = ({value}: {value: string}) => {
+  const onSubmit = ({value, date}: {value: string; date: string}) => {
     if (selectedCategorySelector) {
       const recordDb = categories.filter(
         item => item._id === selectedCategorySelector.value,
       )[0];
       const listDoubles = value.split(',').map(item => stringToDouble(item, 4));
-      valuesCategoryRepository.saveBulk(recordDb._id, listDoubles, date);
+      const dateSend = stringToDate(date) ?? new Date();
+      valuesCategoryRepository.saveBulk(recordDb._id, listDoubles, dateSend);
       control._reset();
-      setDate(new Date());
       Toast.show({
         type: 'success',
         text1: 'Registro creado',
       });
     }
   };
-
-  const messageErrorValue = getOrDefault(errors, 'value.message', '');
 
   return (
     <Layout route={route} headers={<Appbar.Content title="Registro" />}>
@@ -138,14 +141,19 @@ const NumberForm = ({route}) => {
             label="Valor"
           />
 
-          <Text style={styles.textTitle}>Seleccione una fecha</Text>
-          <DatePicker date={date} onDateChange={onChangeDate} />
+          <ControllerForm
+            name="date"
+            control={control}
+            key={'date'}
+            maxLength={16}
+            placeHolder="dd/mm/aaaa hh:mm"
+            isRequired
+            keyboardType="numbers-and-punctuation"
+            label="Fecha"
+          />
 
-          {messageErrorValue ? (
-            <Text style={styles.text}>{messageErrorValue}</Text>
-          ) : (
-            <></>
-          )}
+          {evaluateError(errors, 'value.message')}
+          {evaluateError(errors, 'date.message')}
 
           <Button
             disabled={selectedCategorySelector === undefined}

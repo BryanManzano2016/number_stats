@@ -1,9 +1,12 @@
+import React from 'react';
 import SelectDropdown from 'react-native-select-dropdown';
 import {OptionSelector} from '../types/OptionSelector';
-import {isEmpty} from 'lodash';
+import {isEmpty, get as getOrDefault} from 'lodash';
 import Category from '../core/db/models/Category';
 import {Results} from 'realm/dist/bundle';
 import {setItem} from '../core/SimpleStorage';
+import {Text} from 'react-native-paper';
+import styles from '../styles/Main';
 
 export const evaluateDropdown = (
   categories: Results<Category> | undefined,
@@ -29,4 +32,13 @@ export const evaluateDropdown = (
       setItem('idCategory', selectedList[0]._id);
     }
   }
+};
+
+export const evaluateError = (errors: object, path: string) => {
+  const messageError = getOrDefault(errors, path, '');
+  return (
+    <>
+      {messageError ? <Text style={styles.text}>{messageError}</Text> : <></>}
+    </>
+  );
 };

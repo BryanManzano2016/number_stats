@@ -16,7 +16,11 @@ const ValuesCategoryRepository = () => {
     });
   };
 
-  const saveBulk = (idCategory: string, values: number[], dateValue: Date) => {
+  const saveBulk = (
+    idCategory: string,
+    values: number[],
+    dateValue: Date | undefined,
+  ) => {
     if (
       idCategory === undefined ||
       isEmpty(values) ||
