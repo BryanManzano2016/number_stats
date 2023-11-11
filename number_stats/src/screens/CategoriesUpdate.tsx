@@ -86,7 +86,10 @@ const CategoriesCreate = ({navigation, route}) => {
         <></>
       )}
 
-      <Button mode="contained" onPress={handleSubmit(onSubmit)}>
+      <Button
+        style={styles.button}
+        mode="contained"
+        onPress={handleSubmit(onSubmit)}>
         Guardar
       </Button>
     </Layout>

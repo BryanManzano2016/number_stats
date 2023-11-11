@@ -1,6 +1,6 @@
 import React, {useState, useMemo, useEffect, useRef} from 'react';
 import {View, Alert} from 'react-native';
-import {Card, Text, IconButton} from 'react-native-paper';
+import {Card, Text, IconButton, Divider} from 'react-native-paper';
 import isEmpty from 'lodash/isEmpty';
 import getOrDefaut from 'lodash/get';
 import styles from '../styles/Main';
@@ -12,9 +12,8 @@ import SearchSelector from '../components/SearchSelector';
 import Toast from 'react-native-toast-message';
 import {OptionSelector} from '../types/OptionSelector';
 import SelectDropdown from 'react-native-select-dropdown';
-import {evaluateDropdown} from './Utils';
+import {evaluateDropdown, showCreateCategory, showCreateRecord} from './Utils';
 import {getItem} from '../core/SimpleStorage';
-import {ButtonComponent} from '../components/ButtonComponent';
 
 const History = ({navigation, route}) => {
   const dropdownRef = useRef<SelectDropdown>(null);
@@ -62,16 +61,7 @@ const History = ({navigation, route}) => {
   return (
     <Layout route={route}>
       {isEmpty(categories) ? (
-        <>
-          <Text style={styles.text}>No tiene categorias registradas</Text>
-          <ButtonComponent
-            mode="contained"
-            text="Crear categoria"
-            onPress={() => {
-              navigation.navigate('categories/new');
-            }}
-          />
-        </>
+        <>{showCreateCategory(navigation, 'history')}</>
       ) : (
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>
@@ -150,7 +140,10 @@ const History = ({navigation, route}) => {
               );
             })
           ) : (
-            <Text style={styles.textTitle}>Sin datos</Text>
+            <>
+              <Divider style={styles.divider} bold />
+              {showCreateRecord(navigation)}
+            </>
           )}
         </>
       )}

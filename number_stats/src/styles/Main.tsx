@@ -56,7 +56,7 @@ const styles = () => {
     view: {
       alignContent: 'center',
       alignItems: 'center',
-      marginVertical: 1,
+      marginVertical: 2,
     },
     inputNumber: {
       marginBottom: 16,
@@ -70,7 +70,9 @@ const styles = () => {
     },
     button: {
       marginVertical: 10,
-      width: dimensionsValue.width * 0.9,
+      width: dimensionsValue.width * 0.6,
+      alignContent: 'center',
+      alignSelf: 'center',
     },
     viewCol: {
       flexDirection: 'row',
@@ -101,6 +103,9 @@ const styles = () => {
     },
     keyboardAvoidingView: {
       flex: 1,
+    },
+    divider: {
+      marginVertical: 20,
     },
   });
 };

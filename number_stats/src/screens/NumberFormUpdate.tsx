@@ -111,6 +111,7 @@ const NumberFormUpdate = ({navigation, route}) => {
       {evaluateError(errors, 'date.message')}
 
       <Button
+        style={styles.button}
         disabled={category === undefined}
         mode="contained"
         onPress={handleSubmit(onSubmit)}>

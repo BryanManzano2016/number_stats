@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button} from 'react-native-paper';
 import {Keyboard} from 'react-native';
+import styles from '../styles/Main';
 
 export const ButtonComponent = ({
   disabled,
@@ -23,7 +24,11 @@ export const ButtonComponent = ({
   };
 
   return (
-    <Button disabled={disabled} mode={mode} onPress={onPressAction}>
+    <Button
+      disabled={disabled}
+      mode={mode}
+      onPress={onPressAction}
+      style={styles.button}>
       {text}
     </Button>
   );

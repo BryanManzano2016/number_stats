@@ -10,8 +10,11 @@ import * as yup from 'yup';
 import Toast from 'react-native-toast-message';
 import {setItems} from '../core/SimpleStorage';
 import {evaluateError} from './Utils';
+import {get} from 'lodash';
+import styles from '../styles/Main';
 
 const CategoriesCreate = ({navigation, route}) => {
+  const pathRedirect = get(route, 'params.redirect', 'categories');
   const categoryRepository = CategoryRepository();
 
   const {
@@ -40,7 +43,7 @@ const CategoriesCreate = ({navigation, route}) => {
         {key: 'toastMessageType', value: 'success'},
       ]);
       categoryRepository.save(name);
-      navigation.navigate('categories');
+      navigation.navigate(pathRedirect);
     } else {
       Toast.show({
         type: 'error',
@@ -71,7 +74,10 @@ const CategoriesCreate = ({navigation, route}) => {
 
       {evaluateError(errors, 'name.message')}
 
-      <Button mode="contained" onPress={handleSubmit(onSubmit)}>
+      <Button
+        style={styles.button}
+        mode="contained"
+        onPress={handleSubmit(onSubmit)}>
         Guardar
       </Button>
     </Layout>

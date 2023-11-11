@@ -17,10 +17,9 @@ import SearchSelector from '../components/SearchSelector';
 import Toast from 'react-native-toast-message';
 import SelectDropdown from 'react-native-select-dropdown';
 import {OptionSelector} from '../types/OptionSelector';
-import {evaluateDropdown, evaluateError} from './Utils';
+import {evaluateDropdown, evaluateError, showCreateCategory} from './Utils';
 import {getItem} from '../core/SimpleStorage';
 import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
-import {ButtonComponent} from '../components/ButtonComponent';
 
 const NumberForm = ({route, navigation}) => {
   const {
@@ -110,16 +109,7 @@ const NumberForm = ({route, navigation}) => {
   return (
     <Layout route={route}>
       {isEmpty(categories) ? (
-        <>
-          <Text style={styles.text}>No tiene categorias registradas</Text>
-          <ButtonComponent
-            mode="contained"
-            text="Crear categoria"
-            onPress={() => {
-              navigation.navigate('categories/new');
-            }}
-          />
-        </>
+        showCreateCategory(navigation, 'numbers')
       ) : (
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>
@@ -164,6 +154,7 @@ const NumberForm = ({route, navigation}) => {
           {evaluateError(errors, 'date.message')}
 
           <Button
+            style={styles.button}
             disabled={selectedCategorySelector === undefined}
             mode="contained"
             onPress={handleSubmit(onSubmit)}>
