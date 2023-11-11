@@ -15,8 +15,9 @@ import {OptionSelector} from '../types/OptionSelector';
 import SelectDropdown from 'react-native-select-dropdown';
 import {evaluateDropdown} from './Utils';
 import {getItem} from '../core/SimpleStorage';
+import {ButtonComponent} from '../components/ButtonComponent';
 
-const Resume = ({route}) => {
+const Resume = ({route, navigation}) => {
   const dropdownRef = useRef<SelectDropdown>(null);
 
   const categoryRepository = CategoryRepository();
@@ -93,7 +94,16 @@ const Resume = ({route}) => {
   return (
     <Layout route={route}>
       {isEmpty(categories) ? (
-        <Text style={styles.text}>Sin datos para mostrar</Text>
+        <>
+          <Text style={styles.text}>No tiene categorias registradas</Text>
+          <ButtonComponent
+            mode="contained"
+            text="Crear categoria"
+            onPress={() => {
+              navigation.navigate('categories/new');
+            }}
+          />
+        </>
       ) : (
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>
@@ -111,25 +121,32 @@ const Resume = ({route}) => {
               defaultLabel="Ingrese un texto"
             />
           </View>
+          {selectedCategorySelector && !isEmpty(data.yValuesData) && (
+            <Card style={styles.card} key={selectedCategorySelector.value}>
+              <Card.Content>
+                <>
+                  <Text variant="titleSmall" style={styles.cardText}>
+                    Promedio {roundDouble(calculateAverage(data.yValuesData))} /{' '}
+                    {data.yValuesData.length} registros
+                  </Text>
+                  {chart}
+                </>
+              </Card.Content>
+            </Card>
+          )}
+          {isEmpty(data.yValuesData) && (
+            <View style={styles.view}>
+              <Text style={styles.cardText}>Sin registros</Text>
+              <ButtonComponent
+                mode="contained"
+                text="Agregar registro"
+                onPress={() => {
+                  navigation.navigate('numbers');
+                }}
+              />
+            </View>
+          )}
         </>
-      )}
-
-      {selectedCategorySelector && (
-        <Card style={styles.card} key={selectedCategorySelector.value}>
-          <Card.Content>
-            {!isEmpty(data.yValuesData) ? (
-              <>
-                <Text variant="titleSmall" style={styles.cardText}>
-                  Promedio {roundDouble(calculateAverage(data.yValuesData))} /{' '}
-                  {data.yValuesData.length} registros
-                </Text>
-                {chart}
-              </>
-            ) : (
-              <Text style={styles.cardText}>Sin datos</Text>
-            )}
-          </Card.Content>
-        </Card>
       )}
     </Layout>
   );

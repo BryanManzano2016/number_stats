@@ -9,8 +9,8 @@ export const ButtonComponent = ({
   onPress,
   mode = 'contained',
 }: {
-  disabled: boolean;
-  dismissKeyboard: boolean;
+  disabled?: boolean;
+  dismissKeyboard?: boolean;
   onPress: any;
   mode: 'text' | 'outlined' | 'contained' | 'elevated' | 'contained-tonal';
   text: string;

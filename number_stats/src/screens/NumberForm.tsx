@@ -20,8 +20,9 @@ import {OptionSelector} from '../types/OptionSelector';
 import {evaluateDropdown, evaluateError} from './Utils';
 import {getItem} from '../core/SimpleStorage';
 import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
+import {ButtonComponent} from '../components/ButtonComponent';
 
-const NumberForm = ({route}) => {
+const NumberForm = ({route, navigation}) => {
   const {
     control,
     handleSubmit,
@@ -109,7 +110,16 @@ const NumberForm = ({route}) => {
   return (
     <Layout route={route}>
       {isEmpty(categories) ? (
-        <Text style={styles.text}>No tiene categorias registradas</Text>
+        <>
+          <Text style={styles.text}>No tiene categorias registradas</Text>
+          <ButtonComponent
+            mode="contained"
+            text="Crear categoria"
+            onPress={() => {
+              navigation.navigate('categories/new');
+            }}
+          />
+        </>
       ) : (
         <>
           <Text style={styles.textTitle}>Seleccione una categoria</Text>
