@@ -74,7 +74,12 @@ const NumberFormUpdate = ({navigation, route}) => {
   return (
     <Layout
       route={route}
-      headers={<Appbar.Content title="Modificar registro" />}>
+      headers={
+        <>
+          <Appbar.BackAction onPress={navigation.goBack} />
+          <Appbar.Content title="Modificar registro" />
+        </>
+      }>
       <Text style={styles.textTitle}>Categoria {category.value}</Text>
       <Text style={styles.textTitle}>
         Ultimo valor: {(valueToUpdate?.value ?? '').toString()}

@@ -11,7 +11,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
-const DrawerComponent = ({route}) => {
+const DrawerComponent = ({navigation, route}) => {
   useEffect(() => {
     printToast();
   }, [route]);
@@ -19,6 +19,14 @@ const DrawerComponent = ({route}) => {
   return (
     <Drawer.Navigator initialRouteName="drawer">
       <Drawer.Screen name="drawer" component={Tabs} options={{title: 'Home'}} />
+      <Drawer.Screen
+        name="categories"
+        options={{
+          headerShown: false,
+          title: 'Categorias',
+        }}
+        component={Categories}
+      />
     </Drawer.Navigator>
   );
 };
@@ -55,16 +63,6 @@ const Tabs = ({route}) => {
             Icons({id: 'history', color: color, size: size}),
         }}
         component={HistoryNumbers}
-      />
-      <Tab.Screen
-        name="categories"
-        options={{
-          headerShown: false,
-          title: 'Categorias',
-          tabBarIcon: ({color, size}) =>
-            Icons({id: 'sitemap', color: color, size: size}),
-        }}
-        component={Categories}
       />
     </Tab.Navigator>
   );

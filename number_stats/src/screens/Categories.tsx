@@ -19,6 +19,7 @@ const History = ({navigation, route}) => {
       route={route}
       headers={
         <>
+          <Appbar.BackAction onPress={navigation.goBack} />
           <Appbar.Content title="Lista de categorias" />
           <Appbar.Action
             icon="plus-circle"
