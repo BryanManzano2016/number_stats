@@ -1,5 +1,5 @@
 import React, {useState, useMemo, useEffect, useRef} from 'react';
-import {Card, Text, Appbar} from 'react-native-paper';
+import {Card, Text} from 'react-native-paper';
 import {View} from 'react-native';
 import isEmpty from 'lodash/isEmpty';
 

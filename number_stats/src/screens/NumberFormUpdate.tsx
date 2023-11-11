@@ -1,6 +1,6 @@
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {Button, Text} from 'react-native-paper';
+import {Appbar, Button, Text} from 'react-native-paper';
 import Layout from '../components/Layout';
 import ControllerForm from '../components/ControllerForm';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
@@ -72,7 +72,9 @@ const NumberFormUpdate = ({navigation, route}) => {
   };
 
   return (
-    <Layout route={route}>
+    <Layout
+      route={route}
+      headers={<Appbar.Content title="Modificar registro" />}>
       <Text style={styles.textTitle}>Categoria {category.value}</Text>
       <Text style={styles.textTitle}>
         Ultimo valor: {(valueToUpdate?.value ?? '').toString()}

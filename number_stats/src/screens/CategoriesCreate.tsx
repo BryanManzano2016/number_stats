@@ -52,7 +52,12 @@ const CategoriesCreate = ({navigation, route}) => {
   return (
     <Layout
       route={route}
-      headers={<Appbar.BackAction onPress={navigation.goBack} />}>
+      headers={
+        <>
+          <Appbar.BackAction onPress={navigation.goBack} />
+          <Appbar.Content title="Crear categoria" />
+        </>
+      }>
       <ControllerForm
         name="name"
         control={control}

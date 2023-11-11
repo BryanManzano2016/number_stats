@@ -17,8 +17,8 @@ const DrawerComponent = ({route}) => {
   }, [route]);
 
   return (
-    <Drawer.Navigator initialRouteName="Home">
-      <Drawer.Screen name="Home" component={Tabs} />
+    <Drawer.Navigator initialRouteName="drawer">
+      <Drawer.Screen name="drawer" component={Tabs} options={{title: 'Home'}} />
     </Drawer.Navigator>
   );
 };
