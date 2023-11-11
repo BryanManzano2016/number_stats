@@ -7,3 +7,8 @@ export const WIDTH_RECORD = 40;
 export const FORMAT_DATES = {
   SIMPLE_DATE: 'DD/MM/YYYY HH:mm',
 };
+
+export const INFO_APP = {
+  VERSION: '1.0',
+  NAME: 'Trendy',
+};

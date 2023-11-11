@@ -126,10 +126,12 @@ const Resume = ({route, navigation}) => {
           ) : (
             <></>
           )}
-          <Divider style={styles.divider} bold />
 
           {isEmpty(data.yValuesData) ? (
-            <View style={styles.view}>{showCreateRecord(navigation)}</View>
+            <>
+              <Divider style={styles.divider} bold />
+              <View style={styles.view}>{showCreateRecord(navigation)}</View>
+            </>
           ) : (
             <></>
           )}

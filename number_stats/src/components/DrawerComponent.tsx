@@ -7,6 +7,9 @@ import Resume from '../screens/Resume';
 import HistoryNumbers from '../screens/HistoryNumbers';
 import {printToast} from './Utils';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {Divider, Text} from 'react-native-paper';
+import {Dimensions} from 'react-native';
+import Information from '../screens/Information';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,7 +20,14 @@ const DrawerComponent = ({navigation, route}) => {
   }, [route]);
 
   return (
-    <Drawer.Navigator initialRouteName="drawer">
+    <Drawer.Navigator
+      initialRouteName="drawer"
+      screenOptions={{
+        drawerStyle: {
+          width: Dimensions.get('window').width * 0.5,
+        },
+        drawerType: 'front',
+      }}>
       <Drawer.Screen name="drawer" component={Tabs} options={{title: 'Home'}} />
       <Drawer.Screen
         name="categories"
@@ -26,6 +36,14 @@ const DrawerComponent = ({navigation, route}) => {
           title: 'Categorias',
         }}
         component={Categories}
+      />
+      <Drawer.Screen
+        name="information"
+        options={{
+          headerShown: false,
+          title: 'Informacion',
+        }}
+        component={Information}
       />
     </Drawer.Navigator>
   );
