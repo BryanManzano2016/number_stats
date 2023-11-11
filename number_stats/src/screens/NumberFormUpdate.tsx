@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useForm} from 'react-hook-form';
-import {Button, Text, Appbar} from 'react-native-paper';
+import {Button, Text} from 'react-native-paper';
 import Layout from '../components/Layout';
 import ControllerForm from '../components/ControllerForm';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
@@ -22,8 +22,6 @@ const NumberFormUpdate = ({navigation, route}) => {
   const valuesCategoryRepository = ValuesCategoryRepository();
   const category = categoryRepository.filterById(params.categoryId);
   const valueToUpdate = valuesCategoryRepository.filterById(params.id);
-
-  const [date, setDate] = useState<Date>(new Date(valueToUpdate?.createdAt));
 
   const {
     control,
@@ -56,7 +54,7 @@ const NumberFormUpdate = ({navigation, route}) => {
     ),
   });
 
-  const onSubmit = ({value, date}: {value: string; date: string}) => {
+  const onSubmit = ({value, date}: {date?: string; value: string}) => {
     if (category) {
       setItems([
         {key: 'toastMessage', value: 'Registro modificado'},
@@ -74,9 +72,7 @@ const NumberFormUpdate = ({navigation, route}) => {
   };
 
   return (
-    <Layout
-      route={route}
-      headers={<Appbar.Content title="Modificar registro" />}>
+    <Layout route={route}>
       <Text style={styles.textTitle}>Categoria {category.value}</Text>
       <Text style={styles.textTitle}>
         Ultimo valor: {(valueToUpdate?.value ?? '').toString()}

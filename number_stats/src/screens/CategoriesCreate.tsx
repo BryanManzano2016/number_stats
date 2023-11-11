@@ -1,16 +1,15 @@
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {Button, Text, Appbar} from 'react-native-paper';
+import {Button, Appbar} from 'react-native-paper';
 
 import Layout from '../components/Layout';
 import ControllerForm from '../components/ControllerForm';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
-import styles from '../styles/Main';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {get as getOrDefault} from 'lodash';
 import Toast from 'react-native-toast-message';
 import {setItems} from '../core/SimpleStorage';
+import {evaluateError} from './Utils';
 
 const CategoriesCreate = ({navigation, route}) => {
   const categoryRepository = CategoryRepository();
@@ -50,17 +49,10 @@ const CategoriesCreate = ({navigation, route}) => {
     }
   };
 
-  const messageErrorName = getOrDefault(errors, 'name.message', '');
-
   return (
     <Layout
       route={route}
-      headers={
-        <>
-          <Appbar.BackAction onPress={navigation.goBack} />
-          <Appbar.Content title="Crear categoria" />
-        </>
-      }>
+      headers={<Appbar.BackAction onPress={navigation.goBack} />}>
       <ControllerForm
         name="name"
         control={control}
@@ -72,11 +64,7 @@ const CategoriesCreate = ({navigation, route}) => {
         label="Nombre"
       />
 
-      {messageErrorName ? (
-        <Text style={styles.text}>{messageErrorName}</Text>
-      ) : (
-        <></>
-      )}
+      {evaluateError(errors, 'name.message')}
 
       <Button mode="contained" onPress={handleSubmit(onSubmit)}>
         Guardar

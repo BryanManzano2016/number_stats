@@ -5,20 +5,31 @@ import {Appbar} from 'react-native-paper';
 import styles from './../styles/Main';
 import {printToast} from './Utils';
 
-const Layout = ({headers, children, route}) => {
+const Layout = ({
+  headers,
+  children,
+  route,
+}: {
+  headers?: any;
+  children: any;
+  route: any;
+}) => {
   useEffect(() => {
     printToast();
   }, [route]);
 
   return (
     <>
-      <Appbar.Header style={styles.header}>
-        <>{headers}</>
-      </Appbar.Header>
+      {headers && (
+        <Appbar.Header style={styles.header}>
+          <>{headers}</>
+        </Appbar.Header>
+      )}
       <SafeAreaView style={styles.layout}>
         <ScrollView
           style={styles.scrollView}
-          keyboardShouldPersistTaps="handled">
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="on-drag">
           {children}
         </ScrollView>
       </SafeAreaView>

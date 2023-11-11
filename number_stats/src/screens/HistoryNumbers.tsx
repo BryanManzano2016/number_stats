@@ -59,7 +59,7 @@ const History = ({navigation, route}) => {
   }, [selectedCategorySelector, valuesCategoryRepository]);
 
   return (
-    <Layout route={route} headers={<Appbar.Content title="Historial" />}>
+    <Layout route={route}>
       {isEmpty(categories) ? (
         <Text style={styles.text}>No tiene categorias registradas</Text>
       ) : (

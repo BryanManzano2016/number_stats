@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useForm} from 'react-hook-form';
-import {Button, Text, Appbar} from 'react-native-paper';
+import {Button, Text} from 'react-native-paper';
 import {View} from 'react-native';
 
 import Layout from '../components/Layout';
@@ -90,7 +90,7 @@ const NumberForm = ({route}) => {
     [categories, selectedCategorySelector],
   );
 
-  const onSubmit = ({value, date}: {value: string; date: string}) => {
+  const onSubmit = ({value, date}: {date?: string; value: string}) => {
     if (selectedCategorySelector) {
       const recordDb = categories.filter(
         item => item._id === selectedCategorySelector.value,
@@ -107,7 +107,7 @@ const NumberForm = ({route}) => {
   };
 
   return (
-    <Layout route={route} headers={<Appbar.Content title="Registro" />}>
+    <Layout route={route}>
       {isEmpty(categories) ? (
         <Text style={styles.text}>No tiene categorias registradas</Text>
       ) : (

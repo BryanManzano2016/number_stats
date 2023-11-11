@@ -91,7 +91,7 @@ const Resume = ({route}) => {
   }, [data]);
 
   return (
-    <Layout route={route} headers={<Appbar.Content title="Resumen" />}>
+    <Layout route={route}>
       {isEmpty(categories) ? (
         <Text style={styles.text}>Sin datos para mostrar</Text>
       ) : (

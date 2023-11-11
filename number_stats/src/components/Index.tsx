@@ -1,12 +1,14 @@
 import React from 'react';
 import 'react-native-get-random-values';
+import 'react-native-gesture-handler';
 
 import {NavigationContainer} from '@react-navigation/native';
-import {PaperProvider} from 'react-native-paper';
 import {createStackNavigator} from '@react-navigation/stack';
-import {RealmProvider} from '@realm/react';
 
-import HomeTabs from '../components/HomeTabs';
+import {RealmProvider} from '@realm/react';
+import {PaperProvider} from 'react-native-paper';
+
+import DrawerComponent from './DrawerComponent';
 import CategoriesCreate from '../screens/CategoriesCreate';
 import CategoriesUpdate from '../screens/CategoriesUpdate';
 import NumberFormUpdate from '../screens/NumberFormUpdate';
@@ -26,7 +28,7 @@ const Index = () => {
             <Stack.Screen
               name="home"
               options={{title: 'Home', headerShown: false}}
-              component={HomeTabs}
+              component={DrawerComponent}
             />
             <Stack.Screen
               name="categories/new"

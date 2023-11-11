@@ -1,19 +1,29 @@
 import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icons from '../components/Icons';
+import Icons from './Icons';
 import Categories from '../screens/Categories';
 import NumberForm from '../screens/NumberForm';
 import Resume from '../screens/Resume';
 import HistoryNumbers from '../screens/HistoryNumbers';
 import {printToast} from './Utils';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
+const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
-const HomeStack = ({route}) => {
+const DrawerComponent = ({route}) => {
   useEffect(() => {
     printToast();
   }, [route]);
 
+  return (
+    <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Screen name="Home" component={Tabs} />
+    </Drawer.Navigator>
+  );
+};
+
+const Tabs = ({route}) => {
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -60,4 +70,4 @@ const HomeStack = ({route}) => {
   );
 };
 
-export default HomeStack;
+export default DrawerComponent;
