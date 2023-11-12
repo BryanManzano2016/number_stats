@@ -72,25 +72,17 @@ const NumberForm = ({route, navigation}) => {
 
   const [selectedCategorySelector, setSelectedCategorySelector] = useState<
     OptionSelector | undefined
-  >(
-    categoryRepository.toObject(
-      categoryRepository.filterById(idSelectedGlobal ?? ''),
-    ),
-  );
+  >(categoryRepository.filterByIdObject(idSelectedGlobal ?? ''));
 
   const setCategory = (value: string) => {
-    setSelectedCategorySelector(
-      categoryRepository.toObject(categoryRepository.filterById(value ?? '')),
-    );
+    setSelectedCategorySelector(categoryRepository.filterByIdObject(value));
     dispatch(setIdSelected(value));
   };
 
   useEffect(() => {
     if (selectedCategorySelector?.value !== idSelectedGlobal) {
       setSelectedCategorySelector(
-        categoryRepository.toObject(
-          categoryRepository.filterById(idSelectedGlobal ?? ''),
-        ),
+        categoryRepository.filterByIdObject(idSelectedGlobal ?? ''),
       );
     }
   }, [categoryRepository, idSelectedGlobal, selectedCategorySelector]);

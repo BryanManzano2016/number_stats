@@ -30,6 +30,10 @@ const CategoryRepository = () => {
     return data.filtered('_id == $0', id)[0];
   };
 
+  const filterByIdObject = (id: string) => {
+    return toObject(filterById(id));
+  };
+
   const deleteRecord = (element: Category | undefined) => {
     realm.write(() => {
       realm.delete(element);
@@ -51,6 +55,7 @@ const CategoryRepository = () => {
     filterByValue,
     update,
     toObject,
+    filterByIdObject,
   };
 };
 
