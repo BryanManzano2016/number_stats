@@ -16,6 +16,8 @@ import NumberFormUpdate from '../screens/NumberFormUpdate';
 import Category from '../core/db/models/Category';
 import ValuesCategory from '../core/db/models/ValuesCategory';
 import ToastOwn from './ToastOwn';
+import {Provider} from 'react-redux';
+import {store} from '../store/Store';
 
 const Stack = createStackNavigator();
 
@@ -23,31 +25,33 @@ const Index = () => {
   return (
     <PaperProvider>
       <RealmProvider schema={[Category, ValuesCategory]} schemaVersion={2}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="home"
-              options={{title: 'Home', headerShown: false}}
-              component={DrawerComponent}
-            />
-            <Stack.Screen
-              name="categories/new"
-              options={{headerShown: false}}
-              component={CategoriesCreate}
-            />
-            <Stack.Screen
-              name="categories/update"
-              options={{headerShown: false}}
-              component={CategoriesUpdate}
-            />
-            <Stack.Screen
-              name="numbers/update"
-              options={{headerShown: false}}
-              component={NumberFormUpdate}
-            />
-          </Stack.Navigator>
-          <ToastOwn />
-        </NavigationContainer>
+        <Provider store={store}>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                name="home"
+                options={{title: 'Home', headerShown: false}}
+                component={DrawerComponent}
+              />
+              <Stack.Screen
+                name="categories/new"
+                options={{headerShown: false}}
+                component={CategoriesCreate}
+              />
+              <Stack.Screen
+                name="categories/update"
+                options={{headerShown: false}}
+                component={CategoriesUpdate}
+              />
+              <Stack.Screen
+                name="numbers/update"
+                options={{headerShown: false}}
+                component={NumberFormUpdate}
+              />
+            </Stack.Navigator>
+            <ToastOwn />
+          </NavigationContainer>
+        </Provider>
       </RealmProvider>
     </PaperProvider>
   );

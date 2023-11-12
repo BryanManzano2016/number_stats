@@ -18,8 +18,9 @@ import Toast from 'react-native-toast-message';
 import SelectDropdown from 'react-native-select-dropdown';
 import {OptionSelector} from '../types/OptionSelector';
 import {evaluateDropdown, evaluateError, showCreateCategory} from './Utils';
-import {getItem} from '../core/SimpleStorage';
 import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
+import {useAppDispatch, useAppSelector} from '../store/Hooks';
+import {setIdSelected} from '../store/Categories';
 
 const NumberForm = ({route, navigation}) => {
   const {
@@ -61,34 +62,38 @@ const NumberForm = ({route, navigation}) => {
     ),
   });
   const dropdownRef = useRef<SelectDropdown>(null);
+  const dispatch = useAppDispatch();
 
   const categoryRepository = CategoryRepository();
   const valuesCategoryRepository = ValuesCategoryRepository();
+  const idSelectedGlobal = useAppSelector(state => state.categories.idSelected);
+
   const categories = categoryRepository.filter(false);
 
   const [selectedCategorySelector, setSelectedCategorySelector] = useState<
     OptionSelector | undefined
   >(
     categoryRepository.toObject(
-      categoryRepository.filterById(getItem('idCategory')),
+      categoryRepository.filterById(idSelectedGlobal ?? ''),
     ),
   );
+
   const setCategory = (value: string) => {
     setSelectedCategorySelector(
       categoryRepository.toObject(categoryRepository.filterById(value ?? '')),
     );
+    dispatch(setIdSelected(value));
   };
 
-  useEffect(
-    () =>
-      evaluateDropdown(
-        categories,
-        selectedCategorySelector,
-        setSelectedCategorySelector,
-        dropdownRef,
-      ),
-    [categories, selectedCategorySelector],
-  );
+  useEffect(() => {
+    if (selectedCategorySelector?.value !== idSelectedGlobal) {
+      setSelectedCategorySelector(
+        categoryRepository.toObject(
+          categoryRepository.filterById(idSelectedGlobal ?? ''),
+        ),
+      );
+    }
+  }, [categoryRepository, idSelectedGlobal, selectedCategorySelector]);
 
   const onSubmit = ({value, date}: {date?: string; value: string}) => {
     if (selectedCategorySelector) {

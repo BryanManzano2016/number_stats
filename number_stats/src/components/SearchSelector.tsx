@@ -1,8 +1,9 @@
-import React, {LegacyRef} from 'react';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
 import styles from '../styles/Main';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icons from '../components/Icons';
+import {isEmpty} from 'lodash';
 
 const SearchSelector = ({
   defaultLabel,
@@ -12,11 +13,26 @@ const SearchSelector = ({
   dropdownRef,
 }: {
   defaultLabel: string;
-  options: object[];
+  options: {label: string; value: string}[];
   onChange: (selectedItem: {label: string; value: string}) => void;
   defaultValue: {label: string; value: string} | undefined;
-  dropdownRef: LegacyRef<SelectDropdown>;
+  dropdownRef: React.RefObject<SelectDropdown>;
 }) => {
+  useEffect(() => {
+    if (defaultValue && options) {
+      const selectedList = options.filter(
+        item =>
+          item.value === defaultValue.value &&
+          item.label === defaultValue.label,
+      );
+      if (defaultValue !== undefined && isEmpty(selectedList)) {
+        if (dropdownRef?.current) {
+          dropdownRef.current.reset();
+        }
+      }
+    }
+  }, [options, defaultValue, dropdownRef]);
+
   return (
     <View style={styles.view}>
       <SelectDropdown

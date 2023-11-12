@@ -14,20 +14,23 @@ import SearchSelector from '../components/SearchSelector';
 import {OptionSelector} from '../types/OptionSelector';
 import SelectDropdown from 'react-native-select-dropdown';
 import {evaluateDropdown, showCreateCategory, showCreateRecord} from './Utils';
-import {getItem} from '../core/SimpleStorage';
+import {useAppDispatch, useAppSelector} from '../store/Hooks';
+import {setIdSelected} from '../store/Categories';
 
 const Resume = ({route, navigation}) => {
   const dropdownRef = useRef<SelectDropdown>(null);
+  const dispatch = useAppDispatch();
 
   const categoryRepository = CategoryRepository();
   const valuesCategoryRepository = ValuesCategoryRepository();
 
+  const idSelectedGlobal = useAppSelector(state => state.categories.idSelected);
   const categories = categoryRepository.filter(false);
   const [selectedCategorySelector, setSelectedCategorySelector] = useState<
     OptionSelector | undefined
   >(
     categoryRepository.toObject(
-      categoryRepository.filterById(getItem('idCategory')),
+      categoryRepository.filterById(idSelectedGlobal ?? ''),
     ),
   );
 
@@ -35,16 +38,18 @@ const Resume = ({route, navigation}) => {
     setSelectedCategorySelector(
       categoryRepository.toObject(categoryRepository.filterById(value ?? '')),
     );
+    dispatch(setIdSelected(value));
   };
 
   useEffect(() => {
-    evaluateDropdown(
-      categories,
-      selectedCategorySelector,
-      setSelectedCategorySelector,
-      dropdownRef,
-    );
-  }, [categories, selectedCategorySelector]);
+    if (selectedCategorySelector?.value !== idSelectedGlobal) {
+      setSelectedCategorySelector(
+        categoryRepository.toObject(
+          categoryRepository.filterById(idSelectedGlobal ?? ''),
+        ),
+      );
+    }
+  }, [categoryRepository, idSelectedGlobal, selectedCategorySelector]);
 
   const data = useMemo(() => {
     try {
