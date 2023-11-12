@@ -13,7 +13,7 @@ export const categorySlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
-    setIdSelected: (state, action: PayloadAction<string>) => {
+    setIdSelected: (state, action: PayloadAction<string | undefined>) => {
       state.idSelected = action.payload;
     },
   },

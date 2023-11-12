@@ -1,9 +1,11 @@
 import {Action, ThunkAction, configureStore} from '@reduxjs/toolkit';
 import CategoryReducer from './Categories';
+import ApplicationReducer from './Application';
 
 export const store = configureStore({
   reducer: {
     categories: CategoryReducer,
+    application: ApplicationReducer,
   },
 });
 

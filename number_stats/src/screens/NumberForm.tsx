@@ -17,23 +17,48 @@ import SearchSelector from '../components/SearchSelector';
 import Toast from 'react-native-toast-message';
 import SelectDropdown from 'react-native-select-dropdown';
 import {OptionSelector} from '../types/OptionSelector';
-import {evaluateDropdown, evaluateError, showCreateCategory} from './Utils';
+import {evaluateError, showCreateCategory} from './Utils';
 import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
 import {useAppDispatch, useAppSelector} from '../store/Hooks';
 import {setIdSelected} from '../store/Categories';
 
 const NumberForm = ({route, navigation}) => {
+  const dropdownRef = useRef<SelectDropdown>(null);
+  const dispatch = useAppDispatch();
+
+  const categoryRepository = CategoryRepository();
+  const valuesCategoryRepository = ValuesCategoryRepository();
+  const idSelectedGlobal = useAppSelector(state => state.categories.idSelected);
+
+  const categories = categoryRepository.filter(false);
+
+  const initialCategory = categoryRepository.filterByIdObject(
+    idSelectedGlobal ?? '',
+  );
+  const [selectedCategorySelector, setSelectedCategorySelector] = useState<
+    OptionSelector | undefined
+  >(initialCategory);
+
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm({
     defaultValues: {
+      category: initialCategory,
       value: '',
       date: dateToString(new Date(), FORMAT_DATES.SIMPLE_DATE),
     },
     resolver: yupResolver(
       yup.object().shape({
+        category: yup
+          .object()
+          .test('test-category', 'Elegir una categoria', function () {
+            return (
+              selectedCategorySelector !== undefined &&
+              initialCategory !== undefined
+            );
+          }),
         date: yup
           .string()
           .test(
@@ -61,18 +86,6 @@ const NumberForm = ({route, navigation}) => {
       }),
     ),
   });
-  const dropdownRef = useRef<SelectDropdown>(null);
-  const dispatch = useAppDispatch();
-
-  const categoryRepository = CategoryRepository();
-  const valuesCategoryRepository = ValuesCategoryRepository();
-  const idSelectedGlobal = useAppSelector(state => state.categories.idSelected);
-
-  const categories = categoryRepository.filter(false);
-
-  const [selectedCategorySelector, setSelectedCategorySelector] = useState<
-    OptionSelector | undefined
-  >(categoryRepository.filterByIdObject(idSelectedGlobal ?? ''));
 
   const setCategory = (value: string) => {
     setSelectedCategorySelector(categoryRepository.filterByIdObject(value));
@@ -150,10 +163,11 @@ const NumberForm = ({route, navigation}) => {
 
           {evaluateError(errors, 'value.message')}
           {evaluateError(errors, 'date.message')}
+          {evaluateError(errors, 'category.message')}
 
           <Button
             style={styles.button}
-            disabled={selectedCategorySelector === undefined}
+            /* disabled={selectedCategorySelector === undefined} */
             mode="contained"
             onPress={handleSubmit(onSubmit)}>
             Guardar

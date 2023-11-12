@@ -8,8 +8,12 @@ import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import Toast from 'react-native-toast-message';
+import {useAppDispatch, useAppSelector} from '../store/Hooks';
+import {setIdSelected} from '../store/Categories';
 
 const History = ({navigation, route}) => {
+  const dispatch = useAppDispatch();
+
   const categoryRepository = CategoryRepository();
   const valuesCategoryRepository = ValuesCategoryRepository();
   const categories = categoryRepository.filter(false);
@@ -44,6 +48,7 @@ const History = ({navigation, route}) => {
                   size={25}
                   style={styles.iconButtonCol}
                   onPress={() => {
+                    dispatch(setIdSelected(undefined));
                     navigation.push('categories/update', {
                       id: item._id,
                     });
@@ -62,6 +67,7 @@ const History = ({navigation, route}) => {
                         {
                           text: 'Si',
                           onPress: () => {
+                            dispatch(setIdSelected(undefined));
                             valuesCategoryRepository.deleteByIdCategory(
                               item._id,
                             );

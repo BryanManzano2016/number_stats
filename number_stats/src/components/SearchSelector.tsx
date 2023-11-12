@@ -19,6 +19,9 @@ const SearchSelector = ({
   dropdownRef: React.RefObject<SelectDropdown>;
 }) => {
   useEffect(() => {
+    if (defaultValue === undefined) {
+      dropdownRef?.current?.reset();
+    }
     if (defaultValue && options) {
       const selectedList = options.filter(
         item =>
@@ -26,9 +29,7 @@ const SearchSelector = ({
           item.label === defaultValue.label,
       );
       if (defaultValue !== undefined && isEmpty(selectedList)) {
-        if (dropdownRef?.current) {
-          dropdownRef.current.reset();
-        }
+        dropdownRef?.current?.reset();
       }
     }
   }, [options, defaultValue, dropdownRef]);
@@ -68,14 +69,12 @@ const SearchSelector = ({
 
 const stylesOwn = StyleSheet.create({
   dropdown1BtnStyle: {
-    width: 200,
-    height: 50,
-    backgroundColor: '#FFF',
+    width: 240,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#444',
   },
-  dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left', width: 200},
+  dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left', fontWeight: '500'},
 });
 
 export default SearchSelector;
