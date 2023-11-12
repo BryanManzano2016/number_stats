@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import styles from '../styles/Main';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icons from '../components/Icons';
@@ -48,7 +48,8 @@ const SearchSelector = ({
         search
         searchPlaceHolder={defaultLabel}
         defaultButtonText={defaultLabel}
-        buttonTextStyle={styles.buttonTextStyle}
+        buttonStyle={stylesOwn.dropdown1BtnStyle}
+        buttonTextStyle={stylesOwn.dropdown1BtnTxtStyle}
         searchPlaceHolderColor={'darkgrey'}
         renderDropdownIcon={isOpened => {
           return (
@@ -64,5 +65,17 @@ const SearchSelector = ({
     </View>
   );
 };
+
+const stylesOwn = StyleSheet.create({
+  dropdown1BtnStyle: {
+    width: 200,
+    height: 50,
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#444',
+  },
+  dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left', width: 200},
+});
 
 export default SearchSelector;
