@@ -96,6 +96,7 @@ const NumberForm = ({route, navigation}) => {
       const dateSend = stringToDate(date) ?? new Date();
       valuesCategoryRepository.saveBulk(recordDb._id, listDoubles, dateSend);
       control._reset();
+      navigation.navigate('resume');
       Toast.show({
         type: 'success',
         text1: 'Registro creado',
