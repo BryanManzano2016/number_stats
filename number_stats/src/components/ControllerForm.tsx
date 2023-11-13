@@ -3,7 +3,6 @@ import {Controller} from 'react-hook-form';
 import {TextInput} from 'react-native-paper';
 import styles from '../styles/Main';
 import {KeyboardAvoidingView, Platform} from 'react-native';
-
 const ControllerForm = ({
   control,
   name,

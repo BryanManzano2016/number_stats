@@ -1,4 +1,4 @@
-import i18n from 'i18next';
+import i18n, {t, exists} from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import en from './en';
 import es from './es';
@@ -15,7 +15,7 @@ export const initI18n = () => {
   });
 };
 
-export const replaceParams = (
+export const i18nReplaceParams = (
   text: string,
   params: [string, string | number][],
 ) => {
@@ -34,4 +34,16 @@ export const replaceParams = (
   });
 
   return modifiedString;
+};
+
+export const i18nGetList = (prefix: string, limit: number = 25) => {
+  let listText: string[] = [];
+  for (let index = 0; index < limit; index++) {
+    if (exists(prefix + index)) {
+      listText.push(t(prefix + index));
+    } else {
+      break;
+    }
+  }
+  return listText;
 };

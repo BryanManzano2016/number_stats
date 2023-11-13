@@ -5,8 +5,12 @@ import Layout from '../components/Layout';
 import {View} from 'react-native';
 import {INFO_APP, MAX_RECORDS} from '../utils/Constants';
 import {openLink} from '../utils/Utilities';
+import {i18nGetList, i18nReplaceParams} from '../core/i18n/I18n';
+import {useTranslation} from 'react-i18next';
 
 const Information = ({navigation, route}) => {
+  const {t} = useTranslation();
+
   return (
     <Layout
       route={route}
@@ -21,36 +25,31 @@ const Information = ({navigation, route}) => {
           {INFO_APP.NAME} {INFO_APP.VERSION}
         </Text>
         <Text style={styles.text} variant="bodyMedium">
-          {INFO_APP.NAME} es una aplicación intuitiva y personalizable diseñada
-          para la gestión eficiente de datos numéricos y la generación de
-          gráficos. Los usuarios pueden crear categorías específicas, como
-          'Finanzas', 'Salud', 'Productividad', entre otras, para organizar
-          datos de manera lógica y temática. Dentro de cada categoría, los
-          usuarios pueden agregar entradas numéricas, que luego la app procesa
-          para producir visualizaciones gráficas. Esta herramienta es ideal para
-          quienes buscan rastrear y analizar tendencias, patrones y estadísticas
-          de diversas áreas de su vida o trabajo, facilitando la toma de
-          decisiones basada en datos y la presentación de información clave. Con{' '}
-          {INFO_APP.NAME}, transformar números en conocimientos accionables es
-          sencillo y efectivo.
+          {i18nReplaceParams(t('app.description'), [
+            ['app_name', INFO_APP.NAME],
+          ])}
         </Text>
-        <Text variant="titleMedium">Consideraciones</Text>
-        <Text variant="bodyMedium">
-          - El almacenamiento es en memoria interna
+        <Text style={styles.text} variant="titleMedium">
+          {t('information.consideration')}
         </Text>
-        <Text variant="bodyMedium">
-          - Actualmente la aplicacion registra maximo {MAX_RECORDS} registros
-          por categoria. Al llegar al limite los registros mas antiguos seran
-          eliminados secuencialmente
+        {i18nGetList('information.considerations.', 5).map((element, index) => {
+          const keyText = `consideration.${index}`;
+          return (
+            <Text key={keyText} variant="bodyMedium">
+              {element}
+            </Text>
+          );
+        })}
+        <Text style={styles.text} variant="titleMedium">
+          {t('information.tutorial')}
         </Text>
-        <Text variant="titleMedium">Tutorial</Text>
         <Button
           style={styles.button}
           mode="contained"
           onPress={() =>
             openLink('https://www.youtube.com/watch?v=C0lo1oTa9Zs')
           }>
-          Ir a tutorial
+          {t('global.see')}
         </Button>
       </View>
     </Layout>

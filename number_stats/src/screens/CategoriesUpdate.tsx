@@ -11,7 +11,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {setItems} from '../core/SimpleStorage';
 import {useTranslation} from 'react-i18next';
-import {replaceParams} from '../core/i18n/I18n';
+import {i18nReplaceParams} from '../core/i18n/I18n';
 import {evaluateError} from './Utils';
 
 const CategoriesCreate = ({navigation, route}) => {
@@ -77,7 +77,7 @@ const CategoriesCreate = ({navigation, route}) => {
         control={control}
         key={'name'}
         maxLength={30}
-        placeHolder={replaceParams(t('categories.update.name.placeholder'), [
+        placeHolder={i18nReplaceParams(t('categories.update.name.placeholder'), [
           ['value', element.value],
         ])}
         isRequired

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, Text} from 'react-native-paper';
-import {View} from 'react-native';
+import {Keyboard, View} from 'react-native';
 
 import Layout from '../components/Layout';
 import ControllerForm from '../components/ControllerForm';
@@ -22,7 +22,7 @@ import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
 import {useAppDispatch, useAppSelector} from '../store/Hooks';
 import {setIdSelected} from '../store/Categories';
 import {useTranslation} from 'react-i18next';
-import {replaceParams} from '../core/i18n/I18n';
+import {i18nReplaceParams} from '../core/i18n/I18n';
 
 const NumberForm = ({route, navigation}) => {
   const {t} = useTranslation();
@@ -76,7 +76,7 @@ const NumberForm = ({route, navigation}) => {
           )
           .test(
             'length-validator',
-            replaceParams(t('numberForm.value.len.error'), [
+            i18nReplaceParams(t('numberForm.value.len.error'), [
               ['max', MAX_RECORDS_INSERT],
             ]),
             function (value) {
@@ -103,6 +103,7 @@ const NumberForm = ({route, navigation}) => {
   }, [categoryRepository, idSelectedGlobal, selectedCategorySelector]);
 
   const onSubmit = ({value, date}: {date?: string; value: string}) => {
+    Keyboard.dismiss();
     if (selectedCategorySelector) {
       const recordDb = categories.filter(
         item => item._id === selectedCategorySelector.value,
@@ -111,10 +112,12 @@ const NumberForm = ({route, navigation}) => {
       const dateSend = stringToDate(date) ?? new Date();
       valuesCategoryRepository.saveBulk(recordDb._id, listDoubles, dateSend);
       control._reset();
-      navigation.navigate('resume');
       Toast.show({
         type: 'success',
         text1: t('global.record.created'),
+        onPress: () => {
+          navigation.navigate('resume');
+        },
       });
     }
   };
@@ -125,7 +128,7 @@ const NumberForm = ({route, navigation}) => {
         showCreateCategory(navigation, 'numbers')
       ) : (
         <>
-          <Text style={styles.textTitle}>Seleccione una categoria</Text>
+          <Text style={styles.textTitle}>{t('select.category')}</Text>
           <View style={styles.view}>
             <SearchSelector
               options={categories.map(item => ({

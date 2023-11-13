@@ -17,7 +17,7 @@ import {showCreateCategory, showCreateRecord} from './Utils';
 import {useAppDispatch, useAppSelector} from '../store/Hooks';
 import {setIdSelected} from '../store/Categories';
 import {useTranslation} from 'react-i18next';
-import {replaceParams} from '../core/i18n/I18n';
+import {i18nReplaceParams} from '../core/i18n/I18n';
 
 const Resume = ({route, navigation}) => {
   const {t} = useTranslation();
@@ -117,7 +117,7 @@ const Resume = ({route, navigation}) => {
               <Card.Content>
                 <>
                   <Text variant="titleSmall" style={styles.cardText}>
-                    {replaceParams(t('resume.graph.title'), [
+                    {i18nReplaceParams(t('resume.graph.title'), [
                       ['mean', roundDouble(calculateAverage(data.yValuesData))],
                       ['records', data.yValuesData.length],
                     ])}

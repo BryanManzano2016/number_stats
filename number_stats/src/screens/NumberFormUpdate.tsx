@@ -15,7 +15,7 @@ import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
 import {FORMAT_DATES} from '../utils/Constants';
 import {evaluateError} from './Utils';
 import {useTranslation} from 'react-i18next';
-import {replaceParams} from '../core/i18n/I18n';
+import {i18nReplaceParams} from '../core/i18n/I18n';
 
 const NumberFormUpdate = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -81,12 +81,12 @@ const NumberFormUpdate = ({navigation, route}) => {
         </>
       }>
       <Text style={styles.textTitle}>
-        {replaceParams(t('numberForm.update.category'), [
+        {i18nReplaceParams(t('numberForm.update.category'), [
           ['name', category.value],
         ])}
       </Text>
       <Text style={styles.textTitle}>
-        {replaceParams(t('numberForm.update.last'), [
+        {i18nReplaceParams(t('numberForm.update.last'), [
           ['value', valueToUpdate?.value ?? ''],
         ])}
       </Text>

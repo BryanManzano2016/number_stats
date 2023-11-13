@@ -64,7 +64,7 @@ const History = ({navigation, route}) => {
         <>{showCreateCategory(navigation, 'history')}</>
       ) : (
         <>
-          <Text style={styles.textTitle}>Seleccione una categoria</Text>
+          <Text style={styles.textTitle}>{t('select.category')}</Text>
           <View style={styles.view}>
             <SearchSelector
               options={categories.map(item => ({
