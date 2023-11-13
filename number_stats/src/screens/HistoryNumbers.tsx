@@ -15,8 +15,11 @@ import SelectDropdown from 'react-native-select-dropdown';
 import {showCreateCategory, showCreateRecord} from './Utils';
 import {useAppDispatch, useAppSelector} from '../store/Hooks';
 import {setIdSelected} from '../store/Categories';
+import {useTranslation} from 'react-i18next';
 
 const History = ({navigation, route}) => {
+  const {t} = useTranslation();
+
   const dropdownRef = useRef<SelectDropdown>(null);
   const dispatch = useAppDispatch();
 
@@ -73,7 +76,7 @@ const History = ({navigation, route}) => {
               }}
               defaultValue={selectedCategorySelector}
               dropdownRef={dropdownRef}
-              defaultLabel="Ingrese un texto"
+              defaultLabel={t('global.write.something')}
             />
           </View>
           {selectedCategorySelector && !isEmpty(data) ? (
@@ -107,8 +110,8 @@ const History = ({navigation, route}) => {
                           style={styles.iconButtonCol}
                           onPress={() => {
                             Alert.alert(
-                              'Eliminar registro',
-                              '¿Desea continuar?',
+                              t('history.delete'),
+                              t('history.delete.question'),
                               [
                                 {
                                   text: 'Si',
@@ -116,7 +119,7 @@ const History = ({navigation, route}) => {
                                     valuesCategoryRepository.deleteRecord(item);
                                     Toast.show({
                                       type: 'success',
-                                      text1: 'Registro eliminado',
+                                      text1: t('global.record.deleted'),
                                     });
                                   },
                                 },

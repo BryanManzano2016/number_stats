@@ -16,8 +16,12 @@ import SelectDropdown from 'react-native-select-dropdown';
 import {showCreateCategory, showCreateRecord} from './Utils';
 import {useAppDispatch, useAppSelector} from '../store/Hooks';
 import {setIdSelected} from '../store/Categories';
+import {useTranslation} from 'react-i18next';
+import {replaceParams} from '../core/i18n/I18n';
 
 const Resume = ({route, navigation}) => {
+  const {t} = useTranslation();
+
   const dropdownRef = useRef<SelectDropdown>(null);
   const dispatch = useAppDispatch();
 
@@ -93,7 +97,7 @@ const Resume = ({route, navigation}) => {
         <>{showCreateCategory(navigation, 'resume')}</>
       ) : (
         <>
-          <Text style={styles.textTitle}>Seleccione una categoria</Text>
+          <Text style={styles.textTitle}>{t('select.category')}</Text>
           <View style={styles.view}>
             <SearchSelector
               options={categories.map(item => ({
@@ -105,7 +109,7 @@ const Resume = ({route, navigation}) => {
               }}
               defaultValue={selectedCategorySelector}
               dropdownRef={dropdownRef}
-              defaultLabel="Ingrese un texto"
+              defaultLabel={t('global.write.something')}
             />
           </View>
           {selectedCategorySelector && !isEmpty(data.yValuesData) ? (
@@ -113,8 +117,10 @@ const Resume = ({route, navigation}) => {
               <Card.Content>
                 <>
                   <Text variant="titleSmall" style={styles.cardText}>
-                    Promedio {roundDouble(calculateAverage(data.yValuesData))} /{' '}
-                    {data.yValuesData.length} registros
+                    {replaceParams(t('resume.graph.title'), [
+                      ['mean', roundDouble(calculateAverage(data.yValuesData))],
+                      ['records', data.yValuesData.length],
+                    ])}
                   </Text>
                   {chart}
                 </>

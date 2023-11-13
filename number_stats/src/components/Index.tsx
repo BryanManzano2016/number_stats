@@ -18,8 +18,11 @@ import ValuesCategory from '../core/db/models/ValuesCategory';
 import ToastOwn from './ToastOwn';
 import {Provider} from 'react-redux';
 import {store} from '../store/Store';
+import {initI18n} from '../core/i18n/I18n';
 
 const Stack = createStackNavigator();
+
+initI18n();
 
 const Index = () => {
   return (

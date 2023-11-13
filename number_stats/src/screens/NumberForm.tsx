@@ -21,8 +21,12 @@ import {evaluateError, showCreateCategory} from './Utils';
 import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
 import {useAppDispatch, useAppSelector} from '../store/Hooks';
 import {setIdSelected} from '../store/Categories';
+import {useTranslation} from 'react-i18next';
+import {replaceParams} from '../core/i18n/I18n';
 
 const NumberForm = ({route, navigation}) => {
+  const {t} = useTranslation();
+
   const dropdownRef = useRef<SelectDropdown>(null);
   const dispatch = useAppDispatch();
 
@@ -53,7 +57,7 @@ const NumberForm = ({route, navigation}) => {
       yup.object().shape({
         category: yup
           .object()
-          .test('test-category', 'Elegir una categoria', function () {
+          .test('test-category', t('numberForm.category.error'), function () {
             return (
               selectedCategorySelector !== undefined &&
               initialCategory !== undefined
@@ -61,28 +65,26 @@ const NumberForm = ({route, navigation}) => {
           }),
         date: yup
           .string()
-          .test(
-            'is-valid-date',
-            'Fecha debe ser dd/mm/aaaa hh:mm',
-            function (value) {
-              return isValidDateTime(value ?? '', FORMAT_DATES.SIMPLE_DATE);
-            },
-          ),
+          .test('is-valid-date', t('numberForm.date.error'), function (value) {
+            return isValidDateTime(value ?? '', FORMAT_DATES.SIMPLE_DATE);
+          }),
         value: yup
           .string()
           .matches(
             /^(-?\d+(\.\d+)?)(,-?\d+(\.\d+)?)*$/,
-            'Solo numeros separados por coma (Ejm: 1.1,2,3,...)',
+            t('numberForm.value.error'),
           )
           .test(
             'length-validator',
-            `No mas de ${MAX_RECORDS_INSERT} registros`,
+            replaceParams(t('numberForm.value.len.error'), [
+              ['max', MAX_RECORDS_INSERT],
+            ]),
             function (value) {
               const currentLength = value ? value.split(',').length : 0;
               return currentLength < MAX_RECORDS_INSERT;
             },
           )
-          .required('Requerido'),
+          .required(t('numberForm.value.required')),
       }),
     ),
   });
@@ -112,7 +114,7 @@ const NumberForm = ({route, navigation}) => {
       navigation.navigate('resume');
       Toast.show({
         type: 'success',
-        text1: 'Registro creado',
+        text1: t('global.record.created'),
       });
     }
   };
@@ -135,7 +137,7 @@ const NumberForm = ({route, navigation}) => {
               }}
               defaultValue={selectedCategorySelector}
               dropdownRef={dropdownRef}
-              defaultLabel="Ingrese un texto"
+              defaultLabel={t('global.write.something')}
             />
           </View>
 
@@ -144,21 +146,20 @@ const NumberForm = ({route, navigation}) => {
             control={control}
             key={'value'}
             maxLength={12}
-            placeHolder="0"
+            placeHolder={t('numberForm.value.placeholder')}
             isRequired
             keyboardType="numeric"
-            label="Valor"
+            label={t('numberForm.value')}
           />
-
           <ControllerForm
             name="date"
             control={control}
             key={'date'}
             maxLength={16}
-            placeHolder="dd/mm/aaaa hh:mm"
+            placeHolder={t('numberForm.date.placeholder')}
             isRequired
             keyboardType="numbers-and-punctuation"
-            label="Fecha"
+            label={t('numberForm.date')}
           />
 
           {evaluateError(errors, 'value.message')}
@@ -167,10 +168,9 @@ const NumberForm = ({route, navigation}) => {
 
           <Button
             style={styles.button}
-            /* disabled={selectedCategorySelector === undefined} */
             mode="contained"
             onPress={handleSubmit(onSubmit)}>
-            Guardar
+            {t('global.save')}
           </Button>
         </>
       )}
