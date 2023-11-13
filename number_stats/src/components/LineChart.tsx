@@ -22,56 +22,61 @@ const LineChartComponent = ({
       ? dimensionsValue.width
       : WIDTH_RECORD * dataLength;
 
-  return (
-    <ScrollView horizontal>
-      <LineChart
-        data={{
-          labels: dataLabels,
-          datasets: [
-            {
-              data: dataValues,
+  try {
+    return (
+      <ScrollView horizontal>
+        <LineChart
+          data={{
+            labels: dataLabels,
+            datasets: [
+              {
+                data: dataValues,
+              },
+            ],
+          }}
+          width={widthChart}
+          height={dimensionsValue.height * configuration.heightProportional}
+          yAxisLabel=""
+          yAxisInterval={1}
+          chartConfig={{
+            backgroundColor: '#FFFFFF',
+            backgroundGradientFrom: '#FFFFFF',
+            backgroundGradientTo: '#FFFFFF',
+            decimalPlaces: 2,
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            style: {},
+            propsForDots: {
+              r: '6',
+              strokeWidth: '1',
+              stroke: '#ffa726',
             },
-          ],
-        }}
-        width={widthChart}
-        height={dimensionsValue.height * configuration.heightProportional}
-        yAxisLabel=""
-        yAxisInterval={1}
-        chartConfig={{
-          backgroundColor: '#FFFFFF',
-          backgroundGradientFrom: '#FFFFFF',
-          backgroundGradientTo: '#FFFFFF',
-          decimalPlaces: 2,
-          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          style: {},
-          propsForDots: {
-            r: '6',
-            strokeWidth: '1',
-            stroke: '#ffa726',
-          },
-        }}
-        bezier
-        verticalLabelRotation={configuration.verticalLabelRotation}
-        style={styles.lineChart}
-        onDataPointClick={() => {}}
-        renderDotContent={({x, y, index, indexData}) => {
-          return (
-            <View key={'renderDotContent' + index}>
-              <Circle cx={x} cy={y} r={5} fill="gray" />
-              <Text
-                x={x + 20}
-                y={y - 5}
-                fontSize={11}
-                fill="black"
-                textAnchor="middle">
-                {indexData}
-              </Text>
-            </View>
-          );
-        }}
-      />
-    </ScrollView>
-  );
+          }}
+          bezier
+          verticalLabelRotation={configuration.verticalLabelRotation}
+          style={styles.lineChart}
+          onDataPointClick={() => {}}
+          renderDotContent={({x, y, index, indexData}) => {
+            return (
+              <View key={'renderDotContent' + index}>
+                <Circle cx={x} cy={y} r={5} fill="gray" />
+                <Text
+                  x={x + 20}
+                  y={y - 5}
+                  fontSize={11}
+                  fill="black"
+                  textAnchor="middle">
+                  {indexData}
+                </Text>
+              </View>
+            );
+          }}
+        />
+      </ScrollView>
+    );
+  } catch (error) {
+    console.log('Error LineChartComponent', error);
+    return <></>;
+  }
 };
 export default LineChartComponent;

@@ -61,9 +61,9 @@ export default {
     'app.description':
       '#{app_name} is an intuitive and customizable application designed for efficient management of numerical data and graph generation. Users can create specific categories, such as "Finance", "Health", "Productivity", among others, to organize data in a logical and thematic way. Within each category, users can add numerical entries, which the app then processes to produce graphical visualizations. This tool is ideal for those looking to track and analyze trends, patterns, and statistics in various areas of their life or work, facilitating data-based decision making and the presentation of key information. With #{app_name}, transforming numbers into actionable insights is simple and effective.',
     'information.consideration': 'Considerations',
-    'information.considerations.0': '- Storage is in internal memory',
+    'information.considerations.0': '- Storage is in internal memory.',
     'information.considerations.1':
-      '- Currently, the application records a maximum of 100 entries per category. Upon reaching the limit, the oldest records will be sequentially deleted',
+      '- Currently, the application records a maximum of 100 entries per category. Upon reaching the limit, the oldest records will be sequentially deleted.',
     'information.tutorial': 'Tutorial',
     'tutorial.error.alert': 'Error opening video',
 

@@ -49,7 +49,7 @@ const Information = ({navigation, route}) => {
           onPress={() =>
             openLink('https://www.youtube.com/watch?v=C0lo1oTa9Zs')
           }>
-          {t('global.see')}
+          {t('global.see')} youtube.com
         </Button>
       </View>
     </Layout>

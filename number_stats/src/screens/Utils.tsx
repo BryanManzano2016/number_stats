@@ -35,7 +35,7 @@ export const showCreateCategory = (
 export const showCreateRecord = (navigation: any) => {
   return (
     <>
-      <Text style={styles.cardText}>Sin registros</Text>
+      <Text style={styles.cardText}>{t('global.no.records')}</Text>
       <ButtonComponent
         mode="contained"
         text={t('global.add.record')}

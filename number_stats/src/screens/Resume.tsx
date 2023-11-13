@@ -74,21 +74,16 @@ const Resume = ({route, navigation}) => {
   }, [selectedCategorySelector, valuesCategoryRepository]);
 
   const chart = useMemo(() => {
-    try {
-      return (
-        <LineChart
-          dataValues={data.yValuesData}
-          dataLabels={data.xValuesData}
-          configuration={{
-            heightProportional: 0.55,
-            verticalLabelRotation: 75,
-          }}
-        />
-      );
-    } catch (error) {
-      console.log('Error printChart', error);
-    }
-    return <></>;
+    return (
+      <LineChart
+        dataValues={data.yValuesData}
+        dataLabels={data.xValuesData}
+        configuration={{
+          heightProportional: 0.55,
+          verticalLabelRotation: 75,
+        }}
+      />
+    );
   }, [data]);
 
   return (

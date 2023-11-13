@@ -47,6 +47,7 @@ const styles = () => {
     text: {
       marginVertical: 10,
       textAlign: 'justify',
+      alignSelf: 'center',
     },
     textTitle: {
       textAlign: 'center',
