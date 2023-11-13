@@ -2,13 +2,14 @@ import i18n, {t, exists} from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import en from './en';
 import es from './es';
-import {isEmpty} from 'lodash';
+import {get, isEmpty} from 'lodash';
+import * as RNLocalize from 'react-native-localize';
 
 export const initI18n = () => {
   i18n.use(initReactI18next).init({
     compatibilityJSON: 'v3',
     resources: {en, es},
-    fallbackLng: 'en',
+    fallbackLng: get(RNLocalize.getLocales(), '[0].languageCode', 'en'),
     interpolation: {
       escapeValue: false,
     },

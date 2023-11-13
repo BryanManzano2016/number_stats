@@ -3,6 +3,7 @@ import {get as getOrDefault} from 'lodash';
 import {Text} from 'react-native-paper';
 import styles from '../styles/Main';
 import {ButtonComponent} from '../components/ButtonComponent';
+import {t} from 'i18next';
 
 export const evaluateError = (errors: object, path: string) => {
   const messageError = getOrDefault(errors, path, '');
@@ -19,10 +20,10 @@ export const showCreateCategory = (
 ) => {
   return (
     <>
-      <Text style={styles.text}>No tiene categorias registradas</Text>
+      <Text style={styles.text}>{t('categories.empty')}</Text>
       <ButtonComponent
         mode="contained"
-        text="Crear categoria"
+        text={t('categories.create')}
         onPress={() => {
           navigation.navigate('categories/new', {redirect: redirect});
         }}
@@ -37,7 +38,7 @@ export const showCreateRecord = (navigation: any) => {
       <Text style={styles.cardText}>Sin registros</Text>
       <ButtonComponent
         mode="contained"
-        text="Agregar registro"
+        text={t('global.add.record')}
         onPress={() => {
           navigation.navigate('numbers');
         }}

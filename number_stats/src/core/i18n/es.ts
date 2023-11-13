@@ -8,7 +8,7 @@ export default {
 
     'global.add.record': 'Agregar registro',
     'global.no.records': 'Sin registros',
-    'global.write.something': 'Escriba ...',
+    'global.write.something': 'Escriba algo...',
     'global.save': 'Guardar',
     'global.record.created': 'Registro creado',
     'global.record.deleted': 'Registro eliminado',
@@ -16,7 +16,7 @@ export default {
     'global.record.exists': 'Registro existente',
     'global.required': 'Requerido',
     'global.see': 'Ver',
-    'global.yes': 'Si',
+    'global.yes': 'Sí',
     'global.no': 'No',
 
     'select.category': 'Seleccione una categoría',
@@ -35,7 +35,7 @@ export default {
     'numberForm.value.len.error': 'No más de #{max} registros',
     'numberForm.value.required': 'Valor requerido',
     'numberForm.date.error': 'Fecha debe ser dd/mm/aaaa hh:mm',
-    'numberForm.update.value.format': 'El valor debe ser formato #.#',
+    'numberForm.update.value.format': 'El valor debe ser en formato #.#',
     'numberForm.update.category': 'Categoría #{name}',
     'numberForm.update.last': 'Último valor #{value}',
 
@@ -63,8 +63,11 @@ export default {
     'information.consideration': 'Consideraciones',
     'information.considerations.0': '- El almacenamiento es en memoria interna',
     'information.considerations.1':
-      '- Actualmente la aplicacion registra maximo 100 registros por categoria. Al llegar al limite los registros mas antiguos seran eliminados secuencialmente',
+      '- Actualmente la aplicación registra máximo 100 registros por categoría. Al llegar al límite, los registros más antiguos serán eliminados secuencialmente',
     'information.tutorial': 'Tutorial',
-    'tutorial.error.alert': 'Error al abrir video',
+    'tutorial.error.alert': 'Error al abrir vídeo',
+
+    'categories.create': 'Crear categorías',
+    'categories.empty': 'No tiene categorías registradas',
   },
 };
