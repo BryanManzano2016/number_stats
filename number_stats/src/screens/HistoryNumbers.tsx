@@ -114,7 +114,7 @@ const History = ({navigation, route}) => {
                               t('history.delete.question'),
                               [
                                 {
-                                  text: 'Si',
+                                  text: t('global.yes'),
                                   onPress: () => {
                                     valuesCategoryRepository.deleteRecord(item);
                                     Toast.show({
@@ -124,7 +124,7 @@ const History = ({navigation, route}) => {
                                   },
                                 },
                                 {
-                                  text: 'No',
+                                  text: t('global.no'),
                                   onPress: () => {},
                                 },
                               ],

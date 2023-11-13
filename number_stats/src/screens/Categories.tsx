@@ -68,7 +68,7 @@ const History = ({navigation, route}) => {
                       t('categories.delete.question'),
                       [
                         {
-                          text: 'Si',
+                          text: t('global.yes'),
                           onPress: () => {
                             dispatch(setIdSelected(undefined));
                             valuesCategoryRepository.deleteByIdCategory(
@@ -82,7 +82,7 @@ const History = ({navigation, route}) => {
                           },
                         },
                         {
-                          text: 'No',
+                          text: t('global.no'),
                           onPress: () => {},
                         },
                       ],

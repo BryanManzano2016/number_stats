@@ -16,6 +16,8 @@ export default {
     'global.record.exists': 'Record exists',
     'global.required': 'Required',
     'global.see': 'Go to',
+    'global.yes': 'Yes',
+    'global.no': 'No',
 
     'select.category': 'Select a category',
 

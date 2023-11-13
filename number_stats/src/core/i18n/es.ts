@@ -16,6 +16,8 @@ export default {
     'global.record.exists': 'Registro existente',
     'global.required': 'Requerido',
     'global.see': 'Ver',
+    'global.yes': 'Si',
+    'global.no': 'No',
 
     'select.category': 'Seleccione una categoría',
 

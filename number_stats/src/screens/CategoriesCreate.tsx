@@ -45,7 +45,7 @@ const CategoriesCreate = ({navigation, route}) => {
         {key: 'toastMessage', value: t('global.record.created')},
         {key: 'toastMessageType', value: 'success'},
       ]);
-      categoryRepository.save(name);
+      categoryRepository.save(name.trim());
       navigation.navigate(pathRedirect);
     } else {
       Toast.show({

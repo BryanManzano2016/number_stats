@@ -47,7 +47,7 @@ const CategoriesCreate = ({navigation, route}) => {
         {key: 'toastMessage', value: t('global.record.updated')},
         {key: 'toastMessageType', value: 'success'},
       ]);
-      categoryRepository.update(element, name);
+      categoryRepository.update(element, name.trim());
       navigation.navigate('categories');
     } else {
       Alert.alert(
