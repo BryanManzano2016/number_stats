@@ -25,9 +25,9 @@ export default {
     'resume.graph.mean': 'Promedio',
     'resume.graph.title': 'Promedio #{mean} / #{records} registros',
 
-    'numberForm.value': 'Value',
+    'numberForm.value': 'Valor',
     'numberForm.value.placeholder': '0',
-    'numberForm.date': 'Date',
+    'numberForm.date': 'Fecha',
     'numberForm.date.placeholder': 'dd/mm/aaaa hh:mm',
     'numberForm.category.error': 'Elegir una categoría',
     'numberForm.value.error':
