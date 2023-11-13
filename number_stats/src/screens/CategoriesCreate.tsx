@@ -13,6 +13,7 @@ import {evaluateError} from './Utils';
 import {get} from 'lodash';
 import styles from '../styles/Main';
 import {useTranslation} from 'react-i18next';
+import {Keyboard} from 'react-native';
 
 const CategoriesCreate = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -39,6 +40,7 @@ const CategoriesCreate = ({navigation, route}) => {
   });
 
   const onSubmit = ({name}: {name: string}) => {
+    Keyboard.dismiss();
     const elementExists = categoryRepository.filterByValue(name);
     if (elementExists === undefined) {
       setItems([

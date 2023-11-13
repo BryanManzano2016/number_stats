@@ -1,7 +1,7 @@
 import React from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, Appbar} from 'react-native-paper';
-import {Alert} from 'react-native';
+import {Alert, Keyboard} from 'react-native';
 
 import Layout from '../components/Layout';
 import ControllerForm from '../components/ControllerForm';
@@ -41,6 +41,7 @@ const CategoriesCreate = ({navigation, route}) => {
   });
 
   const onSubmit = ({name}: {name: string}) => {
+    Keyboard.dismiss();
     const elementExists = categoryRepository.filterByValue(name);
     if (elementExists === undefined) {
       setItems([
@@ -77,9 +78,10 @@ const CategoriesCreate = ({navigation, route}) => {
         control={control}
         key={'name'}
         maxLength={30}
-        placeHolder={i18nReplaceParams(t('categories.update.name.placeholder'), [
-          ['value', element.value],
-        ])}
+        placeHolder={i18nReplaceParams(
+          t('categories.update.name.placeholder'),
+          [['value', element.value]],
+        )}
         isRequired
         keyboardType="default"
         label={t('categories.update.name')}
@@ -91,7 +93,7 @@ const CategoriesCreate = ({navigation, route}) => {
         style={styles.button}
         mode="contained"
         onPress={handleSubmit(onSubmit)}>
-        Guardar
+        {t('global.save')}
       </Button>
     </Layout>
   );

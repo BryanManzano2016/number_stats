@@ -35,9 +35,10 @@ export default {
     'numberForm.value.len.error': 'No más de #{max} registros',
     'numberForm.value.required': 'Valor requerido',
     'numberForm.date.error': 'Fecha debe ser dd/mm/aaaa hh:mm',
+    'numberForm.update.title': 'Editar registro',
     'numberForm.update.value.format': 'El valor debe ser en formato #.#',
-    'numberForm.update.category': 'Categoría #{name}',
-    'numberForm.update.last': 'Último valor #{value}',
+    'numberForm.update.category': 'Categoría: #{name}',
+    'numberForm.update.last': 'Último valor: #{value}',
 
     'history.delete': 'Eliminar registro',
     'history.delete.question': '¿Desea continuar?',
@@ -61,9 +62,10 @@ export default {
     'app.description':
       '#{app_name} es una aplicación intuitiva y personalizable diseñada para la gestión eficiente de datos numéricos y la generación de gráficos. Los usuarios pueden crear categorías específicas, como "Finanzas", "Salud", "Productividad", entre otras, para organizar datos de manera lógica y temática. Dentro de cada categoría, los usuarios pueden agregar entradas numéricas, que luego la app procesa para producir visualizaciones gráficas. Esta herramienta es ideal para quienes buscan rastrear y analizar tendencias, patrones y estadísticas de diversas áreas de su vida o trabajo, facilitando la toma de decisiones basada en datos y la presentación de información clave. Con #{app_name}, transformar números en conocimientos accionables es sencillo y efectivo.',
     'information.consideration': 'Consideraciones',
-    'information.considerations.0': '- El almacenamiento es en memoria interna',
+    'information.considerations.0':
+      '- El almacenamiento es en memoria interna.',
     'information.considerations.1':
-      '- Actualmente la aplicación registra máximo 100 registros por categoría. Al llegar al límite, los registros más antiguos serán eliminados secuencialmente',
+      '- Actualmente la aplicación registra máximo 100 registros por categoría. Al llegar al límite, los registros más antiguos serán eliminados secuencialmente.',
     'information.tutorial': 'Tutorial',
     'tutorial.error.alert': 'Error al abrir vídeo',
 

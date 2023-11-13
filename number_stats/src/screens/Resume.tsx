@@ -79,7 +79,7 @@ const Resume = ({route, navigation}) => {
         dataValues={data.yValuesData}
         dataLabels={data.xValuesData}
         configuration={{
-          heightProportional: 0.55,
+          heightProportional: 0.6,
           verticalLabelRotation: 75,
         }}
       />

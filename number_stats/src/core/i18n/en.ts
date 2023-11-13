@@ -35,9 +35,10 @@ export default {
     'numberForm.value.len.error': 'No more than #{max} records',
     'numberForm.value.required': 'Value required',
     'numberForm.date.error': 'Date must be dd/mm/yyyy hh:mm',
+    'numberForm.update.title': 'Update record',
     'numberForm.update.value.format': 'Value must be in #.# format',
-    'numberForm.update.category': 'Category #{name}',
-    'numberForm.update.last': 'Last value #{value}',
+    'numberForm.update.category': 'Category: #{name}',
+    'numberForm.update.last': 'Last value: #{value}',
 
     'history.delete': 'Delete record',
     'history.delete.question': 'Do you wish to continue?',

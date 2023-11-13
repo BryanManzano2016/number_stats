@@ -16,6 +16,7 @@ import {FORMAT_DATES} from '../utils/Constants';
 import {evaluateError} from './Utils';
 import {useTranslation} from 'react-i18next';
 import {i18nReplaceParams} from '../core/i18n/I18n';
+import {Keyboard} from 'react-native';
 
 const NumberFormUpdate = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -55,6 +56,7 @@ const NumberFormUpdate = ({navigation, route}) => {
   });
 
   const onSubmit = ({value, date}: {date?: string; value: string}) => {
+    Keyboard.dismiss();
     if (category) {
       setItems([
         {key: 'toastMessage', value: t('global.record.updated')},
@@ -77,7 +79,7 @@ const NumberFormUpdate = ({navigation, route}) => {
       headers={
         <>
           <Appbar.BackAction onPress={navigation.goBack} />
-          <Appbar.Content title={t('categories.update.title')} />
+          <Appbar.Content title={t('numberForm.update.title')} />
         </>
       }>
       <Text style={styles.textTitle}>
@@ -121,7 +123,7 @@ const NumberFormUpdate = ({navigation, route}) => {
         disabled={category === undefined}
         mode="contained"
         onPress={handleSubmit(onSubmit)}>
-        Guardar
+        {t('global.save')}
       </Button>
     </Layout>
   );
