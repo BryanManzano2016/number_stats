@@ -1,5 +1,11 @@
 import React, {useState, useMemo, useEffect, useRef} from 'react';
-import {Card, Divider, Text} from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Card,
+  Divider,
+  MD2Colors,
+  Text,
+} from 'react-native-paper';
 import {View} from 'react-native';
 import isEmpty from 'lodash/isEmpty';
 

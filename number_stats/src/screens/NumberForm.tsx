@@ -47,6 +47,7 @@ const NumberForm = ({route, navigation}) => {
     control,
     handleSubmit,
     formState: {errors},
+    setValue,
   } = useForm({
     defaultValues: {
       category: initialCategory,
@@ -112,6 +113,7 @@ const NumberForm = ({route, navigation}) => {
       const dateSend = stringToDate(date) ?? new Date();
       valuesCategoryRepository.saveBulk(recordDb._id, listDoubles, dateSend);
       control._reset();
+      setValue('date', dateToString(new Date(), FORMAT_DATES.SIMPLE_DATE));
       Toast.show({
         type: 'success',
         text1: t('global.record.created'),
