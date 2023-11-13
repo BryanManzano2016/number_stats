@@ -14,8 +14,12 @@ import {setItems} from '../core/SimpleStorage';
 import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
 import {FORMAT_DATES} from '../utils/Constants';
 import {evaluateError} from './Utils';
+import {useTranslation} from 'react-i18next';
+import {replaceParams} from '../core/i18n/I18n';
 
 const NumberFormUpdate = ({navigation, route}) => {
+  const {t} = useTranslation();
+
   const {params} = route;
 
   const categoryRepository = CategoryRepository();
@@ -39,17 +43,13 @@ const NumberFormUpdate = ({navigation, route}) => {
       yup.object().shape({
         date: yup
           .string()
-          .test(
-            'is-valid-date',
-            'Fecha debe ser dd/mm/aaaa hh:mm',
-            function (value) {
-              return isValidDateTime(value ?? '', FORMAT_DATES.SIMPLE_DATE);
-            },
-          ),
+          .test('is-valid-date', t('numberForm.date.error'), function (value) {
+            return isValidDateTime(value ?? '', FORMAT_DATES.SIMPLE_DATE);
+          }),
         value: yup
           .string()
-          .matches(/^-?\d+(\.\d+)?$/, 'El valor debe ser formato #.#')
-          .required('Valor requerido'),
+          .matches(/^-?\d+(\.\d+)?$/, t('numberForm.update.value.format'))
+          .required(t('numberForm.value.required')),
       }),
     ),
   });
@@ -57,7 +57,7 @@ const NumberFormUpdate = ({navigation, route}) => {
   const onSubmit = ({value, date}: {date?: string; value: string}) => {
     if (category) {
       setItems([
-        {key: 'toastMessage', value: 'Registro modificado'},
+        {key: 'toastMessage', value: t('global.record.updated')},
         {key: 'toastMessageType', value: 'success'},
       ]);
       const dateSend = stringToDate(date);
@@ -77,12 +77,18 @@ const NumberFormUpdate = ({navigation, route}) => {
       headers={
         <>
           <Appbar.BackAction onPress={navigation.goBack} />
-          <Appbar.Content title="Modificar registro" />
+          <Appbar.Content title={t('categories.update.title')} />
         </>
       }>
-      <Text style={styles.textTitle}>Categoria {category.value}</Text>
       <Text style={styles.textTitle}>
-        Ultimo valor: {(valueToUpdate?.value ?? '').toString()}
+        {replaceParams(t('numberForm.update.category'), [
+          ['name', category.value],
+        ])}
+      </Text>
+      <Text style={styles.textTitle}>
+        {replaceParams(t('numberForm.update.last'), [
+          ['value', valueToUpdate?.value ?? ''],
+        ])}
       </Text>
 
       <ControllerForm
@@ -90,10 +96,10 @@ const NumberFormUpdate = ({navigation, route}) => {
         control={control}
         key={'value'}
         maxLength={12}
-        placeHolder={'0'}
+        placeHolder={t('numberForm.value.placeholder')}
         isRequired
         keyboardType="numeric"
-        label="Valor"
+        label={t('numberForm.value')}
       />
 
       <ControllerForm
@@ -101,10 +107,10 @@ const NumberFormUpdate = ({navigation, route}) => {
         control={control}
         key={'date'}
         maxLength={16}
-        placeHolder="dd/mm/aaaa hh:mm"
+        placeHolder={t('numberForm.date.placeholder')}
         isRequired
         keyboardType="numbers-and-punctuation"
-        label="Fecha"
+        label={t('numberForm.date')}
       />
 
       {evaluateError(errors, 'value.message')}

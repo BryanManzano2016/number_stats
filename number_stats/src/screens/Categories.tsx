@@ -8,10 +8,13 @@ import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import Toast from 'react-native-toast-message';
-import {useAppDispatch, useAppSelector} from '../store/Hooks';
+import {useAppDispatch} from '../store/Hooks';
 import {setIdSelected} from '../store/Categories';
+import {useTranslation} from 'react-i18next';
 
 const History = ({navigation, route}) => {
+  const {t} = useTranslation();
+
   const dispatch = useAppDispatch();
 
   const categoryRepository = CategoryRepository();
@@ -24,7 +27,7 @@ const History = ({navigation, route}) => {
       headers={
         <>
           <Appbar.BackAction onPress={navigation.goBack} />
-          <Appbar.Content title="Lista de categorias" />
+          <Appbar.Content title={t('categories.title')} />
           <Appbar.Action
             icon="plus-circle"
             onPress={() => {
@@ -34,7 +37,7 @@ const History = ({navigation, route}) => {
         </>
       }>
       {isEmpty(categories) && (
-        <Text style={styles.text}>No tiene categorias registradas</Text>
+        <Text style={styles.text}>{t('categories.no.data')}</Text>
       )}
       {categories.map(item => (
         <Card key={item._id} style={styles.card}>
@@ -61,8 +64,8 @@ const History = ({navigation, route}) => {
                   style={styles.iconButtonCol}
                   onPress={() => {
                     Alert.alert(
-                      'Eliminar registro',
-                      '¿Desea continuar?',
+                      t('categories.delete'),
+                      t('categories.delete.question'),
                       [
                         {
                           text: 'Si',
@@ -74,7 +77,7 @@ const History = ({navigation, route}) => {
                             categoryRepository.deleteRecord(item);
                             Toast.show({
                               type: 'success',
-                              text1: 'Registro eliminado',
+                              text1: t('global.record.deleted'),
                             });
                           },
                         },

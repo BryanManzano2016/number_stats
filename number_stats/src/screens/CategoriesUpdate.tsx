@@ -1,6 +1,6 @@
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {Button, Text, Appbar} from 'react-native-paper';
+import {Button, Appbar} from 'react-native-paper';
 import {Alert} from 'react-native';
 
 import Layout from '../components/Layout';
@@ -9,10 +9,14 @@ import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import styles from '../styles/Main';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {get as getOrDefault} from 'lodash';
 import {setItems} from '../core/SimpleStorage';
+import {useTranslation} from 'react-i18next';
+import {replaceParams} from '../core/i18n/I18n';
+import {evaluateError} from './Utils';
 
 const CategoriesCreate = ({navigation, route}) => {
+  const {t} = useTranslation();
+
   const {params} = route;
 
   const categoryRepository = CategoryRepository();
@@ -30,8 +34,8 @@ const CategoriesCreate = ({navigation, route}) => {
       yup.object().shape({
         name: yup
           .string()
-          .max(50, 'Nombre muy extenso')
-          .required('Nombre requerido'),
+          .max(50, t('categories.name.bigger'))
+          .required(t('categories.name.required')),
       }),
     ),
   });
@@ -40,15 +44,15 @@ const CategoriesCreate = ({navigation, route}) => {
     const elementExists = categoryRepository.filterByValue(name);
     if (elementExists === undefined) {
       setItems([
-        {key: 'toastMessage', value: 'Registro modificado'},
+        {key: 'toastMessage', value: t('global.record.updated')},
         {key: 'toastMessageType', value: 'success'},
       ]);
       categoryRepository.update(element, name);
       navigation.navigate('categories');
     } else {
       Alert.alert(
-        'Registro existente',
-        'Usar otro nombre',
+        t('global.record.exists'),
+        t('categories.name.other'),
         [
           {
             text: 'Ok',
@@ -58,7 +62,6 @@ const CategoriesCreate = ({navigation, route}) => {
       );
     }
   };
-  const messageErrorName = getOrDefault(errors, 'name.message', '');
 
   return (
     <Layout
@@ -66,7 +69,7 @@ const CategoriesCreate = ({navigation, route}) => {
       headers={
         <>
           <Appbar.BackAction onPress={navigation.goBack} />
-          <Appbar.Content title="Editar categoria" />
+          <Appbar.Content title={t('categories.update.title')} />
         </>
       }>
       <ControllerForm
@@ -74,17 +77,15 @@ const CategoriesCreate = ({navigation, route}) => {
         control={control}
         key={'name'}
         maxLength={30}
-        placeHolder={'Valor actual: '.concat(element.value)}
+        placeHolder={replaceParams(t('categories.update.name.placeholder'), [
+          ['value', element.value],
+        ])}
         isRequired
         keyboardType="default"
-        label={'Nombre'}
+        label={t('categories.update.name')}
       />
 
-      {messageErrorName ? (
-        <Text style={styles.text}>{messageErrorName}</Text>
-      ) : (
-        <></>
-      )}
+      {evaluateError(errors, 'name.message')}
 
       <Button
         style={styles.button}
