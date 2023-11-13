@@ -1,5 +1,11 @@
 export default {
   translation: {
+    'resume.tab': 'Resumen',
+    'numbers.tab': 'Registro',
+    'history.tab': 'Historial',
+    'categories.drawer': 'Categorías',
+    'information.drawer': 'Información',
+
     'global.add.record': 'Agregar registro',
     'global.no.records': 'Sin registros',
     'global.write.something': 'Escriba algo',

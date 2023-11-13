@@ -9,11 +9,14 @@ import {printToast} from './Utils';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {Dimensions} from 'react-native';
 import Information from '../screens/Information';
+import {useTranslation} from 'react-i18next';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 const DrawerComponent = ({navigation, route}) => {
+  const {t} = useTranslation();
+
   useEffect(() => {
     printToast();
   }, [route]);
@@ -36,7 +39,7 @@ const DrawerComponent = ({navigation, route}) => {
         name="categories"
         options={{
           headerShown: false,
-          title: 'Categorias',
+          title: t('categories.drawer'),
         }}
         component={Categories}
       />
@@ -44,7 +47,7 @@ const DrawerComponent = ({navigation, route}) => {
         name="information"
         options={{
           headerShown: false,
-          title: 'Informacion',
+          title: t('information.drawer'),
         }}
         component={Information}
       />
@@ -53,13 +56,15 @@ const DrawerComponent = ({navigation, route}) => {
 };
 
 const Tabs = ({route}) => {
+  const {t} = useTranslation();
+
   return (
     <Tab.Navigator>
       <Tab.Screen
         name="resume"
         options={{
           headerShown: false,
-          title: 'Resumen',
+          title: t('resume.tab'),
           tabBarIcon: ({color, size}) =>
             Icons({id: 'format-list-numbered', color: color, size: size}),
         }}
@@ -69,7 +74,7 @@ const Tabs = ({route}) => {
         name="numbers"
         options={{
           headerShown: false,
-          title: 'Registro',
+          title: t('numbers.tab'),
           tabBarIcon: ({color, size}) =>
             Icons({id: 'form-select', color: color, size: size}),
         }}
@@ -79,7 +84,7 @@ const Tabs = ({route}) => {
         name="history"
         options={{
           headerShown: false,
-          title: 'Historial',
+          title: t('history.tab'),
           tabBarIcon: ({color, size}) =>
             Icons({id: 'history', color: color, size: size}),
         }}
