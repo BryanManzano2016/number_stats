@@ -63,5 +63,6 @@ export default {
     'information.considerations.1':
       '- Currently, the application records a maximum of 100 entries per category. Upon reaching the limit, the oldest records will be sequentially deleted',
     'information.tutorial': 'Tutorial',
+    'tutorial.error.alert': 'Error opening video',
   },
 };

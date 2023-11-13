@@ -63,5 +63,6 @@ export default {
     'information.considerations.1':
       '- Actualmente la aplicacion registra maximo 100 registros por categoria. Al llegar al limite los registros mas antiguos seran eliminados secuencialmente',
     'information.tutorial': 'Tutorial',
+    'tutorial.error.alert': 'Error al abrir video',
   },
 };

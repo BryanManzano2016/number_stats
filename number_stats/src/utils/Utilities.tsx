@@ -1,3 +1,4 @@
+import {t} from 'i18next';
 import {Linking, Alert} from 'react-native';
 
 export const openLink = (url: string) => {
@@ -6,7 +7,7 @@ export const openLink = (url: string) => {
       if (supported) {
         return Linking.openURL(url);
       } else {
-        Alert.alert('Error', `No se puede manejar la URL: ${url}`);
+        Alert.alert('Error', t('tutorial.error.alert'));
       }
     })
     .catch(err =>
