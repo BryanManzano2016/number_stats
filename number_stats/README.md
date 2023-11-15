@@ -62,6 +62,8 @@ yarn start --reset-cache
 
 yarn android --mode release
 
+npx react-native build-android --mode=release
+
 ## Congratulations! :tada:
 
 You've successfully run and modified your React Native App. :partying_face:
@@ -85,3 +87,6 @@ To learn more about React Native, take a look at the following resources:
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
 
+# Keystore
+
+keypassword: trendy_password
