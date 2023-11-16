@@ -1,12 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import type {RootState} from './Store';
+import {cacheGetItem, cacheSetItem} from '../core/SimpleStorage';
 
 export interface State {
   idSelected?: string;
 }
 
 const initialState: State = {
-  idSelected: undefined,
+  idSelected: cacheGetItem('categorySelectId'),
 };
 
 export const categorySlice = createSlice({
@@ -15,6 +16,7 @@ export const categorySlice = createSlice({
   reducers: {
     setIdSelected: (state, action: PayloadAction<string | undefined>) => {
       state.idSelected = action.payload;
+      cacheSetItem('categorySelectId', action.payload ?? '');
     },
   },
 });

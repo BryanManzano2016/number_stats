@@ -10,7 +10,7 @@ export const getAllKeys = (): string[] => {
   return storage.getAllKeys();
 };
 
-export const setItem = (
+export const cacheSetItem = (
   key: string,
   value: string | number | boolean,
 ): void => {
@@ -25,7 +25,7 @@ export const setItems = (items: any[]): void => {
     if (key === undefined) {
       return;
     }
-    setItem(key, value);
+    cacheSetItem(key, value);
   });
 };
 
@@ -37,7 +37,10 @@ export const clearAll = (): void => {
   storage.clearAll();
 };
 
-export const getItem = (key: string, defaultValue: string = ''): string => {
+export const cacheGetItem = (
+  key: string,
+  defaultValue: string = '',
+): string => {
   const value = storage.getString(key) ?? defaultValue;
   return value;
 };
@@ -49,5 +52,5 @@ export const getItemAsNumber = (key: string): number | null => {
 
 export const getItemAsBool = (key: string): boolean | undefined => {
   const value = storage.getBoolean(key);
-  return value ? value : undefined;
+  return value ?? undefined;
 };

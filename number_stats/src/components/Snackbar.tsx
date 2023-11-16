@@ -1,9 +1,9 @@
 import React from 'react';
 import {Snackbar} from 'react-native-paper';
-import {getItem, getItemAsBool, setItem} from '../core/SimpleStorage';
+import {cacheGetItem, getItemAsBool, cacheSetItem} from '../core/SimpleStorage';
 
 const SnackBar = () => {
-  const text = getItem('snackBarText', undefined);
+  const text = cacheGetItem('snackBarText', undefined);
   let isVisible = getItemAsBool('snackBarVisible') ?? false;
 
   return (
@@ -11,8 +11,8 @@ const SnackBar = () => {
       duration={5000}
       visible={isVisible}
       onDismiss={() => {
-        setItem('snackBarVisible', false);
-        setItem('snackBarText', '');
+        cacheSetItem('snackBarVisible', false);
+        cacheSetItem('snackBarText', '');
       }}>
       {text}
     </Snackbar>
