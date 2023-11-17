@@ -65,26 +65,32 @@ const Resume = ({route, navigation}) => {
           yValuesData.push(values.value);
         });
 
-        return {xValuesData, yValuesData};
+        return {
+          xValuesData,
+          yValuesData,
+          chart: (
+            <LineChart
+              dataValues={yValuesData}
+              dataLabels={xValuesData}
+              configuration={{
+                heightProportional: 0.6,
+                verticalLabelRotation: 75,
+              }}
+            />
+          ),
+        };
       }
     } catch (error) {
       console.log('Error groupValues', error);
     }
-    return {xValuesData: [], yValuesData: []};
+    return {
+      xValuesData: [],
+      yValuesData: [],
+      chart: undefined,
+    };
   }, [selectedCategorySelector, valuesCategoryRepository]);
 
-  const chart = useMemo(() => {
-    return (
-      <LineChart
-        dataValues={data.yValuesData}
-        dataLabels={data.xValuesData}
-        configuration={{
-          heightProportional: 0.6,
-          verticalLabelRotation: 75,
-        }}
-      />
-    );
-  }, [data]);
+  console.log('render resume', new Date());
 
   return (
     <Layout route={route}>
@@ -120,7 +126,7 @@ const Resume = ({route, navigation}) => {
                       ['records', data.yValuesData.length],
                     ])}
                   </Text>
-                  {chart}
+                  {data.chart}
                 </>
               </Card.Content>
             </Card>

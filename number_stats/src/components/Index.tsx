@@ -26,9 +26,9 @@ initI18n();
 
 const Index = () => {
   return (
-    <PaperProvider>
+    <Provider store={store}>
       <RealmProvider schema={[Category, ValuesCategory]} schemaVersion={2}>
-        <Provider store={store}>
+        <PaperProvider>
           <NavigationContainer>
             <Stack.Navigator>
               <Stack.Screen
@@ -54,9 +54,9 @@ const Index = () => {
             </Stack.Navigator>
             <ToastOwn />
           </NavigationContainer>
-        </Provider>
+        </PaperProvider>
       </RealmProvider>
-    </PaperProvider>
+    </Provider>
   );
 };
 
