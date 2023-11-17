@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect, useRef} from 'react';
-import {Card, Divider, Text} from 'react-native-paper';
+import React, {useState, useMemo, useEffect, useRef, Suspense} from 'react';
+import {ActivityIndicator, Card, Divider, Text} from 'react-native-paper';
 import {View} from 'react-native';
 import isEmpty from 'lodash/isEmpty';
 
@@ -113,26 +113,29 @@ const Resume = ({route, navigation}) => {
               defaultLabel={t('global.write.something')}
             />
           </View>
-          {selectedCategorySelector && !isEmpty(data.yValuesData) ? (
-            <Card style={styles.card} key={selectedCategorySelector.value}>
-              <Card.Content>
-                <>
-                  <Text variant="titleSmall" style={styles.cardText}>
-                    {i18nReplaceParams(t('resume.graph.title'), [
-                      [
-                        'mean',
-                        roundDoubleString(calculateAverage(data.yValuesData)),
-                      ],
-                      ['records', data.yValuesData.length],
-                    ])}
-                  </Text>
-                  {data.chart}
-                </>
-              </Card.Content>
-            </Card>
-          ) : (
-            <></>
-          )}
+          <Suspense
+            fallback={<ActivityIndicator size="large" color="#00ff00" />}>
+            {selectedCategorySelector && !isEmpty(data.yValuesData) ? (
+              <Card style={styles.card} key={selectedCategorySelector.value}>
+                <Card.Content>
+                  <>
+                    <Text variant="titleSmall" style={styles.cardText}>
+                      {i18nReplaceParams(t('resume.graph.title'), [
+                        [
+                          'mean',
+                          roundDoubleString(calculateAverage(data.yValuesData)),
+                        ],
+                        ['records', data.yValuesData.length],
+                      ])}
+                    </Text>
+                    {data.chart}
+                  </>
+                </Card.Content>
+              </Card>
+            ) : (
+              <></>
+            )}
+          </Suspense>
 
           {isEmpty(data.yValuesData) ? (
             <>

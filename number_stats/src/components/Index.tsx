@@ -29,7 +29,7 @@ const Index = () => {
     <Provider store={store}>
       <RealmProvider schema={[Category, ValuesCategory]} schemaVersion={2}>
         <PaperProvider>
-          <NavigationContainer>
+          <NavigationContainer onStateChange={() => {}} onReady={() => {}}>
             <Stack.Navigator>
               <Stack.Screen
                 name="home"
