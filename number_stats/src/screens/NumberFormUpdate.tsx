@@ -93,7 +93,7 @@ const NumberFormUpdate = ({navigation, route}) => {
       </Text>
       <Text style={styles.textTitle}>
         {i18nReplaceParams(t('numberForm.update.last'), [
-          ['value', valueToUpdate?.value ?? ''],
+          ['value', roundDoubleString(valueToUpdate.value)],
         ])}
       </Text>
 
