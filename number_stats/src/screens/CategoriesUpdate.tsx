@@ -13,9 +13,12 @@ import {setItems} from '../core/SimpleStorage';
 import {useTranslation} from 'react-i18next';
 import {i18nReplaceParams} from '../core/i18n/I18n';
 import {evaluateError} from './Utils';
+import {useAppDispatch} from '../store/Hooks';
+import {categorySetIdSelected} from '../store/Categories';
 
 const CategoriesCreate = ({navigation, route}) => {
   const {t} = useTranslation();
+  const dispatch = useAppDispatch();
 
   const {params} = route;
 
@@ -44,6 +47,7 @@ const CategoriesCreate = ({navigation, route}) => {
     Keyboard.dismiss();
     const elementExists = categoryRepository.filterByValue(name);
     if (elementExists === undefined) {
+      dispatch(categorySetIdSelected(undefined));
       setItems([
         {key: 'toastMessage', value: t('global.record.updated')},
         {key: 'toastMessageType', value: 'success'},

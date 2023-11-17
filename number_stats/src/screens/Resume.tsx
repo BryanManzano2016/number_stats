@@ -15,7 +15,7 @@ import {OptionSelector} from '../types/OptionSelector';
 import SelectDropdown from 'react-native-select-dropdown';
 import {showCreateCategory, showCreateRecord} from './Utils';
 import {useAppDispatch, useAppSelector} from '../store/Hooks';
-import {setIdSelected} from '../store/Categories';
+import {categorySetIdSelected} from '../store/Categories';
 import {useTranslation} from 'react-i18next';
 import {i18nReplaceParams} from '../core/i18n/I18n';
 
@@ -36,7 +36,7 @@ const Resume = ({route, navigation}) => {
 
   const setCategory = (value: string) => {
     setSelectedCategorySelector(categoryRepository.filterByIdObject(value));
-    dispatch(setIdSelected(value));
+    dispatch(categorySetIdSelected(value));
   };
 
   useEffect(() => {

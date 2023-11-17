@@ -6,7 +6,7 @@ import ControllerForm from '../components/ControllerForm';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import styles from '../styles/Main';
-import {stringToDouble} from '../utils/Format';
+import {roundDoubleString, stringToDouble} from '../utils/Format';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {get as getOrDefault} from 'lodash';
@@ -38,7 +38,7 @@ const NumberFormUpdate = ({navigation, route}) => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      value: getOrDefault(valueToUpdate, 'value', '').toString(),
+      value: roundDoubleString(valueToUpdate.value),
       date: dateToString(
         new Date(valueToUpdate?.createdAt),
         FORMAT_DATES.SIMPLE_DATE,

@@ -9,7 +9,7 @@ import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import Toast from 'react-native-toast-message';
 import {useAppDispatch} from '../store/Hooks';
-import {setIdSelected} from '../store/Categories';
+import {categorySetIdSelected} from '../store/Categories';
 import {useTranslation} from 'react-i18next';
 
 const History = ({navigation, route}) => {
@@ -51,7 +51,6 @@ const History = ({navigation, route}) => {
                   size={25}
                   style={styles.iconButtonCol}
                   onPress={() => {
-                    dispatch(setIdSelected(undefined));
                     navigation.push('categories/update', {
                       id: item._id,
                     });
@@ -70,7 +69,7 @@ const History = ({navigation, route}) => {
                         {
                           text: t('global.yes'),
                           onPress: () => {
-                            dispatch(setIdSelected(undefined));
+                            dispatch(categorySetIdSelected(undefined));
                             valuesCategoryRepository.deleteByIdCategory(
                               item._id,
                             );

@@ -14,7 +14,7 @@ import {OptionSelector} from '../types/OptionSelector';
 import SelectDropdown from 'react-native-select-dropdown';
 import {showCreateCategory, showCreateRecord} from './Utils';
 import {useAppDispatch, useAppSelector} from '../store/Hooks';
-import {setIdSelected} from '../store/Categories';
+import {categorySetIdSelected} from '../store/Categories';
 import {useTranslation} from 'react-i18next';
 import {DEFAULT_DECIMALS} from '../utils/Constants';
 
@@ -38,7 +38,7 @@ const History = ({navigation, route}) => {
     setSelectedCategorySelector(
       categoryRepository.filterByIdObject(value ?? ''),
     );
-    dispatch(setIdSelected(value));
+    dispatch(categorySetIdSelected(value));
   };
 
   useEffect(() => {

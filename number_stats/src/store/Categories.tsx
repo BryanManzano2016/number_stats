@@ -14,14 +14,17 @@ export const categorySlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
-    setIdSelected: (state, action: PayloadAction<string | undefined>) => {
+    categorySetIdSelected: (
+      state,
+      action: PayloadAction<string | undefined>,
+    ) => {
       state.idSelected = action.payload;
       cacheSetItem('categorySelectId', action.payload ?? '');
     },
   },
 });
 
-export const {setIdSelected} = categorySlice.actions;
+export const {categorySetIdSelected} = categorySlice.actions;
 
 export const getIdSelected = (state: RootState) => state.categories.idSelected;
 
