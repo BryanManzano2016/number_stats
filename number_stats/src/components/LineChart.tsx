@@ -35,6 +35,9 @@ const LineChartComponent = ({
               },
             ],
           }}
+          formatYLabel={yValue => {
+            return yValue.replace('.', ',');
+          }}
           width={widthChart}
           height={dimensionsValue.height * configuration.heightProportional}
           yAxisLabel=""
