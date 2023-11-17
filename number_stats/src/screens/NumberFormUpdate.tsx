@@ -12,7 +12,11 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {get as getOrDefault} from 'lodash';
 import {setItems} from '../core/SimpleStorage';
 import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
-import {FORMAT_DATES} from '../utils/Constants';
+import {
+  DEFAULT_DECIMALS,
+  FORMAT_DATES,
+  REGEX_PATTERNS,
+} from '../utils/Constants';
 import {evaluateError} from './Utils';
 import {useTranslation} from 'react-i18next';
 import {i18nReplaceParams} from '../core/i18n/I18n';
@@ -49,7 +53,7 @@ const NumberFormUpdate = ({navigation, route}) => {
           }),
         value: yup
           .string()
-          .matches(/^-?\d+(\.\d+)?$/, t('numberForm.update.value.format'))
+          .matches(REGEX_PATTERNS.DECIMAL, t('numberForm.update.value.format'))
           .required(t('numberForm.value.required')),
       }),
     ),
@@ -65,7 +69,7 @@ const NumberFormUpdate = ({navigation, route}) => {
       const dateSend = stringToDate(date);
       valuesCategoryRepository.update(
         valueToUpdate,
-        stringToDouble(value, 4),
+        stringToDouble(value, DEFAULT_DECIMALS),
         (dateSend ?? new Date()).getTime(),
       );
       control._reset();

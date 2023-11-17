@@ -26,17 +26,16 @@ export default {
     'resume.graph.title': 'Promedio #{mean} / #{records} registros',
 
     'numberForm.value': 'Valor',
-    'numberForm.value.placeholder': '0',
+    'numberForm.value.placeholder': '0,00',
     'numberForm.date': 'Fecha',
     'numberForm.date.placeholder': 'dd/mm/aaaa hh:mm',
     'numberForm.category.error': 'Elegir una categoría',
-    'numberForm.value.error':
-      'Solo números separados por coma (Ej.: 1.1,2,3,...)',
+    'numberForm.value.error': 'El valor debe ser en formato #,#',
     'numberForm.value.len.error': 'No más de #{max} registros',
     'numberForm.value.required': 'Valor requerido',
     'numberForm.date.error': 'Fecha debe ser dd/mm/aaaa hh:mm',
     'numberForm.update.title': 'Editar registro',
-    'numberForm.update.value.format': 'El valor debe ser en formato #.#',
+    'numberForm.update.value.format': 'El valor debe ser en formato #,#',
     'numberForm.update.category': 'Categoría: #{name}',
     'numberForm.update.last': 'Último valor: #{value}',
 

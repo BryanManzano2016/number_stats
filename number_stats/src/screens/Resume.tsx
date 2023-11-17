@@ -1,18 +1,12 @@
 import React, {useState, useMemo, useEffect, useRef} from 'react';
-import {
-  ActivityIndicator,
-  Card,
-  Divider,
-  MD2Colors,
-  Text,
-} from 'react-native-paper';
+import {Card, Divider, Text} from 'react-native-paper';
 import {View} from 'react-native';
 import isEmpty from 'lodash/isEmpty';
 
 import LineChart from '../components/LineChart';
 import styles from '../styles/Main';
 import {calculateAverage} from '../utils/Math';
-import {roundDouble, formatDate} from '../utils/Format';
+import {formatDate, roundDoubleString} from '../utils/Format';
 import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
@@ -119,7 +113,10 @@ const Resume = ({route, navigation}) => {
                 <>
                   <Text variant="titleSmall" style={styles.cardText}>
                     {i18nReplaceParams(t('resume.graph.title'), [
-                      ['mean', roundDouble(calculateAverage(data.yValuesData))],
+                      [
+                        'mean',
+                        roundDoubleString(calculateAverage(data.yValuesData)),
+                      ],
                       ['records', data.yValuesData.length],
                     ])}
                   </Text>

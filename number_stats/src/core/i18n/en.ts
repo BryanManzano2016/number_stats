@@ -26,17 +26,16 @@ export default {
     'resume.graph.title': 'Average #{mean} / #{records} records',
 
     'numberForm.value': 'Value',
-    'numberForm.value.placeholder': '0',
+    'numberForm.value.placeholder': '0,00',
     'numberForm.date': 'Date',
     'numberForm.date.placeholder': 'dd/mm/yyyy hh:mm',
     'numberForm.category.error': 'Choose a category',
-    'numberForm.value.error':
-      'Only numbers separated by comma (e.g.: 1.1,2,3,...)',
+    'numberForm.value.error': 'Value must be in #,# format',
     'numberForm.value.len.error': 'No more than #{max} records',
     'numberForm.value.required': 'Value required',
     'numberForm.date.error': 'Date must be dd/mm/yyyy hh:mm',
     'numberForm.update.title': 'Update record',
-    'numberForm.update.value.format': 'Value must be in #.# format',
+    'numberForm.update.value.format': 'Value must be in #,# format',
     'numberForm.update.category': 'Category: #{name}',
     'numberForm.update.last': 'Last value: #{value}',
 

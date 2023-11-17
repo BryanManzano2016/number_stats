@@ -7,7 +7,7 @@ import styles from '../styles/Main';
 import Layout from '../components/Layout';
 import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
-import {formatDate} from '../utils/Format';
+import {formatDate, roundDoubleString} from '../utils/Format';
 import SearchSelector from '../components/SearchSelector';
 import Toast from 'react-native-toast-message';
 import {OptionSelector} from '../types/OptionSelector';
@@ -16,6 +16,7 @@ import {showCreateCategory, showCreateRecord} from './Utils';
 import {useAppDispatch, useAppSelector} from '../store/Hooks';
 import {setIdSelected} from '../store/Categories';
 import {useTranslation} from 'react-i18next';
+import {DEFAULT_DECIMALS} from '../utils/Constants';
 
 const History = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -134,7 +135,9 @@ const History = ({navigation, route}) => {
                         />
                       </View>
                     </View>
-                    <Text variant="titleMedium">{item.value}</Text>
+                    <Text variant="titleMedium">
+                      {roundDoubleString(item.value, DEFAULT_DECIMALS)}
+                    </Text>
                   </Card.Content>
                 </Card>
               );

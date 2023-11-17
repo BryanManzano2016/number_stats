@@ -5,6 +5,7 @@ import {Circle, Text} from 'react-native-svg';
 import {LineChart} from 'react-native-chart-kit';
 import {WIDTH_MAX_RECORDS, WIDTH_RECORD} from '../utils/Constants';
 import styles from '../styles/Main';
+import {roundDoubleString} from '../utils/Format';
 
 const LineChartComponent = ({
   dataValues,
@@ -66,7 +67,7 @@ const LineChartComponent = ({
                   fontSize={11}
                   fill="black"
                   textAnchor="middle">
-                  {indexData}
+                  {roundDoubleString(indexData)}
                 </Text>
               </View>
             );

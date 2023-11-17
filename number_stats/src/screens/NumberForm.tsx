@@ -9,7 +9,11 @@ import CategoryRepository from '../core/db/repositories/CategoryRepository';
 import ValuesCategoryRepository from '../core/db/repositories/ValuesCategoryRepository';
 import styles from '../styles/Main';
 import {stringToDouble} from '../utils/Format';
-import {FORMAT_DATES, MAX_RECORDS_INSERT} from '../utils/Constants';
+import {
+  DEFAULT_DECIMALS,
+  FORMAT_DATES,
+  REGEX_PATTERNS,
+} from '../utils/Constants';
 import isEmpty from 'lodash/isEmpty';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -22,7 +26,6 @@ import {dateToString, isValidDateTime, stringToDate} from '../utils/Date';
 import {useAppDispatch, useAppSelector} from '../store/Hooks';
 import {setIdSelected} from '../store/Categories';
 import {useTranslation} from 'react-i18next';
-import {i18nReplaceParams} from '../core/i18n/I18n';
 
 const NumberForm = ({route, navigation}) => {
   const {t} = useTranslation();
@@ -71,20 +74,7 @@ const NumberForm = ({route, navigation}) => {
           }),
         value: yup
           .string()
-          .matches(
-            /^(-?\d+(\.\d+)?)(,-?\d+(\.\d+)?)*$/,
-            t('numberForm.value.error'),
-          )
-          .test(
-            'length-validator',
-            i18nReplaceParams(t('numberForm.value.len.error'), [
-              ['max', MAX_RECORDS_INSERT],
-            ]),
-            function (value) {
-              const currentLength = value ? value.split(',').length : 0;
-              return currentLength < MAX_RECORDS_INSERT;
-            },
-          )
+          .matches(REGEX_PATTERNS.DECIMAL, t('numberForm.value.error'))
           .required(t('numberForm.value.required')),
       }),
     ),
@@ -109,9 +99,12 @@ const NumberForm = ({route, navigation}) => {
       const recordDb = categories.filter(
         item => item._id === selectedCategorySelector.value,
       )[0];
-      const listDoubles = value.split(',').map(item => stringToDouble(item, 4));
       const dateSend = stringToDate(date) ?? new Date();
-      valuesCategoryRepository.saveBulk(recordDb._id, listDoubles, dateSend);
+      valuesCategoryRepository.saveBulk(
+        recordDb._id,
+        [stringToDouble(value, DEFAULT_DECIMALS)],
+        dateSend,
+      );
       control._reset();
       setValue('date', dateToString(new Date(), FORMAT_DATES.SIMPLE_DATE));
       Toast.show({

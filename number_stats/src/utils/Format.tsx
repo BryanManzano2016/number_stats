@@ -1,12 +1,27 @@
+import {DEFAULT_DECIMALS} from './Constants';
+
 export const stringToDouble = (value: string, decimals: number = 2): number => {
   return parseFloat(parseFloat(value.replace(',', '.')).toFixed(decimals));
 };
 
-export const roundDouble = (value: number, decimals: number = 2): number => {
+export const roundDouble = (
+  value: number,
+  decimals: number = DEFAULT_DECIMALS,
+): number => {
   return parseFloat(value.toFixed(decimals));
 };
 
-export const formatDate = (date: Date, format = 'FULL') => {
+export const roundDoubleString = (
+  value: number,
+  decimals: number = DEFAULT_DECIMALS,
+): string => {
+  if (value === undefined) {
+    return '';
+  }
+  return roundDouble(value, decimals).toString().replace('.', ',');
+};
+
+export const formatDate = (date: Date, format = 'FULL'): string => {
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
