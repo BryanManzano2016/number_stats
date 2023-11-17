@@ -90,8 +90,6 @@ const Resume = ({route, navigation}) => {
     };
   }, [selectedCategorySelector, valuesCategoryRepository]);
 
-  console.log('render resume', new Date());
-
   return (
     <Layout route={route}>
       {isEmpty(categories) ? (
