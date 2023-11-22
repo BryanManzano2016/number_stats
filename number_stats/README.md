@@ -89,6 +89,11 @@ To learn more about React Native, take a look at the following resources:
 
 # Keystore
 
+alias: trendy
 keypassword: trendy_password
 
-java -jar /home/bmanzano/programs/pepk.jar --keystore=/home/bmanzano/Documents/projects/number_stats/number_stats/android/app/trendy.keystore --alias=trendy --output=output.zip --include-cert --rsa-aes-encryption --encryption-key-path=/home/bmanzano/Documents/projects/number_stats/number_stats/resources/resources.pem
+keytool -genkeypair -v -storetype PKCS12 -keystore ./resources/trendy.keystore -alias trendy -keyalg RSA -keysize 2048 -validity 10000
+
+mv ./resources/trendy.keystore ./android/app
+
+java -jar /home/bmanzano/programs/pepk.jar --keystore=./android/app/trendy.keystore --alias=trendy --output=output.zip --include-cert --rsa-aes-encryption --encryption-key-path=./resources/resources.pem
