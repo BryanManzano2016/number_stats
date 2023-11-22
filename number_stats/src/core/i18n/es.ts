@@ -64,7 +64,7 @@ export default {
     'information.considerations.0':
       '- El almacenamiento es en memoria interna.',
     'information.considerations.1':
-      '- Actualmente la aplicación registra máximo 100 registros por categoría. Al llegar al límite, los registros más antiguos serán eliminados secuencialmente.',
+      '- Actualmente la aplicación registra máximo 50 registros por categoría. Al llegar al límite, los registros más antiguos serán eliminados secuencialmente.',
     'information.tutorial': 'Tutorial',
     'tutorial.error.alert': 'Error al abrir vídeo',
 

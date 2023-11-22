@@ -40,7 +40,7 @@ const Information = ({navigation, route}) => {
             </Text>
           );
         })}
-        <Text style={styles.text} variant="titleMedium">
+        {/* <Text style={styles.text} variant="titleMedium">
           {t('information.tutorial')}
         </Text>
         <Button
@@ -50,7 +50,7 @@ const Information = ({navigation, route}) => {
             openLink('https://www.youtube.com/watch?v=C0lo1oTa9Zs')
           }>
           {t('global.see')} youtube.com
-        </Button>
+        </Button> */}
       </View>
     </Layout>
   );
