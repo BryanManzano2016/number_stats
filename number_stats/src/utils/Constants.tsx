@@ -18,3 +18,5 @@ export const INFO_APP = {
 export const REGEX_PATTERNS = {
   DECIMAL: /^\d+(,\d+)?$/,
 };
+
+export const DB_ENCRYPT_KEY = 'DB_ENCRYPT_KEY';

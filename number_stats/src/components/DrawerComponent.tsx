@@ -61,16 +61,6 @@ const Tabs = ({route}) => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="resume"
-        options={{
-          headerShown: false,
-          title: t('resume.tab'),
-          tabBarIcon: ({color, size}) =>
-            Icons({id: 'format-list-numbered', color: color, size: size}),
-        }}
-        component={Resume}
-      />
-      <Tab.Screen
         name="numbers"
         options={{
           headerShown: false,
@@ -79,6 +69,16 @@ const Tabs = ({route}) => {
             Icons({id: 'form-select', color: color, size: size}),
         }}
         component={NumberForm}
+      />
+      <Tab.Screen
+        name="resume"
+        options={{
+          headerShown: false,
+          title: t('resume.tab'),
+          tabBarIcon: ({color, size}) =>
+            Icons({id: 'format-list-numbered', color: color, size: size}),
+        }}
+        component={Resume}
       />
       <Tab.Screen
         name="history"

@@ -2,7 +2,7 @@ import {MMKV} from 'react-native-mmkv';
 
 const storage = new MMKV();
 
-export const containsKey = (key: string): boolean => {
+export const cacheContainsKey = (key: string): boolean => {
   return storage.contains(key);
 };
 
