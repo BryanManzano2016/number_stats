@@ -9,6 +9,7 @@ import {printToast} from './Utils';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {Dimensions} from 'react-native';
 import Information from '../screens/Information';
+import Migration from '../screens/Migration';
 import {useTranslation} from 'react-i18next';
 
 const Drawer = createDrawerNavigator();
@@ -50,6 +51,14 @@ const DrawerComponent = ({navigation, route}) => {
           title: t('information.drawer'),
         }}
         component={Information}
+      />
+      <Drawer.Screen
+        name="migration"
+        options={{
+          headerShown: false,
+          title: t('migration.drawer'),
+        }}
+        component={Migration}
       />
     </Drawer.Navigator>
   );

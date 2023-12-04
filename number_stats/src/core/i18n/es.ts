@@ -70,5 +70,7 @@ export default {
 
     'categories.create': 'Crear categorías',
     'categories.empty': 'No tiene categorías registradas',
+
+    'migration.drawer': 'Migración',
   },
 };

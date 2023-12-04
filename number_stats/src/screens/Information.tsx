@@ -1,10 +1,9 @@
 import React from 'react';
-import {Text, Appbar, Button} from 'react-native-paper';
+import {Text, Appbar} from 'react-native-paper';
 import styles from '../styles/Main';
 import Layout from '../components/Layout';
 import {View} from 'react-native';
-import {INFO_APP, MAX_RECORDS} from '../utils/Constants';
-import {openLink} from '../utils/Utilities';
+import {INFO_APP} from '../utils/Constants';
 import {i18nGetList, i18nReplaceParams} from '../core/i18n/I18n';
 import {useTranslation} from 'react-i18next';
 
@@ -17,7 +16,7 @@ const Information = ({navigation, route}) => {
       headers={
         <>
           <Appbar.BackAction onPress={navigation.goBack} />
-          <Appbar.Content title="Informacion" />
+          <Appbar.Content title={t('information.drawer')} />
         </>
       }>
       <View style={styles.view}>
