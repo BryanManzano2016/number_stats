@@ -9,7 +9,8 @@
     "start": "react-native start",
     "test": "jest",
     "test-apk": "yarn android --mode release",
-    "build-android": "npx react-native build-android --mode=release"
+    "build-android": "npx react-native build-android --mode=release",
+    "doctor": "react-native doctor"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
